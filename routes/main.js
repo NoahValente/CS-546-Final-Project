@@ -4,6 +4,7 @@ const data = require('../data');
 const userData = data.users;
 const businessData = data.businesses;
 
+//TODO: ADD FAVOURITE ROUTE
 router.get('/', async (req, res) => {
     if (req.session.user) {
       res.redirect('/explore');
@@ -65,21 +66,19 @@ router.get('/', async (req, res) => {
   router.post('/signup/business', async (req, res) => {
     const {firstName, lastName, businessName, email, city, state, password, businessType} = req.body;
     try {
-      if ((await userData.createUser(firstName, lastName, email, username, gender, city, state, age, password, preferences)).userInserted === true) {
+      if ((await businessData.createBusiness(firstName, lastName, businessName, email, city, state, password, businessType)).userInserted === true) {
         res.redirect('/login');
       } else {
         res.render('main/signup', {
           title: "Sign Up",
           firstName: firstName, 
           lastName: lastName, 
+          businessName: businessName, 
           email: email, 
-          username: username,
-          gender: gender, 
           city: city,
           state: state,
-          age: age,
           password: password,
-          preferences: preferences,
+          businessType: businessType,
           error: "Internal Server Error"
         });
         res.status(500);
@@ -89,14 +88,12 @@ router.get('/', async (req, res) => {
         title: "Sign Up",
         firstName: firstName, 
         lastName: lastName, 
+        businessName: businessName, 
         email: email, 
-        username: username,
-        gender: gender, 
         city: city,
         state: state,
-        age: age,
         password: password,
-        preferences: preferences,
+        businessType: businessType,
         error: e
       });
       res.status(400);
@@ -107,20 +104,38 @@ router.get('/', async (req, res) => {
 
   
   router.post('/login', async (req, res) => {
-    const {username, password} = req.body;
+    const {username, password, account_type} = req.body;
     try {
-      const check = await userData.checkUser(username, password);
-      if (check.authenticated === true) {
-        req.session.user = username;
-      } else {
-        throw 'Failed to log in.';
-      }
-      res.redirect('/private');
+        if(account_type === 'User'){
+            //username can either be email or the username - handled in the data folder
+            const check = await userData.checkUser(username, password);
+            if (check.authenticated === true) {
+                req.session.name = username;
+                req.session.account_type = 'User';
+              } else {
+                throw 'Failed to log in.';
+              }
+              res.redirect('/explore');
+        }
+        else{
+            req.session.account_type = 'Business';
+            const check = await businessData.checkBusiness(username, password); 
+            if (check.authenticated === true) {
+                req.session.name = username;
+                req.session.account_type = 'Business';
+              } else {
+                throw 'Failed to log in.';
+              }
+              res.redirect('/explore');
+        }
+      
+      
     } catch (e) {
-      res.render('users/login', {
+      res.render('main/login', {
         title: "Log In",
         username: username,
         password: password,
+        account_type: account_type,
         error: e
       });
       res.status(400);
@@ -130,7 +145,7 @@ router.get('/', async (req, res) => {
   });
   
   router.get('/logout', async (req, res) => {
-    res.render('users/other', {title: "Logged Out", message: 'You have been logged out.'});
+    res.render('main/logout', {title: "Logged Out", name: req.session.name});
     req.session.destroy();
   });
   
