@@ -21,30 +21,90 @@ router.get('/', async (req, res) => {
   });
   
   router.post('/signup/user', async (req, res) => {
-    const {firstName, lastName, email, userName, gender, city, state, age, hasedPassword, preferences} = req.body;
+    const {firstName, lastName, email, username, gender, city, state, age, password, preferences} = req.body;
     try {
-      if ((await userData.createUser(username, password)).userInserted === true) {
-        res.redirect('/');
+      if ((await userData.createUser(firstName, lastName, email, username, gender, city, state, age, password, preferences)).userInserted === true) {
+        res.redirect('/login');
       } else {
-        res.render('users/signup', {
+        res.render('main/signup', {
           title: "Sign Up",
+          firstName: firstName, 
+          lastName: lastName, 
+          email: email, 
           username: username,
+          gender: gender, 
+          city: city,
+          state: state,
+          age: age,
           password: password,
+          preferences: preferences,
           error: "Internal Server Error"
         });
         res.status(500);
       }
     } catch (e) {
-      res.render('users/signup', {
+      res.render('main/signup', {
         title: "Sign Up",
+        firstName: firstName, 
+        lastName: lastName, 
+        email: email, 
         username: username,
+        gender: gender, 
+        city: city,
+        state: state,
+        age: age,
         password: password,
+        preferences: preferences,
         error: e
       });
       res.status(400);
       return;
     }
   });
+
+  router.post('/signup/business', async (req, res) => {
+    const {firstName, lastName, businessName, email, city, state, password, businessType} = req.body;
+    try {
+      if ((await userData.createUser(firstName, lastName, email, username, gender, city, state, age, password, preferences)).userInserted === true) {
+        res.redirect('/login');
+      } else {
+        res.render('main/signup', {
+          title: "Sign Up",
+          firstName: firstName, 
+          lastName: lastName, 
+          email: email, 
+          username: username,
+          gender: gender, 
+          city: city,
+          state: state,
+          age: age,
+          password: password,
+          preferences: preferences,
+          error: "Internal Server Error"
+        });
+        res.status(500);
+      }
+    } catch (e) {
+      res.render('main/signup', {
+        title: "Sign Up",
+        firstName: firstName, 
+        lastName: lastName, 
+        email: email, 
+        username: username,
+        gender: gender, 
+        city: city,
+        state: state,
+        age: age,
+        password: password,
+        preferences: preferences,
+        error: e
+      });
+      res.status(400);
+      return;
+    }
+  });
+
+
   
   router.post('/login', async (req, res) => {
     const {username, password} = req.body;
