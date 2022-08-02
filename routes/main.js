@@ -64,16 +64,16 @@ router.get('/', async (req, res) => {
   });
 
   router.post('/signup/business', async (req, res) => {
-    const {firstName, lastName, businessName, email, city, state, password, businessType} = req.body;
+    const {firstName, lastName, username, email, city, state, password, businessType} = req.body;
     try {
-      if ((await businessData.createBusiness(firstName, lastName, businessName, email, city, state, password, businessType)).userInserted === true) {
+      if ((await businessData.createBusiness(firstName, lastName, username, email, city, state, password, businessType)).userInserted === true) {
         res.redirect('/login');
       } else {
         res.render('main/signup', {
           title: "Sign Up",
           firstName: firstName, 
           lastName: lastName, 
-          businessName: businessName, 
+          username: username, 
           email: email, 
           city: city,
           state: state,
@@ -88,7 +88,7 @@ router.get('/', async (req, res) => {
         title: "Sign Up",
         firstName: firstName, 
         lastName: lastName, 
-        businessName: businessName, 
+        username: username, 
         email: email, 
         city: city,
         state: state,
