@@ -101,7 +101,13 @@ router.get('/', async (req, res) => {
     }
   });
 
-
+  router.get('/login', async (req, res) => {
+    if (!req.session.account_type) {
+        res.render('main/login', {title: "Log In"});
+    } else {
+      res.redirect('/explore');
+    }
+  });
   
   router.post('/login', async (req, res) => {
     const {username, password, account_type} = req.body;
