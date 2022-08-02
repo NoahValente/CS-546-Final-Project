@@ -1,8 +1,6 @@
 const express = require('express');
 const app = express();
-
-app.use(express.json());
-
+const session = require('express-session');
 const configRoutes = require('./routes');
 
 const static = express.static(__dirname + '/public');
@@ -10,7 +8,6 @@ const exphbs = require('express-handlebars');
 
 const handlebarsInstance = exphbs.create({
   defaultLayout: 'main',
-  // Specify helpers which are only registered on this instance.
   helpers: {
     asJSON: (obj, spacing) => {
       if (typeof spacing === 'number')
@@ -21,27 +18,38 @@ const handlebarsInstance = exphbs.create({
   }
 });
 
-const rewriteUnsupportedBrowserMethods = (req, res, next) => {
-  // If the user posts to the server with a property called _method, rewrite the request's method
-  // To be that method; so if they post _method=PUT you can now allow browsers to POST to a route that gets
-  // rewritten in this middleware to a PUT route
-  if (req.body && req.body._method) {
-    req.method = req.body._method;
-    delete req.body._method;
-  }
-
-  // let the next middleware run:
-  next();
-};
-
 app.use;
 app.use('/public', static);
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
-app.use(rewriteUnsupportedBrowserMethods);
 
 app.engine('handlebars', handlebarsInstance.engine);
+//app.engine('handlebars', exphbs.engine({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
+
+app.use(session({
+  name: 'AuthCookie',
+  secret: 'some secret string!',
+  resave: false,
+  saveUninitialized: true
+}));
+
+// use for testing and keeping track of routing
+const myLogger = function (req, res, next) {
+  const date = new Date().toUTCString();
+  const method = req.method;
+  const route = req.originalUrl;
+  let account_type = "User";
+  if (!req.session.account_type) {
+    account_type = "Guest";
+  } else if (req.session.usertype === "Business") {
+    account_type = "Business";
+  }
+  console.log("[" + date + "]: " + method + " " + route + " " + account_type);
+  next();
+}
+
+app.use(myLogger);
 
 configRoutes(app);
 
