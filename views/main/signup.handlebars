@@ -1,12 +1,5 @@
 <!-- Authors @ Cavin & Noah -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Document</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
+
   <!-- THIS IS THE SELECTION OF TYPE-->
   <label for="user-selection">I am a: </label>
   <select name="userType" id="userType">
@@ -18,7 +11,7 @@
 
   <!-- THIS IS THE USER SIGN UP FORM. HIDDEN UNTIL TYPE CHOSEN-->
 <div class="signupForm">
-    <form name = "userSignup" id = "userSignup" action="" class="form">
+    <form name = "userSignup" id = "userSignup" method = "Post" action="user" class="form">
       <h1 class="title">User Sign up</h1>
 
         <label>
@@ -29,7 +22,7 @@
         <label>
             <b>Password:</b>    
         </label>    
-            <input type="Password" name="password" id="password" placeholder="Password">    
+            <input type="password" name="password" id="password" placeholder="Password">    
         <br><br>
  
       <div>
@@ -148,7 +141,7 @@
   </div>
    <!-- THIS IS THE BUSINESS SIGN UP FORM. HIDDEN UNTIL TYPE CHOSEN-->
 <div class="signupForm">
-  <form name = "username" id = "username" action="" class="form">
+  <form name = "username" id = "username" method = "Post" action="business" class="form">
     <h1 class="title">Business Sign up</h1>
 
       <label>
@@ -258,5 +251,3 @@
     <input type="submit" class="submitButon" value="Sign up">
   </form>
 </div>
-</body>
-</html>

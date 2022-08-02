@@ -1,14 +1,7 @@
 <!-- Authors @ Cavin & Noah -->
-<!DOCTYPE html>    
-<html>    
-<head>    
-    <title>Login Form</title>    
-    <link rel="stylesheet" type="text/css" href="css/style.css">    
-</head>    
-<body>    
     <h2>Login Page</h2><br>    
     <div class="login">    
-    <form id="login" method="get">    
+    <form id="login" method="Post">    
         <label for="user-selection">I am a: </label>
         <select name="userType" id="userType">
             <option value="" disabled selected >Select an option</option>
@@ -24,10 +17,8 @@
         <label>
             <b>Password</b>    
         </label>    
-            <input type="Password" name="password" id="password" placeholder="Password">    
+            <input type="password" name="password" id="password" placeholder="Password">    
         <br><br>
         <input type="button" name="login" id="login" value="Log In">         
     </form>
 </div>    
-</body>    
-</html>
