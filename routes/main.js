@@ -116,7 +116,7 @@ router.get('/', async (req, res) => {
             //username can either be email or the username - handled in the data folder
             const check = await userData.checkUser(username, password);
             if (check.authenticated === true) {
-                req.session.name = username;
+                req.session.user = username;
                 req.session.account_type = 'User';
               } else {
                 throw 'Failed to log in.';
@@ -127,7 +127,7 @@ router.get('/', async (req, res) => {
             req.session.account_type = 'Business';
             const check = await businessData.checkBusiness(username, password); 
             if (check.authenticated === true) {
-                req.session.name = username;
+                req.session.user = username;
                 req.session.account_type = 'Business';
               } else {
                 throw 'Failed to log in.';
@@ -151,8 +151,20 @@ router.get('/', async (req, res) => {
   });
   
   router.get('/logout', async (req, res) => {
-    res.render('main/logout', {title: "Logged Out", name: req.session.name});
+    res.render('main/logout', {title: "Logged Out", name: req.session.user});
     req.session.destroy();
+  });
+
+  router.get('/favorites', async (req, res) => {
+    if (!req.session.account_type){
+      res.redirect('/login');
+    }
+    if (req.session.account_type == 'Business'){
+      res.redirect('/explore');
+    }
+    //TODO: in the user database, access the business ids stored and return the entire business data
+    let business = await userData.getFavorites(req.session.user); 
+    res.render('main/favorites', {title: "Favorites", business: business, username: req.session.user});
   });
   
   module.exports = router;
