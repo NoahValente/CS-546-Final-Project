@@ -43,5 +43,22 @@ module.exports = {
         const newInsertInformation = await userCollection.insertOne(newUser);
         if (!newInsertInformation.insertedId) throw 'Insert failed!';
         else { return {userInserted: true};}
+    },
+
+    async checkUser(username, password) {
+        validation.checkUserAndPassword(username, password);
+
+        const userCollection = await users();
+        const user = await userCollection.findOne({username: username});
+
+        if (!user) { throw "Username or password is invalid" };
+
+        let hashedPW = user.password;
+        let correctPW = false;
+        try { correctPW = await bcrypt.compare(password, hashedPW); } catch(e) {}
+
+        if (!correctPW) {throw "Username or password is invalid";}
+        else {
+            return {authenticated: true}; }
     }
 };
