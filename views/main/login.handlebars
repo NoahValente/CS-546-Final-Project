@@ -1,24 +1,20 @@
 <!-- Authors @ Cavin & Noah -->
-    <h2>Login Page</h2><br>    
+    <h1>User Login</h1><br>    
     <div class="login">    
-    <form id="login" method="Post">    
-        <label for="user-selection">I am a: </label>
+    <form id="loginForm" method="Post">    
+        <label for="userType">I am a: </label>
         <select name="userType" id="userType">
             <option value="" disabled selected >Select an option</option>
             <option value="User">User</option>
             <option value="Business">Business</option>
         </select>
         <br><br>
-        <label>
-            <b>Username</b>    
-        </label>    
+        <label for="username"> Username </label>    
             <input type="text" name="username" id="username" placeholder="Username">    
         <br><br>    
-        <label>
-            <b>Password</b>    
-        </label>    
+        <label for="password"> Password </label>    
             <input type="password" name="password" id="password" placeholder="Password">    
         <br><br>
-        <input type="button" name="login" id="login" value="Log In">         
+        <input type="button" name="login" id="loginButton" value="Log In">         
     </form>
 </div>    
