@@ -1,5 +1,6 @@
 <!-- Authors @ Cavin & Noah -->
 
+<p> {{error}}</p>
   <!-- THIS IS THE SELECTION OF TYPE-->
   <label for="userType">I am a: </label>
   <select name="userType" id="userType">
@@ -11,7 +12,7 @@
 
   <!-- THIS IS THE USER SIGN UP FORM. HIDDEN UNTIL TYPE CHOSEN-->
 <div class="signupForm">
-    <form name = "userSignup" id = "userSignup" method = "Post" action="user" class="form" hidden>
+    <form name = "userSignup" id = "userSignup" method = "Post" action="http://localhost:3000/signup/user" class="form" hidden>
       <h1 class="title">User Sign up</h1>
 
         <label for = "username">Username:</label>    
@@ -106,13 +107,13 @@
       </div>
  
       <div>
-        <label name="city" for = "city" class="label">City:</label>
-        <input type="text" class="input" placeholder="City" id = "city">
+        <label for = "city">City:</label>    
+        <input type="text" name="city" id="city" placeholder="City">   
       </div>
 
       <div>
-        <label name="age" for = "age" class="label">Age:</label>
-        <input type="number" min ="13" max = "99" class="input" placeholder="Age" id = "age">
+        <label for = "age" >Age:</label>
+        <input type="number" name = "age" min ="13" max = "99" class="input" placeholder="Age" id = "age">
       </div>
 
       <label name="preferences" for="preferences">Preferences</label>
@@ -220,8 +221,8 @@
     </div>
 
     <div>
-      <label name="city" for = "city" class="label">City:</label>
-      <input type="text" class="input" placeholder="City" id = "city">
+      <label for = "city">City:</label>    
+      <input type="text" name="city" id="city" placeholder="City">  
     </div>
 
     <label name="businessType" for="businessType">Business Type</label>
@@ -240,7 +241,7 @@
       <option value="Sports">Sports</option>
     </select>
 
-    <button type="submit" class="submitButon" value="Sign up">Submit</button>
+    <button name="submit" class="submitButon" value="Sign up">Submit</button>
   </form>
 </div>
 <script src="/public/js/signup.js"></script>

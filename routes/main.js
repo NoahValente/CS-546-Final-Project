@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const data = require('../data');
-const userData = data.users;
-const businessData = data.businesses;
+const userData = require('../data/users')
+const businessData = require('../data/business');
 
 //TODO: ADD FAVOURITE ROUTE
 router.get('/', async (req, res) => {
