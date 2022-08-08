@@ -74,7 +74,7 @@ module.exports = {
             city: city,
             state: state,
             age: age,
-            password: password,
+            password: hashedPW,
             preferences: preferences,
             userReviews: [],
             favorites: []
