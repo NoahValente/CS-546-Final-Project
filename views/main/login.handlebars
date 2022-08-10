@@ -1,7 +1,7 @@
 <!-- Authors @ Cavin & Noah -->
     <h1>User Login</h1><br>    
-    <div class="login">    
-    <form id="loginForm" method="Post">    
+<div class="login">    
+    <form id="loginForm" method="Post" action="http://localhost:3000/login">    
         <label for="userType">I am a: </label>
         <select name="userType" id="userType">
             <option value="" disabled selected >Select an option</option>
@@ -15,6 +15,8 @@
         <label for="password"> Password </label>    
             <input type="password" name="password" id="password" placeholder="Password">    
         <br><br>
-        <button type="submit" name="login" id="loginButton" value="Log In">Submit</button>       
+        <button name="login" id="loginButton" value="Log In">Submit</button>       
     </form>
-</div>    
+    <a class="big-link" href="/signup">Sign up here if you don't have an account</a>
+
+</div>

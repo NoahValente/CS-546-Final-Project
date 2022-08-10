@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const data = require('../data');
-const userData = data.users;
-const businessData = data.businesses;
+const userData = require('../data/users')
+const businessData = require('../data/business');
 
 //TODO: ADD FAVOURITE ROUTE
 router.get('/', async (req, res) => {
@@ -110,9 +110,9 @@ router.get('/', async (req, res) => {
   });
   
   router.post('/login', async (req, res) => {
-    const {username, password, account_type} = req.body;
+    const {username, password, userType} = req.body;
     try {
-        if(account_type === 'User'){
+        if(userType === 'User'){
             //username can either be email or the username - handled in the data folder
             const check = await userData.checkUser(username, password);
             if (check.authenticated === true) {
