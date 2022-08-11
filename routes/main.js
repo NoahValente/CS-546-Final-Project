@@ -118,30 +118,28 @@ router.get('/', async (req, res) => {
             if (check.authenticated === true) {
                 req.session.user = username;
                 req.session.account_type = 'User';
-              } else {
-                throw 'Failed to log in.';
-              }
+              } 
               res.redirect('/explore');
         }
-        else{
+        else if (userType === 'Business'){
             req.session.account_type = 'Business';
             const check = await businessData.checkBusiness(username, password); 
             if (check.authenticated === true) {
                 req.session.user = username;
                 req.session.account_type = 'Business';
-              } else {
-                throw 'Failed to log in.';
-              }
+              } 
               res.redirect('/explore');
         }
-      
+        else {
+          throw 'Need to select account type.';
+        }
       
     } catch (e) {
       res.render('main/login', {
         title: "Log In",
         username: username,
         password: password,
-        account_type: account_type,
+        account_type: req.session.account_type,
         error: e
       });
       res.status(400);

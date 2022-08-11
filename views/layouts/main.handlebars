@@ -3,5 +3,10 @@
         <title>{{title}}</title>    
         <link rel="stylesheet" type="text/css" href="css/style.css">    
     </head>  
-    <body> {{{body}}} </body>
+    <body>
+        {{#if error}}
+        <p class="error">{{error}}</p>
+        {{/if}}
+        {{{body}}} 
+    </body>
 <html>    
