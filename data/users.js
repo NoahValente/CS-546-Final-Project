@@ -46,8 +46,6 @@ module.exports = {
     },
 
     async checkUser(username, password) {
-        validation.checkUserAndPassword(username, password);
-
         const userCollection = await users();
         const user = await userCollection.findOne({username: username});
 
