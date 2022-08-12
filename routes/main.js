@@ -149,6 +149,7 @@ router.get('/', async (req, res) => {
         hasError: true, 
         error: e
       });
+      req.session.account_type = null;
       res.status(400);
       return;
     }
