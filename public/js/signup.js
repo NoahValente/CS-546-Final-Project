@@ -25,5 +25,5 @@
             businessForm.hidden = true;
         }
     });
-  })();
+  }) ();
   

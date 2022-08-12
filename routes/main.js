@@ -9,13 +9,13 @@ router.get('/', async (req, res) => {
     if (req.session.user) {
       res.redirect('/explore');
     } else {
-      res.render('main/index', {title: "Welcome"});
+      res.render('main/index', {title: "Welcome", hasError: false});
     }
   });
   
   router.get('/signup', async (req, res) => {
     if (!req.session.account_type) {
-        res.render('main/signup', {title: "Sign Up"});
+        res.render('main/signup', {title: "Sign Up", hasError: false});
     } else {
       res.redirect('/explore');
     }
@@ -27,6 +27,7 @@ router.get('/', async (req, res) => {
       if ((await userData.createUser(firstName, lastName, email, username, gender, city, state, age, password, preferences)).userInserted === true) {
         res.redirect('/login');
       } else {
+        console.log(preferences); 
         res.render('main/signup', {
           title: "Sign Up",
           firstName: firstName, 
@@ -39,6 +40,7 @@ router.get('/', async (req, res) => {
           age: age,
           password: password,
           preferences: preferences,
+          hasError: true,
           error: "Internal Server Error"
         });
         res.status(500);
@@ -56,6 +58,7 @@ router.get('/', async (req, res) => {
         age: age,
         password: password,
         preferences: preferences,
+        hasError: true,
         error: e
       });
       res.status(400);
@@ -79,6 +82,7 @@ router.get('/', async (req, res) => {
           state: state,
           password: password,
           businessType: businessType,
+          hasError: true,
           error: "Internal Server Error"
         });
         res.status(500);
@@ -94,6 +98,7 @@ router.get('/', async (req, res) => {
         state: state,
         password: password,
         businessType: businessType,
+        hasError: true,
         error: e
       });
       res.status(400);
@@ -103,7 +108,7 @@ router.get('/', async (req, res) => {
 
   router.get('/login', async (req, res) => {
     if (!req.session.account_type) {
-        res.render('main/login', {title: "Log In"});
+        res.render('main/login', {title: "Log In", hasError: false});
     } else {
       res.redirect('/explore');
     }
@@ -111,6 +116,7 @@ router.get('/', async (req, res) => {
   
   router.post('/login', async (req, res) => {
     const {username, password, userType} = req.body;
+    
     try {
         if(userType === 'User'){
             //username can either be email or the username - handled in the data folder
@@ -140,6 +146,7 @@ router.get('/', async (req, res) => {
         username: username,
         password: password,
         account_type: req.session.account_type,
+        hasError: true, 
         error: e
       });
       res.status(400);
@@ -149,7 +156,7 @@ router.get('/', async (req, res) => {
   });
   
   router.get('/logout', async (req, res) => {
-    res.render('main/logout', {title: "Logged Out", name: req.session.user});
+    res.render('main/logout', {title: "Logged Out", name: req.session.user, hasError: false});
     req.session.destroy();
   });
 
@@ -162,7 +169,7 @@ router.get('/', async (req, res) => {
     }
     //TODO: in the user database, access the business ids stored and return the entire business data
     let business = await userData.getFavorites(req.session.user); 
-    res.render('main/favorites', {title: "Favorites", business: business, username: req.session.user});
+    res.render('main/favorites', {title: "Favorites", business: business, username: req.session.user, hasError: false});
   });
   
   module.exports = router;
