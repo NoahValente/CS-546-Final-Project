@@ -16,6 +16,7 @@ module.exports = {
 
         const businessCollection = await businesses();
 
+        username = username.toLowerCase();
         const business = await businessCollection.findOne({username: username});
         if (business) { throw "A user with this username already exists!" };
 
@@ -43,6 +44,7 @@ module.exports = {
         validation.checkUserAndPassword(username, password);
 
         const businessCollection = await businesses();
+        username = username.toLowerCase();
         const business = await businessCollection.findOne({username: username});
 
         if (!business) { throw "Username or password is invalid" };
@@ -53,5 +55,22 @@ module.exports = {
 
         if (!correctPW) {throw "Username or password is invalid";}
         else {return {authenticated: true}; }
+    },
+
+    async findBusinessByCategory(category) {
+        if (!category) throw "Please enter a category";
+        const businessCollection = await businesses();
+        const businessList = await businessCollection.find( {businessType: category}).toArray();
+        if (businessList.length==0) throw "No business found!"
+        return businessList;
+    },
+
+    async findBusinessByName(username) {
+        if (!username) throw "Please enter a business name";
+        const businessCollection = await businesses();
+        username = username.toLowerCase();
+        const business = await businessCollection.findOne( {username: username});
+        if (!business) throw "No business found!"
+        return [business];
     }
 };
