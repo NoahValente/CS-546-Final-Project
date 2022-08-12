@@ -3,6 +3,8 @@ const users = mongoCollections.users;
 const {ObjectId} = require('mongodb');
 const bcrypt = require('bcryptjs');
 const validation = require('./validation');
+const { businesses } = require('../config/mongoCollections');
+const business = require('./business');
 
 // firstName, last Name, email, username, city, state, password
 module.exports = {
@@ -19,7 +21,7 @@ module.exports = {
         if (!preferences) throw "Please select at least 1 preference"
         if (preferences.length > 5) throw "Select only up to 5 preferences"
         const userCollection = await users();
-
+        username = username.toLowerCase();
         const user = await userCollection.findOne({username: username});
         if (user) { throw "A user with this username already exists!" };
 
@@ -47,6 +49,7 @@ module.exports = {
 
     async checkUser(username, password) {
         const userCollection = await users();
+        username = username.toLowerCase();
         const user = await userCollection.findOne({username: username});
 
         if (!user) { throw "Username or password is invalid" };
@@ -58,5 +61,24 @@ module.exports = {
         if (!correctPW) {throw "Username or password is invalid";}
         else {
             return {authenticated: true}; }
+    },
+
+    async addToFavorite (username, businessName) {
+        const userCollection = await users();
+        username = username.toLowerCase(); 
+        businessName = businessName.toLowerCase(); 
+        const user = await userCollection.updateOne({username: username}, {$push:{favorites: businessName}}); 
+
+        //const business = await 
+    },
+
+    async removeFromFavorite (businessName) { 
+
+    },
+
+    async getFavorites () {
+
     }
 };
+
+    
