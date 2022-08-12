@@ -15,24 +15,24 @@
       <h1 class="title">User Sign up</h1>
 
         <label for = "username">Username:</label>    
-            <input type="text" name="username" id="username" placeholder="Username">    
+            <input type="text" name="username" id="username" placeholder="Username" value={{username}}>    
         <br><br>    
         <label for = "password">Password:</label>    
-            <input type="password" name="password" id="password" placeholder="Password">    
+            <input type="password" name="password" id="password" placeholder="Password" value={{password}}>    
         <br><br>
       <div>
         <label class="label" for="firstName">First Name:</label>
-        <input name="firstName" id = "firstName" type="text" class="input" placeholder="First name">
+        <input name="firstName" id = "firstName" type="text" class="input" placeholder="First name" value={{firstName}}>
       </div>
  
       <div>
         <label class="label" for="lastName">Last Name:</label>
-        <input name="lastName" id = "lastName" type="text" class="input" placeholder="Last name">
+        <input name="lastName" id = "lastName" type="text" class="input" placeholder="Last name" value="{{lastName}}">
       </div>
  
       <div>
         <label class="label" for="email">Email:</label>
-        <input name= "email" id = "email" type="email" class="input" placeholder="Email">
+        <input name= "email" id = "email" type="email" class="input" placeholder="Email" value={{email}}>
       </div>
  
       <div>
@@ -107,16 +107,16 @@
  
       <div>
         <label for = "city">City:</label>    
-        <input type="text" name="city" id="city" placeholder="City">   
+        <input type="text" name="city" id="city" placeholder="City" value={{city}}>   
       </div>
 
       <div>
         <label for = "age" >Age:</label>
-        <input type="number" name = "age" min ="13" max = "99" class="input" placeholder="Age" id = "age">
+        <input type="number" name = "age" min ="13" max = "99" class="input" placeholder="Age" id = "age" value={{age}}>
       </div>
 
       <label name="preferences" for="preferences">Preferences</label>
-      <select name="preferences[]" id="preferences" multiple size = "5">
+      <select name="preferences[]" id="preferences" multiple size = "5" >
         <option value="" disabled selected >Select your preferences</option>
         <option value="Entertainment & Media">Entertainment & Media</option>
         <option value="Convenience">Convenience</option>
@@ -136,29 +136,29 @@
   </div>
    <!-- THIS IS THE BUSINESS SIGN UP FORM. HIDDEN UNTIL TYPE CHOSEN-->
 <div class="signupForm">
-  <form name = "businessSignup" id = "businessSignup" method = "Post" action="http://localhost:3000/signup/business" class="form" hidden>
+  <form name = "businessSignup" id = "businessSignup" method = "Post" action="/signup/business" class="form" hidden>
     <h1 class="title">Business Sign up</h1>
 
       <label for = "username">Username:</label>    
-          <input type="text" name="username" id="username" placeholder="Username">    
+          <input type="text" name="username" id="username" placeholder="Username" value={{username}}>    
       <br><br>    
       <label for="password">Password:</label>    
-          <input type="password" name="password" id="password" placeholder="Password">    
+          <input type="password" name="password" id="password" placeholder="Password" value={{password}}>    
       <br><br>
 
     <div>
       <label class="label" for="firstName">First Name:</label>
-      <input name="firstName" id = "firstName" type="text" class="input" placeholder="First name">
+      <input name="firstName" id = "firstName" type="text" class="input" placeholder="First name" value={{firstName}}>
     </div>
 
     <div>
       <label class="label" for="lastName">Last Name:</label>
-      <input name="lastName" id = "lastName" type="text" class="input" placeholder="Last name">
+      <input name="lastName" id = "lastName" type="text" class="input" placeholder="Last name" value={{lastName}}>
     </div>
 
     <div>
       <label class="label" for="email">Email:</label>
-      <input name= "email" id = "email" type="email" class="input" placeholder="Email">
+      <input name= "email" id = "email" type="email" class="input" placeholder="Email" value={{email}}>
       
     </div>
 
@@ -222,7 +222,7 @@
 
     <div>
       <label for = "city">City:</label>    
-      <input type="text" name="city" id="city" placeholder="City">  
+      <input type="text" name="city" id="city" placeholder="City" value={{city}}>  
     </div>
 
     <label name="businessType" for="businessType">Business Type</label>

@@ -12,7 +12,7 @@ router.get('/settings/user', async (req, res) =>{
         res.redirect('/explore');
     }
     let userSetting = await userData.getInfo(req.session.user); 
-    res.render('account/editUser', {userData: userSetting});
+    res.render('account/editUser', {userData: userSetting, hasError: false});
 }); 
 
 router.post('/settings/user',  async (req, res) =>{
@@ -30,7 +30,7 @@ outer.get('/settings/business', async (req, res) =>{
         res.redirect('/explore');
     }
     let businessSetting = await businessData.getInfo(req.session.user); 
-    res.render('account/editBusiness', {businessData: businessSetting});
+    res.render('account/editBusiness', {businessData: businessSetting, hasError:false});
 }); 
 
 router.post('/settings/business',  async (req, res) =>{

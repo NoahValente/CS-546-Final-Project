@@ -1,7 +1,7 @@
 <!-- Authors @ Cavin & Noah -->
     <h1>User Login</h1><br>    
 <div class="login">    
-    <form id="loginForm" method="Post" action="http://localhost:3000/login">    
+    <form id="loginForm" method="Post" action="/login">    
         <label for="userType">I am a: </label>
         <select name="userType" id="userType">
             <option value="" disabled selected >Select an option</option>
@@ -10,10 +10,10 @@
         </select>
         <br><br>
         <label for="username"> Username </label>    
-            <input type="text" name="username" id="username" placeholder="Username">    
+            <input type="text" name="username" id="username" placeholder="Username" value={{username}}>    
         <br><br>    
         <label for="password"> Password </label>    
-            <input type="password" name="password" id="password" placeholder="Password">    
+            <input type="password" name="password" id="password" placeholder="Password" value={{password}}>    
         <br><br>
         <button name="login" id="loginButton" value="Log In">Submit</button>       
     </form>
