@@ -7,6 +7,7 @@
     const heading = document.getElementById('formHeading');
     const userFields = document.getElementsByClassName('userFields');
     const businessFields = document.getElementsByClassName('businessFields');
+    
     dropdown.addEventListener('change', function() {
         if (this.value === "User") {
             form.hidden = false;
@@ -47,6 +48,16 @@
             
             $('#userType').val(localStorage.userType).attr('selected', true);
         }
+        if (localStorage.gender) {
+            // Select the value stored
+        $('#gender').val( localStorage.gender );
+        $('#gender').val(localStorage.gender).attr('selected', true);
+        }
+        if (localStorage.state) {
+            // Select the value stored
+        $('#state').val( localStorage.state);
+        $('#state').val(localStorage.state).attr('selected', true);
+        }
         if (dropdown.value === "User") {
             form.hidden = false;
             form.setAttribute("action", "/signup/user");
@@ -80,6 +91,15 @@
     $('#userType').on('change', function(){
         var currentVal = $(this).val();
         localStorage.setItem('userType', currentVal );
+    });
+
+    $('#gender').on('change', function(){
+        var currentVal = $(this).val();
+        localStorage.setItem('gender', currentVal );
+    });
+    $('#state').on('change', function(){
+        var currentVal = $(this).val();
+        localStorage.setItem('state', currentVal );
     });
     
 })(window.jQuery);
