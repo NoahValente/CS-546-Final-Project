@@ -111,6 +111,7 @@ router.get('/', async (req, res) => {
   
   router.post('/login', async (req, res) => {
     const {username, password, userType} = req.body;
+    
     try {
         if(userType === 'User'){
             //username can either be email or the username - handled in the data folder
