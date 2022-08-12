@@ -41,6 +41,38 @@
         if (localStorage.userType) {
                 // Select the value stored
             $('#userType').val( localStorage.userType );
+            $('#userType').val('none').attr('selected', false);
+            $('#userType').val('User').attr('selected', false);
+            $('#userType').val('Business').attr('selected', false);
+            
+            $('#userType').val(localStorage.userType).attr('selected', true);
+        }
+        if (dropdown.value === "User") {
+            form.hidden = false;
+            form.setAttribute("action", "/signup/user");
+            heading.innerHTML = "User Sign Up";
+            for(field of userFields) {
+                field.hidden = false;
+                field.disabled = false;
+            }
+            for(field of businessFields) {
+                field.hidden = true;
+                field.disabled = true;
+            }
+        } else if (dropdown.value === "Business") {
+            form.hidden =false;
+            form.setAttribute("action", "/signup/business");
+            heading.innerHTML = "Business Sign Up";
+            for(field of userFields) {
+                field.hidden = true;
+                field.disabled = true;
+            }
+            for(field of businessFields) {
+                field.hidden = false;
+                field.disabled = false;
+            }
+        } else {
+            form.hidden = true;
         }
     });
     
