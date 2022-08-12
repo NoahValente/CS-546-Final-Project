@@ -68,15 +68,24 @@ module.exports = {
         username = username.toLowerCase(); 
         businessName = businessName.toLowerCase(); 
         const user = await userCollection.updateOne({username: username}, {$push:{favorites: businessName}}); 
-
         //const business = await 
     },
 
-    async removeFromFavorite (businessName) { 
+    async removeFromFavorite (username, businessName) { 
+        const userCollection = await users();
+        username = username.toLowerCase(); 
+        businessName = businessName.toLowerCase(); 
 
+        const user = await userCollection.updateOne({username: username}, {$pull:{favorites: businessName}}); 
     },
 
-    async getFavorites () {
+    async getFavorites (username) {
+        const userCollection = await users();
+        username = username.toLowerCase(); 
+
+        const user = await userCollection.findOne({username: username}); 
+
+        return user.favorites;
 
     }
 };
