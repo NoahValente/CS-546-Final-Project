@@ -4,7 +4,7 @@
     <form id="loginForm" method="Post" action="/login">    
         <label for="userType">I am a: </label>
         <select name="userType" id="userType">
-            <option value="" disabled selected >Select an option</option>
+            <option value="none" disabled selected >Select an option</option>
             <option value="User">User</option>
             <option value="Business">Business</option>
         </select>
@@ -18,5 +18,5 @@
         <button name="login" id="loginButton" value="Log In">Submit</button>       
     </form>
     <a class="big-link" href="/signup">Sign up here if you don't have an account</a>
-
+    <script src="/public/js/login.js"></script>
 </div>
