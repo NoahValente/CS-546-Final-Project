@@ -1,9 +1,14 @@
 const mainRoutes = require('./main');
-//const privateRoutes = require('./private');
+const exploreRoutes = require('./explore');
+const accountRoutes = require('./account');
+const businessRoutes = require('./business');
 
 const constructorMethod = (app) => {
+
   app.use('/', mainRoutes);
-  //app.use('/private', privateRoutes);
+  app.use('/explore', exploreRoutes);
+  app.use('/settings', accountRoutes);
+  //app.use('/business', businessRoutes);
 
   app.use('*', (req, res) => {
     res.sendStatus(404);
