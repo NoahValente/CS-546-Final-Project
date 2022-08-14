@@ -4,7 +4,7 @@ const data = require('../data');
 const businessData = data.businesses;
 
 // routes: /explore...
-
+//okay
 router.get('/', async (req, res) =>{
     res.render('explore/explore', {title: 'Explore', hasError: false});
 }); 
