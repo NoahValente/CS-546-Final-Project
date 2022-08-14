@@ -40,12 +40,10 @@ const main = async () => {
     } catch(e) {
         console.log(e);
     }
-
-
-
+    
         /* find business tests*/
     try {
-        let worked = await business.createBusiness("Cavin", "Gada", "cavingada", "cavingada@gmail.com", "Paramus", "NJ", "cavingada", ["Convenience", "Fitness", "Art"]);
+        let worked = await business.createBusiness("Cavin", "Gada", "cavingada@gmail.com", "cavingada", "Paramus", "NJ", "cavingada", ["Convenience", "Fitness", "Art"]);
     } catch(e) {
         console.log(e);
     }
@@ -79,7 +77,7 @@ const main = async () => {
     
 
     await connection.closeConnection();
-
+    await business.createBusiness("Cavin", "Gada", "cavingada@gmail.com", "cavingada", "Paramus", "NJ", "cavingada", ["Convenience", "Fitness", "Art"]);
 }
 
 main();

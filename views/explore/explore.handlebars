@@ -8,8 +8,7 @@
                 <option value="businessType">Search by business type</option>
             </select>
         </div>
-        <div class="searchOption" hidden>
-            <form id="seachByName" hidden>
+            <form id="searchByName" action="/explore/search" method="POST"  hidden>
                 <label for="typedName">Business Name</label>
                 <input type="text" placeholder="The business name" id="typedName"/>
                 <button type="submit" id="submit">Submit</button>
@@ -30,16 +29,21 @@
                     <option value="Sports">Sports</option>
                 </select>
             </div>
-        </div>
+
+
     </div>
-    <div class="searchResults">
-        <ul id="resultList" hidden></ul>
-    </div>
-    <div class="favoriteBusiness">
+
+        <ul id="resultList" hidden>
+
+        </ul>
+
+    <div class="favoriteBusiness" id="favBiz">
+        <h1>Favorite Businesses</h1>
         <ul id="favoriteBusiness">
             {{#each business}}
                 <li class="favoriteBiz"><a href = "/{{this.businessId}}"> {{this.businessName}} </a></li>
             {{/each}}
         </ul>
     </div>
+    <script src="/public/js/explore.js"></script>
 </div>
