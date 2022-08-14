@@ -3,11 +3,13 @@ const router = express.Router();
 const data = require('../data');
 const businessData = data.businesses;
 
-router.get('/explore', async (req, res) =>{
+// routes: /explore...
+
+router.get('/', async (req, res) =>{
     res.render('explore/explore', {title: 'Explore', hasError: false});
 }); 
 
-router.post('/explore/browse',  async (req, res) =>{
+router.post('/browse',  async (req, res) =>{
     try {
         let category = req.body;
         businessList = await businessData.findBusinessByCategory(category); 
@@ -17,7 +19,7 @@ router.post('/explore/browse',  async (req, res) =>{
     }
 }); 
 
-router.post('/explore/search',  async (req, res) =>{
+router.post('/search',  async (req, res) =>{
     try {
         let name = req.body;
         businessList = await businessData.findBusinessByName(name); 
@@ -26,3 +28,5 @@ router.post('/explore/search',  async (req, res) =>{
         res.render('explore/explore', {title: 'Explore', hasError: true, error: e});
     }
 })
+
+module.exports = router;
