@@ -1,0 +1,49 @@
+<div>
+    <div class="search">
+        <div class="searchTypeOption" id="searchTypeOption">
+            <label name="searchTypeOption" class="label" for="searchType">Please select how you want to search</label>
+            <select name="searchType" id="searchType">
+                <option value="none"disabled selected>Select your search type</option>
+                <option value="name">Search by name</option>
+                <option value="businessType">Search by business type</option>
+            </select>
+        </div>
+            <form id="searchByName" action="/explore/search" method="POST"  hidden>
+                <label for="typedName">Business Name</label>
+                <input type="text" placeholder="The business name" id="typedName"/>
+                <button type="submit" id="submit">Submit</button>
+            </form>
+            <div id="searchByCategory" hidden>
+                <lable for="categoryName">Business Category</lable>
+                <select name="category" id="categoryName">
+                    <option value="none" disabled selected >Select your business type</option>
+                    <option value="Entertainment & Media">Entertainment & Media</option>
+                    <option value="Convenience">Convenience</option>
+                    <option value="Freelancing">Freelancing</option>
+                    <option value="Fitness">Fitness</option>
+                    <option value="Art">Art</option>
+                    <option value="Appearance">Appearance</option>
+                    <option value="Technology">Technology</option>
+                    <option value="Animals">Animals</option>
+                    <option value="Food">Food</option>
+                    <option value="Sports">Sports</option>
+                </select>
+            </div>
+
+
+    </div>
+
+        <ul id="resultList" hidden>
+
+        </ul>
+
+    <div class="favoriteBusiness" id="favBiz">
+        <h1>Favorite Businesses</h1>
+        <ul id="favoriteBusiness">
+            {{#each business}}
+                <li class="favoriteBiz"><a href = "/{{this.businessId}}"> {{this.businessName}} </a></li>
+            {{/each}}
+        </ul>
+    </div>
+    <script src="/public/js/explore.js"></script>
+</div>
