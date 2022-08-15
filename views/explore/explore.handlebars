@@ -29,21 +29,8 @@
                     <option value="Sports">Sports</option>
                 </select>
             </div>
-
-
     </div>
-
-        <ul id="resultList" hidden>
-
-        </ul>
-
-    <div class="favoriteBusiness" id="favBiz">
-        <h1>Favorite Businesses</h1>
-        <ul id="favoriteBusiness">
-            {{#each business}}
-                <li class="favoriteBiz"><a href = "/{{this.businessId}}"> {{this.businessName}} </a></li>
-            {{/each}}
-        </ul>
-    </div>
+        <p id="error" hidden></p>
+        <ul id="resultList" hidden> </ul>
     <script src="/public/js/explore.js"></script>
 </div>
