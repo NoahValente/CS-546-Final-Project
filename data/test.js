@@ -43,13 +43,13 @@ const main = async () => {
     
         /* find business tests*/
     try {
-        let worked = await business.createBusiness("Cavin", "Gada", "cavingada@gmail.com", "cavingada", "Paramus", "NJ", "cavingada", ["Convenience", "Fitness", "Art"]);
+        let worked = await business.createBusiness("Cavin", "Gada", "cavingada", "cavingada@gmail.com", "Paramus", "NJ", "cavingada", ["Convenience", "Fitness", "Art"]);
     } catch(e) {
         console.log(e);
     }
 
     try {
-        let worked = await business.createBusiness("Cavin", "Gada", "SECONDBUS", "cavingada@gmail.com", "Paramus", "NJ", "cavingada", ["Food", "Fitness", "Art"]);
+        let worked = await business.createBusiness("Cavin", "Gada",  "cavingada@gmail.com", "SECONDBUS", "Paramus", "NJ", "cavingada", ["Food", "Fitness", "Art"]);
     } catch(e) {
         console.log(e);
     }
