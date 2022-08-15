@@ -1,15 +1,22 @@
-//using jquery
-
 (function ($) {
-    var searchTypeOption = $('#searchTypeOption'),
-    searchType = $('#searchType'),
+    var searchType = $('#searchType'),
     searchByName = $('#searchByName'), 
-    searchByCategory = $('#searchByCategory'),
-    resultList = $('#resultList'),
-    favBiz = $('#favBiz')
-//TODO: when you refresh, maybe make the form default again, and load the initial setup
+    searchByCategory = $('#searchByCategory')
+
+    $(document).ready(function loadPage(){ 
+        $('#error').hide();
+        $('#error').empty();
+        $('#resultList').hide();
+        $('#searchByName').hide();
+        $('#searchByCategory').hide();
+    })
 
 $('#searchType').on('change', function(){
+   
+    $('#resultList').empty();
+    $('#resultList').hide();
+    $('#error').hide();
+    $('#error').empty();
     if ((searchType).val() === "name"){
         $('#searchByCategory').hide();
         $('#searchByName').show();
@@ -21,84 +28,81 @@ $('#searchType').on('change', function(){
 });
 
 $('#submit').on('click', function(event){
-    //TODO: What if after everything loads, you click on the select again
-    //TODO: IF U TYPE SM INCORRECT, THEN U SHOULD HANDLE IT?
+
     event.preventDefault();
+    $('#resultList').empty();
+    $('#resultList').hide();
+    $('#error').hide();
+    $('#error').empty();
     let name = $('#typedName').val();
 
     if (!name){
-        alert("Please enter a business name!")
+        $('#error').append("Please enter a business name!");
     }
     else if (name.trim().length === 0){
-        alert("Please enter a business name, not just spaces!");
+        $('#error').append("Please enter a business name, not just spaces!");
     }
     else{
-        $('#resultList').empty();
         var requestConfig = {
             method: 'POST',
-            url: 'http://localhost:3000/explore/' + name
-                //url: `http://api.tvmaze.com/search/shows?q=${value}`
+            url: 'http://localhost:3000/explore/search',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                name: name
+            })
         };
     
-        //console.log(`http://localhost:3000/explore/' + ${name}`)
-        
-        
         $.ajax(requestConfig).then(function(responseMessage){
-            //console.log(responseMessage);
+
             if (!Array.isArray(responseMessage)){
-                alert(responseMessage);
+                $('#error').append(responseMessage);
             }
             else{
                 for (let eachName of responseMessage){
-                
-                    //console.log(eachName._id);
-                    //console.log(eachName._id.toString())
                     let link =  $(`<li></li>`).append($(`<a href= http://localhost:3000/business/${eachName._id}></a>`).text(`${eachName.username}`));
-                    //let link = $(`<li><a href="${eachShow._links.self.href}">${eachShow.name}</a></li>`) 
                     $('#resultList').append(link); 
                 }
-            }
-            
+            }  
         })
     }
     
-    
+    $('#error').show();
     $('#resultList').show();
     $('#typedName').val('');
-    //console.log(name);
-    //searchByName.hide();*/
-    //$('#resultList').empty();
-    //$('#resultList').show();
-   //$('#typedName').val('');
 })
 
 $('#categoryName').on('change', function(){
+
+    $('#resultList').empty();
+    $('#resultList').hide();
+    $('#error').hide();
+    $('#error').empty();
+
     let category = $('#categoryName').val()
-    $('#resultList').empty();
-    $('#resultList').empty();
+
     var requestConfig = {
         method: 'POST',
-        url: 'http://localhost:3000/explore/' + category
-                //url: `http://api.tvmaze.com/search/shows?q=${value}`
+        url: 'http://localhost:3000/explore/browse',
+        contentType: 'application/json',
+        data: JSON.stringify({
+            category: category
+        })
     };
+
     $.ajax(requestConfig).then(function(responseMessage){
         if (!Array.isArray(responseMessage)){
-            alert(responseMessage);
+            $('#error').append(responseMessage);
         }
         else{
             for (let eachName of responseMessage){
-                
-                //console.log(eachName._id);
-                //console.log(eachName._id.toString())
+
                 let link =  $(`<li></li>`).append($(`<a href= http://localhost:3000/business/${eachName._id}></a>`).text(`${eachName.username}`));
-                //let link = $(`<li><a href="${eachShow._links.self.href}">${eachShow.name}</a></li>`) 
                 $('#resultList').append(link); 
             }
         }
     })
-
+    $('#error').show();
     $('#resultList').show();
-
 })
 
 })(window.jQuery);
