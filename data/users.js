@@ -3,8 +3,6 @@ const users = mongoCollections.users;
 const {ObjectId} = require('mongodb');
 const bcrypt = require('bcryptjs');
 const validation = require('./validation');
-const { businesses } = require('../config/mongoCollections');
-const business = require('./business');
 
 // firstName, last Name, email, username, city, state, password
 module.exports = {
