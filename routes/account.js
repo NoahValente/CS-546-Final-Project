@@ -2,15 +2,15 @@ const express = require('express');
 const router = express.Router();
 const data = require('../data');
 const userData = data.users;
-const businessData = data.businesses;
+const businessData = data.business;
 
 // routes: /settings...
 
 router.get('/user', async (req, res) =>{
-    if (!req.session.user){
+    if (!req.session.account_type){
         res.redirect('/login');
     }
-    if (req.session.user != 'user'){
+    if (req.session.account_type != 'User'){
         res.redirect('/explore');
     }
     let userSetting = await userData.getInfo(req.session.user); 
@@ -25,10 +25,10 @@ router.post('/user',  async (req, res) =>{
 }); 
 
 router.get('/business', async (req, res) =>{
-    if (!req.session.user){
+    if (!req.session.account_type){
         res.redirect('/login');
     }
-    if (req.session.user != 'business'){
+    if (req.session.account_type != 'Business'){
         res.redirect('/explore');
     }
     let businessSetting = await businessData.getInfo(req.session.user); 
