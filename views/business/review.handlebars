@@ -1,0 +1,15 @@
+<div>
+    <h1>Write a review</h1>
+    <form id="review" method="post">
+        <div class="slidecontainer">
+            <label for="ratingRange">Please rate {{business.username}}</label>
+            <input type="range" min="1" max="10" value="5" id="ratingRange">
+            <p>Value: <span id="ratingValue"></span></p>
+        </div>
+        <label for = "reviewText">Please write your review</label>
+        
+        <input type="text" id="reviewText" name="reviewText" class="bigText">
+        <button type="submit" id="submit">Submit</button>
+    </form>
+    <script src="/public/js/business.js"></script>
+</div>
