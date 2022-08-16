@@ -10,22 +10,34 @@ const reviewData = data.reviews;
 //TODO: make sure function names and handlebar parameters are consistent with db and html
 router.get('/:businessid', async (req, res) =>{
     try {
+        let isBusiness = false;
+        let isUser = false;
+        if (req.session.account_type && req.session.account_type === 'Business'){
+            isBusiness = true;
+        }
+        if (req.session.account_type && req.session.account_type === 'User'){
+            isUser = true;
+        }
         let businessid = req.params.businessid; 
         let business = await businessData.getBusinessById(businessid); 
         let postList = await postData.getAllPostByBusiness(business.username);
         let rating = await reviewData.getAverageRating(business.username);
         let reviews = await reviewData.getReviewByBusinessName(business.username);
-        res.render('business/index', {title: 'Business Details', business: business, rating: rating, reviews: reviews, posts: postList, hasError: false});
+        res.render('business/index', {title: 'Business Details', business: business, rating: rating, reviews: reviews, posts: postList, hasError: false, isBusiness: isBusiness, isUser:isUser});
     } catch (e) {
         res.render('business/index', {title: 'Business Details', hasError: true, error: e});
     }
 }); 
 
 router.get('/post/:postid',  async (req, res) =>{
+    let isBusiness = false;
+    if (req.session.account_type && req.session.account_type === 'Business'){
+        isBusiness = true;
+    }
     try {
         let postid = req.params.postid; 
         let post = await postData.getPostById(postid); 
-        res.render('business/post', {title: 'Post Details', post: post, hasError: false});
+        res.render('business/post', {title: 'Post Details', post: post, postid:postid, hasError: false, isBusiness: isBusiness});
     } catch (e) {
         res.render('business/post', {title: 'Post Details', hasError: true, error: e});
     }
@@ -69,6 +81,9 @@ router.get('/:businessid/new',  async (req, res) =>{
             res.redirect(`/business/${businessid}`);
         }
         let business = await businessData.getBusinessById(businessid); 
+        if (business.username !== req.session.user){
+            res.redirect(`/business/${businessid}`);
+        }
         res.render('business/new', {title: 'New Post', business: business, hasError: false});
     } catch (e) {
         res.render('business/new', {title: 'New Post', hasError: true, error: e});

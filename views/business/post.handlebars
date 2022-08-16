@@ -1,0 +1,8 @@
+<div>
+    <h1>{{post.title}}</h1>
+    <img src={{post.image}}>
+    <p id="postText">{{post.postText}}</p>
+    {{#if isBusiness}}
+        <a class="small-link" href="/post/{{postid}}/edit">Edit Post</a>
+    {{/if}}
+</div>
