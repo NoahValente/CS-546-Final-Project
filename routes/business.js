@@ -12,9 +12,9 @@ router.get('/:businessid', async (req, res) =>{
     try {
         let businessid = req.params.businessid; 
         let business = await businessData.getBusinessById(businessid); 
-        let postList = await postData.getAllPostByBusiness(business.businessName);
-        let rating = await reviewData.getAverageRating(business.businessName);
-        let reviews = await reviewData.getReviewByBusinessName(business.businessName);
+        let postList = await postData.getAllPostByBusiness(business.username);
+        let rating = await reviewData.getAverageRating(business.username);
+        let reviews = await reviewData.getReviewByBusinessName(business.username);
         res.render('business/index', {title: 'Business Details', business: business, rating: rating, reviews: reviews, posts: postList, hasError: false});
     } catch (e) {
         res.render('business/index', {title: 'Business Details', hasError: true, error: e});
@@ -53,7 +53,7 @@ router.post('/:businessid/review',  async (req, res) =>{
     try {
         const {rating, text} = req.body;
         let business = await businessData.getBusinessById(businessid); 
-        await reviewData.createReview(req.session.user, business.businessName, rating, text); 
+        await reviewData.createReview(req.session.user, business.username, rating, text); 
         res.redirect(`/business/${businessid}`);
     } catch (e) {
         res.render('business/review', {title: 'Write a Review', hasError: true, error: e});
@@ -80,7 +80,7 @@ router.post('/:businessid/new',  async (req, res) =>{
     try {
         const {title, image, text} = req.body;
         let business = await businessData.getBusinessById(businessid); 
-        await postData.createNewPost(business.businessName, title, image, text); 
+        await postData.createNewPost(business.username, title, image, text); 
         res.redirect(`/business/${businessid}`);
     } catch (e) {
         res.render('business/new', {title: 'New Post', hasError: true, error: e});
