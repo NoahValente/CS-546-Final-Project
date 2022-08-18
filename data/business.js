@@ -72,5 +72,13 @@ module.exports = {
         const business = await businessCollection.findOne( {username: username});
         if (!business) throw "No business found!"
         return [business];
+    },
+
+    async getBusinessById(id) { // assumes id is already of type string (not ObjectId)
+        if (!id) throw "ID doesn't exist"
+        const businessCollection = await businesses();
+        const business = await businessCollection.findOne({_id: ObjectId(id)});
+        if (!business) throw "No business found!"
+        return business;
     }
 };

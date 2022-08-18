@@ -1,7 +1,7 @@
 const mongoCollections = require('../config/mongoCollections');
 const reviews = mongoCollections.reviews;
-const users = mongoCollection.users;
-const businesses = mongoCollection.businesses;
+const users = mongoCollections.users;
+const businesses = mongoCollections.businesses;
 const {ObjectId, ObjectID} = require('mongodb');
 const validation = require('./validation');
 
@@ -39,7 +39,7 @@ module.exports = {
         if (!business) throw "Internal database problem"
         
         return {reviewInserted: true};
-        
+        //return newInsertInformation; // use this return for testing.
     },
 
     async deleteReview(userName, businessName, reviewID){
@@ -65,7 +65,7 @@ module.exports = {
         if (!review) { throw "Review does not exist" };
     },
 
-    async getReviewByBusinessName(businessName){
+    async getReviewsByBusinessName(businessName){
         const businessCollection = await businesses();
         businessName = businessName.toLowerCase(); 
 
@@ -74,14 +74,15 @@ module.exports = {
 
         const reviewCollection = await reviews();
         let review; // will keep track of current review
-        let reviewList; // will store all the reviews for the business
+        let reviewList = []; // will store all the reviews for the business
         let userReviews = business.userReviews; // array of review Ids for the business. 
 
-        userReviews.forEach(element => {
-            review = reviewCollection.findOne({_id: ObjectId(element)});
+        // tried using a for each loop but it apparently doesn't work with async. 
+        for (let i = 0; i<userReviews.length; i++) {
+            review = await reviewCollection.findOne({_id: ObjectId(userReviews[i])});
+            if (review == null) continue;
             reviewList.push(review);
-        });
-
+        }
         return reviewList;
     }
 
