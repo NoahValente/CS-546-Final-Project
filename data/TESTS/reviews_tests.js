@@ -63,6 +63,18 @@ const main = async () => {
     } catch(e){ 
         console.log(e)
     }
+    try {
+        avg = await reviews.getAverageRating(reviewList);
+        console.log(avg);
+    } catch(e){ 
+        console.log(e)
+    }
+    try {
+        avg2 = await reviews.getAverageRating(reviewList2);
+        console.log(avg2);
+    } catch(e){ 
+        console.log(e)
+    }
     
     await connection.closeConnection();
 }
