@@ -1,5 +1,5 @@
 const mongoCollections = require('../config/mongoCollections');
-const post = mongoCollections.posts;
+const posts = mongoCollections.posts;
 const businesses = mongoCollections.businesses;
 const {ObjectId, ObjectID} = require('mongodb');
 const validation = require('./validation');
@@ -56,19 +56,19 @@ module.exports = {
         if (typeof title, date, image, postText !== 'string') throw "Post must be a string!";
 
         // just update the fields in the post database, id and business name all stay the same.
-        const postCollection = await post();
+        const postCollection = await posts();
         const post = await postCollection.updateOne({_id: ObjectId(postID)}, {$set:{ title: title, postText:postText}});
         if (!review) { throw "Review does not exist" };
     },
 
-    async getPostByBusinessName(businessName){
+    async getAllPostByBusiness(businessName){
         const businessCollection = await businesses();
         businessName = businessName.toLowerCase(); 
 
         const business = await businessCollection.findOne({username: businessName}); 
         if (!business) throw "No business found"
 
-        const postCollection = await post();
+        const postCollection = await posts();
         let post; // will keep track of current post
         let postList = []; // will store all the post for the business
         let businessPost = business.businessPost; // array of post Ids for the business. 
