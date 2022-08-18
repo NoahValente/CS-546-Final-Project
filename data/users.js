@@ -61,11 +61,20 @@ module.exports = {
             return {authenticated: true}; }
     },
 
+    async findUserByName(username) {
+        const userCollection = await users();
+        username = username.toLowerCase(); 
+        const user = await userCollection.findOne({username: username}); 
+        if (!user) { throw "Username or password is invalid" };
+        return user;
+    },
+
     async addToFavorite (username, businessName) {
         const userCollection = await users();
         username = username.toLowerCase(); 
         businessName = businessName.toLowerCase(); 
         const user = await userCollection.updateOne({username: username}, {$push:{favorites: businessName}}); 
+        if (!user) { throw "Username or password is invalid" };
         //const business = await 
     },
 
@@ -75,6 +84,7 @@ module.exports = {
         businessName = businessName.toLowerCase(); 
 
         const user = await userCollection.updateOne({username: username}, {$pull:{favorites: businessName}}); 
+        if (!user) { throw "Username or password is invalid" };
     },
 
     async getFavorites (username) {
@@ -82,9 +92,18 @@ module.exports = {
         username = username.toLowerCase(); 
 
         const user = await userCollection.findOne({username: username}); 
+        if (!user) { throw "Username or password is invalid" };
 
         return user.favorites;
+    },
 
+    async updateUserData(username, preferences) {
+        if (!preferences || preferences.length == 0) throw "Please select at least 1 preferences!"
+        if (preferences.length>5) throw "Please select up to only 5 preferences!"
+        const userCollection = await users();
+        username = username.toLowerCase(); 
+        const user = await userCollection.updateOne({username: username}, {$set:{preferences: preferences}}); 
+        if (!user) { throw "Username or password is invalid" };
     }
 };
 

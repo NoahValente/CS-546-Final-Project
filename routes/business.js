@@ -21,8 +21,8 @@ router.get('/:businessid', async (req, res) =>{
         let businessid = req.params.businessid; 
         let business = await businessData.getBusinessById(businessid); 
         let postList = await postData.getAllPostByBusiness(business.username);
-        let rating = await reviewData.getAverageRating(business.username);
         let reviews = await reviewData.getReviewsByBusinessName(business.username);
+        let rating = await reviewData.getAverageRating(reviews); // use reviews to compute average rating. is 0 for no reviews.
         res.render('business/index', {title: 'Business Details', business: business, rating: rating, reviews: reviews, posts: postList, hasError: false, isBusiness: isBusiness, isUser:isUser});
     } catch (e) {
         res.render('business/index', {title: 'Business Details', hasError: true, error: e});

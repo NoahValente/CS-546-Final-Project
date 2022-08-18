@@ -84,6 +84,19 @@ module.exports = {
             reviewList.push(review);
         }
         return reviewList;
+    },
+
+    async getAverageRating(reviewList) {
+        let summedRating = 0;
+        let numRatings = 0;
+        for (let i = 0; i<reviewList.length; i++) {
+            if (reviewList[i] != null) {
+                summedRating+=reviewList[i].rating;
+                numRatings++;
+            }
+        }
+        if (summedRating == 0) return 0; // no ratings returns a rating of 0. to be handled on front end.
+        return summedRating/numRatings;
     }
 
 }

@@ -80,5 +80,14 @@ module.exports = {
         const business = await businessCollection.findOne({_id: ObjectId(id)});
         if (!business) throw "No business found!"
         return business;
+    },
+
+    async updateBusinessData(username, categories) {
+        if (!categories || categories.length == 0) throw "Please select at least 1 category!"
+        if (categories.length>5) throw "Please select up to only 5 categories!"
+        const businessCollection = await businesses();
+        username = username.toLowerCase(); 
+        const business = await businessCollection.updateOne({username: username}, {$set:{businessType: categories}}); 
+        if (!user) { throw "Username or password is invalid" };
     }
 };
