@@ -1,0 +1,90 @@
+<h1>Edit Account Settings</h1>
+<div>
+    <form name = "editForm" id = "editForm" method = "Post" action="/settings/{{accountType}}" class="form">
+        <label for = "username">Username:</label>    
+            <input type="text" name="username" id="username" placeholder="Username" value="{{default.username}}" disabled>    
+        <br><br>    
+        <label for = "password">Password:</label>    
+            <input type="password" name="password" id="password" placeholder="Password" value="password" disabled>    
+        <br><br>
+      <div>
+        <label class="label" for="firstName">First Name:</label>
+        <input name="firstName" id = "firstName" type="text" class="input" placeholder="First name" value="{{default.firstName}}" disabled>
+      </div>
+ 
+      <div>
+        <label class="label" for="lastName">Last Name:</label>
+        <input name="lastName" id = "lastName" type="text" class="input" placeholder="Last name" value="{{default.lastName}}" disabled>
+      </div>
+ 
+      <div>
+        <label class="label" for="email">Email:</label>
+        <input name= "email" id = "email" type="email" class="input" placeholder="Email" value="{{default.email}}" disabled>
+      </div>
+
+      <div>
+        <label class="label" for="state">State:</label>
+        <select name="state" id="state" disabled>
+            <option value="none" selected>{{default.state}}</option>
+        </select>
+      </div>
+ 
+      <div>
+        <label for = "city">City:</label>    
+        <input type="text" name="city" id="city" placeholder="City" value="{{default.city}}" disabled>   
+      </div>
+
+        {{#if isUser}}
+      <div class="userFields">
+        <label class="label" for="gender">Gender:</label>
+        <select name="gender" id="gender" disabled>
+            <option value="none" selected>{{default.gender}}</option>
+        </select>
+      </div>
+
+      <div class="userFields" disabled>
+        <label for = "age" >Age:</label>
+        <input type="number" name = "age" min ="13" max = "99" class="input" placeholder="Age" id = "age" value="{{default.age}}" disabled>
+      </div>
+
+      <div class="userFields">
+        <label name="preferences" for="preferences">Reselect Preferences</label>
+        <select name="preferences[]" id="preferences" multiple size = "5" >
+          <option value="" disabled selected >Select your preferences</option>
+          <option value="Entertainment & Media">Entertainment & Media</option>
+          <option value="Convenience">Convenience</option>
+          <option value="Freelancing">Freelancing</option>
+          <option value="Fitness">Fitness</option>
+          <option value="Art">Art</option>
+          <option value="Appearance">Appearance</option>
+          <option value="Technology">Technology</option>
+          <option value="Animals">Animals</option>
+          <option value="Food">Food</option>
+          <option value="Sports">Sports</option>
+        </select>
+      </div>
+      {{/if}}
+
+        {{#if isBusiness}}
+      <div class="businessFields">
+        <label name="businessType" for="businessType">Reselect Business Type</label>
+        <select name="businessType[]" id="businessType" multiple size = "5">
+          <option value="" disabled selected >Select your business type</option>
+          <option value="Entertainment & Media">Entertainment & Media</option>
+          <option value="Convenience">Convenience</option>
+          <option value="Freelancing">Freelancing</option>
+          <option value="Fitness">Fitness</option>
+          <option value="Art">Art</option>
+          <option value="Appearance">Appearance</option>
+          <option value="Technology">Technology</option>
+          <option value="Animals">Animals</option>
+          <option value="Food">Food</option>
+          <option value="Sports">Sports</option>
+        </select>
+      </div>
+      {{/if}}
+
+      <button type="submit" class="submitButon" value="Sign up">Submit</button>
+      <a href="/explore" class="small-link">Cancel</a>
+    </form>
+</div>

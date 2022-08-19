@@ -6,40 +6,54 @@ const businessData = data.business;
 
 // routes: /settings...
 
-router.get('/user', async (req, res) =>{
-    if (!req.session.account_type){
-        res.redirect('/login');
+router.get('/', async (req, res) =>{
+    try {
+        let isBusiness = false;
+        let isUser = false;
+        let accountSetting;
+        if (!req.session.account_type){
+            res.redirect('/login');
+        } else if (req.session.account_type === 'User'){
+            isUser = true;
+            accountSetting = await userData.findUserByName(req.session.user); 
+        } else if (req.session.account_type === 'Business'){
+            isBusiness = true;
+            accountSetting = await businessData.findBusinessByName(req.session.user);
+            accountSetting = accountSetting[0];
+        } else {
+            res.redirect('/explore');
+        }
+        res.render('account/editAccount', {title: "Edit Account", accountType: req.session.account_type, default: accountSetting, isBusiness: isBusiness, isUser: isUser, hasError: false});
+    } catch (e) {
+        res.render('account/editAccount', {title: "Edit Account", isBusiness: false, isUser: false, hasError: true, error: e});
     }
-    if (req.session.account_type != 'User'){
-        res.redirect('/explore');
-    }
-    let userSetting = await userData.getInfo(req.session.user); 
-    res.render('account/editUser', {userData: userSetting, hasError: false});
+    
 }); 
 
 router.post('/user',  async (req, res) =>{
-   let user = req.body;
-   //TODO: disable text inputs that we dont want to change..like account type
-   user = await userData.updateUserData(user); 
-   res.redirect('/settings/user'); 
-}); 
-
-router.get('/business', async (req, res) =>{
-    if (!req.session.account_type){
-        res.redirect('/login');
+    try {
+        let changes = req.body;
+        if (!changes || changes.preferences || changes.preferences.length == 0) throw "Please select at least 1 preferences!"
+        if (changes.preferences.length>5) throw "Please select up to only 5 preferences!"
+        await userData.updateUserData(req.session.user, changes.preferences); 
+        res.redirect('/explore'); 
+    } catch (e) {
+        let accountSetting = await userData.findUserByName(req.session.user);
+        res.render('account/editAccount', {title: "Edit Account", accountType: req.session.account_type, default: accountSetting, isBusiness: false, isUser: true, hasError: true, error: e});
     }
-    if (req.session.account_type != 'Business'){
-        res.redirect('/explore');
-    }
-    let businessSetting = await businessData.getInfo(req.session.user); 
-    res.render('account/editBusiness', {businessData: businessSetting, hasError:false});
 }); 
 
 router.post('/business',  async (req, res) =>{
-   let business = req.body;
-   //TODO: disable text inputs that we dont want to change..like account type
-   business = await businessData.updatBusinessData(business); 
-   res.redirect('/settings/business'); 
+    try {
+        let changes = req.body;
+        if (!changes || !changes.businessType || changes.businessType == 0) throw "Please select at least 1 category!"
+        if (changes.businessType.length>5) throw "Please select up to only 5 categories!"
+        await businessData.updateBusinessData(req.session.user, changes.businessType); 
+        res.redirect('/explore'); 
+    } catch (e) {
+        let accountSetting = await businessData.findBusinessByName(req.session.user);
+        res.render('account/editAccount', {title: "Edit Account", accountType: req.session.account_type, default: accountSetting, isBusiness: true, isUser: false, hasError: true, error: e});
+    }
 })
 
 module.exports = router;

@@ -88,6 +88,6 @@ module.exports = {
         const businessCollection = await businesses();
         username = username.toLowerCase(); 
         const business = await businessCollection.updateOne({username: username}, {$set:{businessType: categories}}); 
-        if (!user) { throw "Username or password is invalid" };
+        if (!business) { throw "Username or password is invalid" };
     }
 };
