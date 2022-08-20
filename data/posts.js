@@ -6,12 +6,19 @@ const validation = require('./validation');
 
 
 module.exports = {
-    async createpost(businessName, title, date, image, postText){
+    async createNewPost(businessName, title, image, postText){
+        validation.checkUsername(businessName);
         if (!title) throw "Please enter a title for the post!"
-        if(!date) throw "Please enter a date!"
         if (!image) throw "Please enter image URL!"
         if(!postText) throw "Please enter text for the post!"
-        if (typeof title,date,postText !== 'string') throw "Post must be a string!";
+        if (typeof title,postText !== 'string') throw "Post must be a string!";
+
+        let date = new Date();
+        let dd = String(date.getDate()).padStart(2, '0');
+        let mm = String(date.getMonth() + 1).padStart(2, '0');
+        let yyyy = date.getFullYear();
+        
+        today = yyyy + '-' + mm + '-' + dd;
 
         let newPost = {
             businessId: businessName,
@@ -38,9 +45,11 @@ module.exports = {
         //return newInsertInformation; // use this return for testing.
     },
 
-    async deletePosts(businessName, PostID){
+    async deletePost(businessName, PostID){
+        validation.checkUsername(businessName);
+        validation.checkId(PostID);
         const postCollection = await posts();
-        const post = await reviewCollection.remove({_id: ObjectId(reviewID)});
+        const post = await postCollection.remove({_id: ObjectId(reviewID)});
         if (!post) { throw "Post does not exist" };
 
         const businessCollection = await businesses();
@@ -48,9 +57,10 @@ module.exports = {
         const businesses = await businessCollection.updateOne({businessName: businessName}, {$pull:{businessPost: PostID}}); 
     },
 
-    async editPosts(businessName, postID, title, date, image, postText){
+    async editPost(businessName, postID, title, image, postText){
+        validation.checkUsername(businessName);
+        validation.checkId(PostID);
         if (!title) throw "Please enter a title!"
-        if(!date) throw "Please enter a date!"
         if(!image) throw "Please enter image URL!"
         if (!postText) throw "Please write something to post!"
         if (typeof title, date, image, postText !== 'string') throw "Post must be a string!";
@@ -58,10 +68,11 @@ module.exports = {
         // just update the fields in the post database, id and business name all stay the same.
         const postCollection = await posts();
         const post = await postCollection.updateOne({_id: ObjectId(postID)}, {$set:{ title: title, postText:postText}});
-        if (!review) { throw "Review does not exist" };
+        if (!post) { throw "Failed to update post" };
     },
 
     async getAllPostByBusiness(businessName){
+        validation.checkUsername(businessName);
         const businessCollection = await businesses();
         businessName = businessName.toLowerCase(); 
 
@@ -79,6 +90,14 @@ module.exports = {
             postList.push(post);
         }
         return postList;
-    }
+    },
+
+    async getPostById(id) {
+        validation.checkId(id);
+        const postCollection = await posts();
+        const post = await postCollection.findOne({_id: ObjectId(id)});
+        if (!post) throw "No post found!"
+        return post;
+    },
 
 }

@@ -46,6 +46,8 @@ module.exports = {
     },
 
     async checkUser(username, password) {
+        validation.checkUserAndPassword(username, password);
+
         const userCollection = await users();
         username = username.toLowerCase();
         const user = await userCollection.findOne({username: username});
@@ -62,48 +64,55 @@ module.exports = {
     },
 
     async findUserByName(username) {
+        validation.checkUsername(username);
         const userCollection = await users();
         username = username.toLowerCase(); 
         const user = await userCollection.findOne({username: username}); 
-        if (!user) { throw "Username or password is invalid" };
+        if (!user) { throw "Failed to find username" };
         return user;
     },
 
     async addToFavorite (username, businessName) {
+        validation.checkUsername(username);
+        validation.checkUsername(businessName);
         const userCollection = await users();
         username = username.toLowerCase(); 
         businessName = businessName.toLowerCase(); 
         const user = await userCollection.updateOne({username: username}, {$push:{favorites: businessName}}); 
-        if (!user) { throw "Username or password is invalid" };
+        if (!user) { throw "Failed to add to favorites" };
         //const business = await 
     },
 
     async removeFromFavorite (username, businessName) { 
+        validation.checkUsername(username);
+        validation.checkUsername(businessName);
         const userCollection = await users();
         username = username.toLowerCase(); 
         businessName = businessName.toLowerCase(); 
 
         const user = await userCollection.updateOne({username: username}, {$pull:{favorites: businessName}}); 
-        if (!user) { throw "Username or password is invalid" };
+        if (!user) { throw "Failed to remove from favorites" };
     },
 
     async getFavorites (username) {
+        validation.checkUsername(username);
         const userCollection = await users();
         username = username.toLowerCase(); 
 
         const user = await userCollection.findOne({username: username}); 
-        if (!user) { throw "Username or password is invalid" };
+        if (!user) { throw "Failed to find favorites" };
 
         return user.favorites;
     },
 
     async updateUserData(username, preferences) {
+        validation.checkUsername(username);
         if (!preferences || preferences.length == 0) throw "Please select at least 1 preferences!"
         if (preferences.length>5) throw "Please select up to only 5 preferences!"
         const userCollection = await users();
         username = username.toLowerCase(); 
         const user = await userCollection.updateOne({username: username}, {$set:{preferences: preferences}}); 
-        if (!user) { throw "Username or password is invalid" };
+        if (!user) { throw "Failed to update preferences" };
     }
 };
 

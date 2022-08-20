@@ -15,6 +15,7 @@ router.post('/browse',  async (req, res) =>{
     
     try {
         let category = req.body.category;
+        if (!category) throw "Please enter a category";
         businessList = await businessData.findBusinessByCategory(category); 
         res.send(businessList);
         
@@ -27,10 +28,8 @@ router.post('/search',  async (req, res) =>{
 
     try {
         let name = req.body.name;  
-
-        console.log(req.body.name)
+        if (!name) throw "Please enter a business name";
         businessList = await businessData.findBusinessByName(name); 
-        console.log(businessList);
         res.send(businessList); 
     } catch (e) {
         res.send(e);
