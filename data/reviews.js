@@ -9,6 +9,8 @@ const validation = require('./validation');
 module.exports = {
     async createReview(userName, businessName, rating, reviewText){
         // we can assume userName and businessName are correct. 
+        validation.checkUsername(userName);
+        validation.checkUsername(businessName);
         if (!rating) throw "Please enter a rating from 1-10!"
         // dont need to check if number since rating will be a dropdown of type number from 1-10
         if (!reviewText) throw "Please write something to review the business on!"
@@ -42,7 +44,11 @@ module.exports = {
         //return newInsertInformation; // use this return for testing.
     },
 
+    // deleteReview not implemented (not necessary)
     async deleteReview(userName, businessName, reviewID){
+        validation.checkUsername(userName);
+        validation.checkUsername(businessName);
+        validation.checkId(reviewID);
         const reviewCollection = await reviews();
         const review = await reviewCollection.remove({_id: ObjectId(reviewID)});
         if (!review) { throw "Review does not exist" };
@@ -52,7 +58,10 @@ module.exports = {
         const user = await userCollection.updateOne({username: userName}, {$pull:{userReviews: reviewID}}); 
     },
 
+    // editReview not implemented (not necessary)
     async editReview(userName, reviewID, rating, reviewText){
+        validation.checkUsername(userName);
+        validation.checkId(reviewID);
         // we can assume userName and businessName are correct. 
         if (!rating) throw "Please enter a rating from 1-10!"
         // dont need to check if number since rating will be a dropdown of type number from 1-10
@@ -66,6 +75,7 @@ module.exports = {
     },
 
     async getReviewsByBusinessName(businessName){
+        validation.checkUsername(businessName);
         const businessCollection = await businesses();
         businessName = businessName.toLowerCase(); 
 
@@ -87,6 +97,7 @@ module.exports = {
     },
 
     async getAverageRating(reviewList) {
+        if (!reviewList || !Array.isArray(reviewList)) throw 'Must provide a list of reviews';
         let summedRating = 0;
         let numRatings = 0;
         for (let i = 0; i<reviewList.length; i++) {

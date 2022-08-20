@@ -15,6 +15,7 @@ router.post('/browse',  async (req, res) =>{
     console.log("testing")
     try {
         let category = req.body.category;
+        if (!category) throw "Please enter a category";
         businessList = await businessData.findBusinessByCategory(category); 
         res.send(businessList);
         
@@ -27,10 +28,8 @@ router.post('/search',  async (req, res) =>{
 
     try {
         let name = req.body.name;  
-
-        console.log(req.body.name)
+        if (!name || typeof name !== 'string' || name.trim().length === 0) throw `Input must be a non-empty string`;
         businessList = await businessData.findBusinessByName(name); 
-        console.log(businessList);
         res.send(businessList); 
     } catch (e) {
         res.send(e);

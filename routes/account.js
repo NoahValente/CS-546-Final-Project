@@ -26,6 +26,7 @@ router.get('/', async (req, res) =>{
         res.render('account/editAccount', {title: "Edit Account", accountType: req.session.account_type, default: accountSetting, isBusiness: isBusiness, isUser: isUser, hasError: false, hasMessage:false});
     } catch (e) {
         res.render('account/editAccount', {title: "Edit Account", isBusiness: false, isUser: false, hasError: true, error: e, hasMessage:false});
+        res.status(400);
     }
     
 }); 
@@ -44,6 +45,7 @@ router.post('/user',  async (req, res) =>{
         } catch (e) {
             res.render('explore/explore', {title: 'Explore', hasError: true, hasMessage: false, error: e});
         } 
+        res.status(400);
     }
 }); 
 
@@ -61,6 +63,7 @@ router.post('/business',  async (req, res) =>{
         } catch (e) {
             res.render('explore/explore', {title: 'Explore', hasError: true, hasMessage: false, error: e});
         }
+        res.status(400);
     }
 })
 
