@@ -4,6 +4,7 @@ const data = require('../data');
 const businessData = data.business;
 const postData = data.posts;
 const reviewData = data.reviews;
+const validation = data.validation;
 
 // routes: /business...
 
@@ -19,6 +20,7 @@ router.get('/:businessid', async (req, res) =>{
             isUser = true;
         }
         let businessid = req.params.businessid; 
+        businessid = validation.checkId(businessid);
         let business = await businessData.getBusinessById(businessid); 
         let postList = await postData.getAllPostByBusiness(business.username);
         let reviews = await reviewData.getReviewsByBusinessName(business.username);
@@ -26,6 +28,7 @@ router.get('/:businessid', async (req, res) =>{
         res.render('business/index', {title: 'Business Details', business: business, rating: rating, reviews: reviews, posts: postList, hasError: false, isBusiness: isBusiness, isUser:isUser});
     } catch (e) {
         res.render('business/index', {title: 'Business Details', hasError: true, error: e});
+        res.status(400);
     }
 }); 
 
@@ -36,10 +39,12 @@ router.get('/post/:postid',  async (req, res) =>{
     }
     try {
         let postid = req.params.postid; 
+        postid = validation.checkId(postid);
         let post = await postData.getPostById(postid); 
         res.render('business/post', {title: 'Post Details', post: post, postid:postid, hasError: false, isBusiness: isBusiness});
     } catch (e) {
         res.render('business/post', {title: 'Post Details', hasError: true, error: e});
+        res.status(400);
     }
 });
 
@@ -54,14 +59,17 @@ router.get('/:businessid/review',  async (req, res) =>{
             res.redirect(`/business/${businessid}`);
         }
         let business = await businessData.getBusinessById(businessid); 
+        businessid = validation.checkId(businessid);
         res.render('business/review', {title: 'Write a Review', business: business, hasError: false});
     } catch (e) {
         res.render('business/review', {title: 'Write a Review', hasError: true, error: e});
+        res.status(400);
     }
 }); 
 
 router.post('/:businessid/review',  async (req, res) =>{
     let businessid = req.params.businessid; 
+    businessid = validation.checkId(businessid);
     try {
         const {rating, text} = req.body;
         let business = await businessData.getBusinessById(businessid); 
@@ -69,11 +77,13 @@ router.post('/:businessid/review',  async (req, res) =>{
         res.redirect(`/business/${businessid}`);
     } catch (e) {
         res.render('business/review', {title: 'Write a Review', hasError: true, error: e});
+        res.status(400);
     }
 }); 
 
 router.get('/:businessid/new',  async (req, res) =>{
     let businessid = req.params.businessid; 
+    businessid = validation.checkId(businessid);
     try {
         if (!req.session.account_type){
             res.redirect('/login');
@@ -87,11 +97,13 @@ router.get('/:businessid/new',  async (req, res) =>{
         res.render('business/new', {title: 'New Post', business: business, hasError: false});
     } catch (e) {
         res.render('business/new', {title: 'New Post', hasError: true, error: e});
+        res.status(400);
     }
 }); 
 
 router.post('/:businessid/new',  async (req, res) =>{
     let businessid = req.params.businessid; 
+    businessid = validation.checkId(businessid);
     try {
         const {title, image, text} = req.body;
         let business = await businessData.getBusinessById(businessid); 
@@ -99,11 +111,13 @@ router.post('/:businessid/new',  async (req, res) =>{
         res.redirect(`/business/${businessid}`);
     } catch (e) {
         res.render('business/new', {title: 'New Post', hasError: true, error: e});
+        res.status(400);
     }
 }); 
 
 router.get('/post/:postid/edit',  async (req, res) =>{
     let postid = req.params.postid; 
+    postid = validation.checkId(postid);
     try {
         if (!req.session.account_type){
             res.redirect('/login');
@@ -114,17 +128,32 @@ router.get('/post/:postid/edit',  async (req, res) =>{
         res.render('business/edit', {title: 'Edit Post', post: post, hasError: false});
     } catch (e) {
         res.render('business/edit', {title: 'Edit Post', hasError: true, error: e});
+        res.status(400);
     }
 }); 
 
 router.post('/post/:postid/edit',  async (req, res) =>{
     let postid = req.params.postid;  
+    postid = validation.checkId(postid);
     try {
         const {title, image, text} = req.body;
-        await postData.updatePost(postid, title, image, text); 
+        await postData.editPost(postid, title, image, text); 
         res.redirect(`/post/${postid}`);
     } catch (e) {
         res.render('business/edit', {title: 'Edit Post', hasError: true, error: e});
+        res.status(400);
+    }
+}); 
+
+router.post('/post/:postid/delete',  async (req, res) =>{
+    try {
+        let postid = req.params.postid;  
+        postid = validation.checkId(postid);
+        await postData.deletePost(req.session.user, postid); 
+        res.redirect(`/business/${businessid}`);
+    } catch (e) {
+        res.render('business/edit', {title: 'Edit Post', hasError: true, error: e});
+        res.status(400);
     }
 }); 
 
