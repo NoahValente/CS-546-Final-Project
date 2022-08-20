@@ -74,8 +74,8 @@ module.exports = {
         return [business];
     },
 
-    async getBusinessById(id) { // assumes id is already of type string (not ObjectId)
-        if (!id) throw "ID doesn't exist"
+    async getBusinessById(id) {
+        validation.checkId(id);
         const businessCollection = await businesses();
         const business = await businessCollection.findOne({_id: ObjectId(id)});
         if (!business) throw "No business found!"
@@ -83,11 +83,12 @@ module.exports = {
     },
 
     async updateBusinessData(username, categories) {
+        validation.checkUsername(username);
         if (!categories || categories.length == 0) throw "Please select at least 1 category!"
         if (categories.length>5) throw "Please select up to only 5 categories!"
         const businessCollection = await businesses();
         username = username.toLowerCase(); 
         const business = await businessCollection.updateOne({username: username}, {$set:{businessType: categories}}); 
-        if (!business) { throw "Username or password is invalid" };
+        if (!business) { throw "Failed to update business categories" };
     }
 };

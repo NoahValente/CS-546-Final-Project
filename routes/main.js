@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const data = require('../data');
-const userData = require('../data/users')
-const businessData = require('../data/business');
+const userData = data.users;
+const businessData = data.business;
+const validation = data.validation;
 
 //TODO: ADD FAVOURITE ROUTE
 router.get('/', async (req, res) => {
@@ -24,10 +25,16 @@ router.get('/', async (req, res) => {
   router.post('/signup/user', async (req, res) => {
     const {firstName, lastName, email, username, gender, city, state, age, password, preferences} = req.body;
     try {
+
+      validation.validateUserAndBusinessInput(firstName, lastName, email, username, city, state, password);
+      if (!gender) throw "Please select a dropdown from gender";
+      if (!age) throw "Please select your age";
+      if (!preferences) throw "Please select at least 1 preference";
+      if (preferences.length > 5) throw "Select only up to 5 preferences";
+
       if ((await userData.createUser(firstName, lastName, email, username, gender, city, state, age, password, preferences)).userInserted === true) {
         res.redirect('/login');
       } else {
-        console.log(preferences); 
         res.render('main/signup', {
           title: "Sign Up",
           firstName: firstName, 
@@ -69,6 +76,11 @@ router.get('/', async (req, res) => {
   router.post('/signup/business', async (req, res) => {
     const {firstName, lastName, username, email, city, state, password, businessType} = req.body;
     try {
+
+      validation.validateUserAndBusinessInput(firstName, lastName, email, username, city, state, password);
+      if (!businessType) throw "Please select a dropdown from business type";
+      if (businessType.length > 5) throw "Select only up to 5 categories";
+
       if ((await businessData.createBusiness(firstName, lastName, username, email, city, state, password, businessType)).userInserted === true) {
         res.redirect('/login');
       } else {
@@ -118,6 +130,7 @@ router.get('/', async (req, res) => {
     const {username, password, userType} = req.body;
     
     try {
+        validation.checkUserAndPassword(username, password);
         if(userType === 'User'){
             //username can either be email or the username - handled in the data folder
             const check = await userData.checkUser(username, password);

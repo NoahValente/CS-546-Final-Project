@@ -12,6 +12,11 @@ function validateString(s, type) {
 
 module.exports = {
     
+    checkUsername(username) {
+        username = validateString(username, "Username");
+        if (!(/^[A-Za-z0-9]*$/.test(username))) { throw `Username is not valid.`}''
+        if (username.length < 4) throw `Username is not valid.`;
+    },
     checkUserAndPassword(username, password) {
         username = validateString(username, "Username");
         // check that username is at least 4 characters and contains only alphanumeric values
@@ -47,5 +52,14 @@ module.exports = {
     
         // city should only be of letters
         if(!(/^[a-zA-Z]+$/.test(city.replace(/\s/g, "")))) throw "City should only consist of letters"
-    }
+    },
+    checkId(id) {
+        if (!id) throw 'Error: You must provide an id to search for';
+        if (typeof id !== 'string') throw 'Error: id must be a string';
+        id = id.trim();
+        if (id.length === 0)
+          throw 'Error: id cannot be an empty string or just spaces';
+        if (!ObjectId.isValid(id)) throw 'Error: invalid object ID';
+        return id;
+      }
 }
