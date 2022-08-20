@@ -4,8 +4,8 @@
     searchByCategory = $('#searchByCategory')
 
     $(document).ready(function loadPage(){ 
-        $('#error').hide();
-        $('#error').empty();
+        $('#errorClient').hide();
+        $('#errorClient').empty();
         $('#resultList').hide();
         $('#searchByName').hide();
         $('#searchByCategory').hide();
@@ -15,8 +15,8 @@ $('#searchType').on('change', function(){
    
     $('#resultList').empty();
     $('#resultList').hide();
-    $('#error').hide();
-    $('#error').empty();
+    $('#errorClient').hide();
+    $('#errorClient').empty();
     if ((searchType).val() === "name"){
         $('#searchByCategory').hide();
         $('#searchByName').show();
@@ -32,15 +32,15 @@ $('#submit').on('click', function(event){
     event.preventDefault();
     $('#resultList').empty();
     $('#resultList').hide();
-    $('#error').hide();
-    $('#error').empty();
+    $('#errorClient').hide();
+    $('#errorClient').empty();
     let name = $('#typedName').val();
 
     if (!name){
-        $('#error').append("Please enter a business name!");
+        $('#errorClient').append("Please enter a business name!");
     }
     else if (name.trim().length === 0){
-        $('#error').append("Please enter a business name, not just spaces!");
+        $('#errorClient').append("Please enter a business name, not just spaces!");
     }
     else{
         var requestConfig = {
@@ -55,7 +55,7 @@ $('#submit').on('click', function(event){
         $.ajax(requestConfig).then(function(responseMessage){
 
             if (!Array.isArray(responseMessage)){
-                $('#error').append(responseMessage);
+                $('#errorClient').append(responseMessage);
             }
             else{
                 for (let eachName of responseMessage){
@@ -66,7 +66,7 @@ $('#submit').on('click', function(event){
         })
     }
     
-    $('#error').show();
+    $('#errorClient').show();
     $('#resultList').show();
     $('#typedName').val('');
 })
@@ -75,10 +75,14 @@ $('#categoryName').on('change', function(){
 
     $('#resultList').empty();
     $('#resultList').hide();
-    $('#error').hide();
-    $('#error').empty();
+    $('#errorClient').hide();
+    $('#errorClient').empty();
 
-    let category = $('#categoryName').val()
+    let category = $('#categoryName').val();
+
+    if (!category || $('#category option').length === 0){
+        $('#errorClient').append("Please select a category!");
+    }
 
     var requestConfig = {
         method: 'POST',
@@ -91,7 +95,7 @@ $('#categoryName').on('change', function(){
 
     $.ajax(requestConfig).then(function(responseMessage){
         if (!Array.isArray(responseMessage)){
-            $('#error').append(responseMessage);
+            $('#errorClient').append(responseMessage);
         }
         else{
             for (let eachName of responseMessage){
@@ -101,7 +105,7 @@ $('#categoryName').on('change', function(){
             }
         }
     })
-    $('#error').show();
+    $('#errorClient').show();
     $('#resultList').show();
 })
 

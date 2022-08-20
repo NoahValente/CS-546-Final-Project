@@ -12,7 +12,7 @@ router.get('/', async (req, res) =>{
 
 router.post('/browse',  async (req, res) =>{
     
-    console.log("testing")
+    
     try {
         let category = req.body.category;
         businessList = await businessData.findBusinessByCategory(category); 
