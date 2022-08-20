@@ -28,7 +28,7 @@ router.post('/search',  async (req, res) =>{
 
     try {
         let name = req.body.name;  
-        if (!name || typeof name !== 'string' || name.trim().length === 0) throw `Input must be a non-empty string`;
+        if (!name) throw "Please enter a business name";
         businessList = await businessData.findBusinessByName(name); 
         res.send(businessList); 
     } catch (e) {

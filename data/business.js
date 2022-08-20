@@ -66,7 +66,7 @@ module.exports = {
     },
 
     async findBusinessByName(username) {
-        if (!username || typeof username !== 'string' || username.trim().length === 0) throw `Input must be a non-empty string`;
+        if (!username) throw "Please enter a business name";
         const businessCollection = await businesses();
         username = username.toLowerCase();
         const business = await businessCollection.findOne( {username: username});
