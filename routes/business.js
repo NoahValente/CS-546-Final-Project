@@ -33,12 +33,12 @@ router.get('/:businessid', async (req, res) =>{
 }); 
 
 router.get('/post/:postid',  async (req, res) =>{
+    let postid = req.params.postid; 
     let isBusiness = false;
     if (req.session.account_type && req.session.account_type === 'Business'){
         isBusiness = true;
     }
     try {
-        let postid = req.params.postid; 
         postid = validation.checkId(postid);
         let post = await postData.getPostById(postid); 
         res.render('business/post', {title: 'Post Details', post: post, postid:postid, hasError: false, isBusiness: isBusiness, hasMessage:false});
@@ -58,11 +58,11 @@ router.get('/:businessid/review',  async (req, res) =>{
         } else if (req.session.account_type != "User") {
             res.redirect(`/business/${businessid}`);
         }
-        let business = await businessData.getBusinessById(businessid); 
         businessid = validation.checkId(businessid);
+        let business = await businessData.getBusinessById(businessid); 
         res.render('business/review', {title: 'Write a Review', business: business, hasError: false, hasMessage:false, hasMessage:false});
     } catch (e) {
-        res.render('business/review', {title: 'Write a Review', hasError: true, error: e});
+        res.render('explore/explore', {title: 'Explore', hasError: true, hasMessage: false, error: e});
         res.status(400);
     }
 }); 
@@ -117,7 +117,7 @@ router.get('/:businessid/new',  async (req, res) =>{
         }
         res.render('business/new', {title: 'New Post', business: business, hasError: false, hasMessage:false});
     } catch (e) {
-        res.render('business/new', {title: 'New Post', hasError: true, error: e, hasMessage:false});
+        res.render('explore/explore', {title: 'Explore', hasError: true, hasMessage: false, error: e});
         res.status(400);
     }
 }); 
@@ -145,7 +145,13 @@ router.post('/:businessid/new',  async (req, res) =>{
         let rating = await reviewData.getAverageRating(reviews);
         res.render('business/index', {title: 'Business Details', business: business, rating: rating, reviews: reviews, posts: postList, hasError: false, isBusiness: true, isUser:false, hasMessage:true, message: "Successfully created new post!"});
     } catch (e) {
-        res.render('business/new', {title: 'New Post', postTitle: postTitle, postImage: postImage, postText: postText, hasError: true, error: e, hasMessage:false});
+        try {
+            businessid = validation.checkId(businessid);
+            let business = await businessData.getBusinessById(businessid); 
+            res.render('business/new', {title: 'New Post', business: business, postTitle: postTitle, postImage: postImage, postText: postText, hasError: true, error: e, hasMessage:false});
+        } catch(e) {
+            res.render('explore/explore', {title: 'Explore', hasError: true, hasMessage: false, error: e});
+        }
         res.status(400);
     }
 }); 
@@ -162,7 +168,7 @@ router.get('/post/:postid/edit',  async (req, res) =>{
         let post = await postData.getPostById(postid); 
         res.render('business/edit', {title: 'Edit Post', post: post, hasError: false, hasMessage:false});
     } catch (e) {
-        res.render('business/edit', {title: 'Edit Post', hasError: true, error: e, hasMessage:false});
+        res.render('explore/explore', {title: 'Explore', hasError: true, hasMessage: false, error: e});
         res.status(400);
     }
 }); 
@@ -183,9 +189,16 @@ router.post('/post/:postid/edit',  async (req, res) =>{
         if (typeof postTitle,postText !== 'string') throw "Post must be a string!";
 
         await postData.editPost(postid, postTitle, postImage, postText); 
-        res.redirect(`/post/${postid}`);
+        let post = await postData.getPostById(postid); 
+        res.render('business/post', {title: 'Post Details', post: post, postid:postid, hasError: false, isBusiness: true, hasMessage:true, message: "Successfully edited post!"});
     } catch (e) {
-        res.render('business/edit', {title: 'Edit Post', postTitle:postTitle, postImage:postImage, postText:postText, hasError: true, error: e, hasMessage:false});
+        try {
+            postid = validation.checkId(postid);
+            let post = await postData.getPostById(postid); 
+            res.render('business/edit', {title: 'Edit Post', post: post, postTitle:postTitle, postImage:postImage, postText:postText, hasError: true, error: e, hasMessage:false});
+        } catch(e) {
+            res.render('explore/explore', {title: 'Explore', hasError: true, hasMessage: false, error: e});
+        }
         res.status(400);
     }
 }); 
@@ -200,7 +213,7 @@ router.post('/post/:postid/delete',  async (req, res) =>{
         }
         postid = validation.checkId(postid);
         await postData.deletePost(req.session.user, postid); 
-        res.redirect(`/post/${postid}`);
+        res.render('explore/explore', {title: 'Explore', hasError: false, hasMessage: true, message: "Successfully deleted post!"});
     } catch (e) {
         res.render('business/edit', {title: 'Edit Post', hasError: true, error: e, hasMessage:false});
         res.status(400);
