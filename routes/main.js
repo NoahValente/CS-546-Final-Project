@@ -178,7 +178,7 @@ router.get('/', async (req, res) => {
     if (!req.session.account_type) {
       res.redirect('/login');
     } else {
-      res.render('main/logout', {title: "Logged Out", name: req.session.user, hasError: false, hasMessage:false});
+      res.render('main/logout', {title: "Logged Out", name: req.session.user, isUser:false, isBusiness:false, hasError: false, hasMessage:false});
       req.session.destroy();
     }
   });
