@@ -7,12 +7,11 @@ router.get('/', async (req, res) =>{
     if(!req.session.user){
         res.redirect('/login');
     }
-    res.render('explore/explore', {title: 'Explore', hasError: false});
+    res.render('explore/explore', {title: 'Explore', hasError: false, hasMessage:false});
 }); 
 
 router.post('/browse',  async (req, res) =>{
     
-    console.log("testing")
     try {
         let category = req.body.category;
         if (!category) throw "Please enter a category";
