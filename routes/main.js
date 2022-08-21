@@ -149,6 +149,7 @@ router.get('/', async (req, res) => {
             if (check.authenticated === true) {
                 req.session.user = username;
                 req.session.account_type = 'Business';
+                req.session.businessid = check.id;
               } 
               res.redirect('/explore');
         }

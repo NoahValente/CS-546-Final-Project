@@ -54,7 +54,7 @@ module.exports = {
         try { correctPW = await bcrypt.compare(password, hashedPW); } catch(e) {}
 
         if (!correctPW) {throw "Username or password is invalid";}
-        else {return {authenticated: true}; }
+        else {return {authenticated: true, id: business._id}; }
     },
 
     async findBusinessByCategory(category) {
