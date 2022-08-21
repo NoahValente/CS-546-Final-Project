@@ -13,6 +13,7 @@ router.get('/', async (req, res) =>{
         let accountSetting;
         if (!req.session.account_type){
             res.redirect('/login');
+            return;
         } else if (req.session.account_type === 'User'){
             isUser = true;
             accountSetting = await userData.findUserByName(req.session.user); 
@@ -25,7 +26,7 @@ router.get('/', async (req, res) =>{
         }
         res.render('account/editAccount', {title: "Edit Account", accountType: req.session.account_type, default: accountSetting, isBusiness: isBusiness, isUser: isUser, hasError: false, hasMessage:false});
     } catch (e) {
-        res.render('account/editAccount', {title: "Edit Account", isBusiness: false, isUser: false, hasError: true, error: e, hasMessage:false});
+        res.render('explore/explore', {title: 'Explore', hasError: true, hasMessage: false, error: e});
         res.status(400);
     }
     
@@ -34,8 +35,8 @@ router.get('/', async (req, res) =>{
 router.post('/user',  async (req, res) =>{
     try {
         let changes = req.body;
-        if (!changes || !changes.preferences || changes.preferences.length == 0) throw "Please select at least 1 preferences!"
-        if (changes.preferences.length>5) throw "Please select up to only 5 preferences!"
+        if (!changes || !changes.preferences || changes.preferences.length == 0) throw "Please select at least 1 preferences!";
+        if (changes.preferences.length>5) throw "Please select up to only 5 preferences!";
         await userData.updateUserData(req.session.user, changes.preferences); 
         res.render('explore/explore', {title: 'Explore', hasError: false, hasMessage: true, message: "Successfully changed settings."});
     } catch (e) {
@@ -52,8 +53,8 @@ router.post('/user',  async (req, res) =>{
 router.post('/business',  async (req, res) =>{
     try {
         let changes = req.body;
-        if (!changes || !changes.businessType || changes.businessType.length == 0) throw "Please select at least 1 category!"
-        if (changes.businessType.length>5) throw "Please select up to only 5 categories!"
+        if (!changes || !changes.businessType || changes.businessType.length == 0) throw "Please select at least 1 category!";
+        if (changes.businessType.length>5) throw "Please select up to only 5 categories!";
         await businessData.updateBusinessData(req.session.user, changes.businessType); 
         res.render('explore/explore', {title: 'Explore', hasError: false, hasMessage: true, message: "Successfully changed settings."});
     } catch (e) {
