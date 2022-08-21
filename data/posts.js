@@ -63,7 +63,7 @@ module.exports = {
         if (!title) throw "Please enter a title!"
         if(!image) throw "Please enter image URL!"
         if (!postText) throw "Please write something to post!"
-        if (typeof title, date, image, postText !== 'string') throw "Post must be a string!";
+        if (typeof title, image, postText !== 'string') throw "Post must be a string!";
 
         // just update the fields in the post database, id and business name all stay the same.
         const postCollection = await posts();

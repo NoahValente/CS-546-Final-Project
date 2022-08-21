@@ -7,11 +7,10 @@ router.get('/', async (req, res) =>{
     if(!req.session.user){
         res.redirect('/login');
     }
-    res.render('explore/explore', {title: 'Explore', hasError: false});
+    res.render('explore/explore', {title: 'Explore', hasError: false, hasMessage:false});
 }); 
 
 router.post('/browse',  async (req, res) =>{
-    
     
     try {
         let category = req.body.category;
