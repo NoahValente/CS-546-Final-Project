@@ -4,14 +4,38 @@
         <link rel="stylesheet" type="text/css" href="public/css/main.css">
     </head>  
     <body>
-        <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
-        crossorigin="anonymous"></script>  
-        {{#if hasError}}
-        <p class="error" id="error">{{error}}</p>
-        {{/if}}
-        {{#if hasMessage}}
-        <p class="message">{{message}}</p>
-        {{/if}}
-        {{{body}}} 
+        <header> 
+            <nav>
+                {{#if isUser}}  
+                <a class="favorites" href="/favorites">View your favorite businesses</a>  
+                <a class="explore" href="/explore">Explore businesses</a>  
+                <a class="explore" href="/settings">Account settings</a>  
+                {{/if}}
+                {{#if isBusiness}}  
+                <a class="business" href="/business/{{businessId}}">View your business</a>
+                <a class="explore" href="/explore">Explore businesses</a>  
+                <a class="explore" href="/settings">Account settings</a>    
+                {{/if}}
+            </nav>
+         </header>
+        <main>
+            <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+            crossorigin="anonymous"></script>  
+            {{#if hasError}}
+            <p class="error" id="error">{{error}}</p>
+            {{/if}}
+            {{#if hasMessage}}
+            <p class="message">{{message}}</p>
+            {{/if}}
+            {{{body}}} 
+        </main>
+        <footer>
+            {{#if isUser}}
+            <a class="smallBizReviews" href="https://docs.google.com/forms/d/e/1FAIpQLScVE6PlyuTeG65_0Q_gbwQjSLg0P7wjaGY2Tm6AmMWSIl9NbQ/viewform?usp=sf_link">Please review our website!</a> 
+            {{/if}} 
+            {{#if isBusiness}}
+            <a class="smallBizReviews" href="https://docs.google.com/forms/d/e/1FAIpQLScVE6PlyuTeG65_0Q_gbwQjSLg0P7wjaGY2Tm6AmMWSIl9NbQ/viewform?usp=sf_link">Please review our website!</a> 
+            {{/if}} 
+        </footer>
     </body>
 <html>    
