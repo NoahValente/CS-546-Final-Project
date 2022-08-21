@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const data = require('../data');
 const businessData = data.business;
+const userData = data.users;
 const postData = data.posts;
 const reviewData = data.reviews;
 const validation = data.validation;
@@ -18,7 +19,7 @@ router.get('/:businessid', async (req, res) =>{
         let rating = await reviewData.getAverageRating(reviews); // use reviews to compute average rating. is 0 for no reviews.
         res.render('business/index', {title: 'Business Details', business: business, rating: rating, reviews: reviews, posts: postList, hasError: false, hasMessage:false});
     } catch (e) {
-        res.render('business/index', {title: 'Business Details', hasError: true, error: e, hasMessage:false});
+        res.render('explore/explore', {title: 'Explore', hasError: true, hasMessage: false, error: e});
         res.status(400);
     }
 }); 
@@ -30,7 +31,7 @@ router.get('/post/:postid',  async (req, res) =>{
         let post = await postData.getPostById(postid); 
         res.render('business/post', {title: 'Post Details', post: post, postid:postid, hasError: false, hasMessage:false});
     } catch (e) {
-        res.render('business/post', {title: 'Post Details', hasError: true, error: e, hasMessage:false});
+        res.render('explore/explore', {title: 'Explore', hasError: true, hasMessage: false, error: e});
         res.status(400);
     }
 });
@@ -144,6 +145,36 @@ router.post('/:businessid/new',  async (req, res) =>{
             res.render('explore/explore', {title: 'Explore', hasError: true, hasMessage: false, error: e});
         }
         res.status(400);
+    }
+}); 
+
+router.post('/:businessid/favorite',  async (req, res) =>{
+    let businessid = req.params.businessid; 
+    try {
+        businessid = validation.checkId(businessid);
+        if (!req.session.account_type || req.session.account_type === "Business"){
+            res.redirect(`/business/${businessid}`);
+        } else {
+            let business = await businessData.getBusinessById(businessid); 
+            await userData.addToFavorite(req.session.user, business.username); 
+            // reload business page with updated info
+            let postList = await postData.getAllPostByBusiness(business.username);
+            let reviews = await reviewData.getReviewsByBusinessName(business.username);
+            let rating = await reviewData.getAverageRating(reviews);
+            res.render('business/index', {title: 'Business Details', business: business, rating: rating, reviews: reviews, posts: postList, hasError: false, hasMessage:true, message: "Successfully added business to favorites!"});
+        }
+    } catch (e) {
+        try {
+            // show error on business page if possible
+            let business = await businessData.getBusinessById(businessid); 
+            let postList = await postData.getAllPostByBusiness(business.username);
+            let reviews = await reviewData.getReviewsByBusinessName(business.username);
+            let rating = await reviewData.getAverageRating(reviews);
+            res.render('business/index', {title: 'Business Details', business: business, rating: rating, reviews: reviews, posts: postList, hasError: true, hasMessage:false, e: e});
+        } catch(e) {
+            res.render('explore/explore', {title: 'Explore', hasError: true, hasMessage: false, error: e});
+        }
+        res.status(500);
     }
 }); 
 
