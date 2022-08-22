@@ -8,9 +8,6 @@ router.get('/', async (req, res) =>{
 }); 
 
 router.post('/browse',  async (req, res) =>{
-    if(!req.session.user){
-        res.redirect('/login');
-    }
     try {
         let category = req.body.category;
         if (!category) throw "Please enter a category";
@@ -22,9 +19,6 @@ router.post('/browse',  async (req, res) =>{
 }); 
 
 router.post('/search',  async (req, res) =>{
-    if(!req.session.user){
-        res.redirect('/login');
-    }
     try {
         const businessName = req.body.businessName;
         if (!businessName) throw "Please enter a business name";
