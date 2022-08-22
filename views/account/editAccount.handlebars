@@ -1,3 +1,4 @@
+<link rel="stylesheet" type="text/css" href="/public/css/loginAndSignup.css">
 <h1>Edit Account Settings</h1>
 <div>
     <form name = "editForm" id = "editForm" method = "Post" action="/settings/{{accountType}}" class="form">
@@ -10,16 +11,19 @@
       <div>
         <label class="label" for="firstName">First Name:</label>
         <input name="firstName" id = "firstName" type="text" class="input" placeholder="First name" value="{{default.firstName}}" disabled>
+        <br><br>
       </div>
  
       <div>
         <label class="label" for="lastName">Last Name:</label>
         <input name="lastName" id = "lastName" type="text" class="input" placeholder="Last name" value="{{default.lastName}}" disabled>
+        <br><br>
       </div>
  
       <div>
         <label class="label" for="email">Email:</label>
         <input name= "email" id = "email" type="email" class="input" placeholder="Email" value="{{default.email}}" disabled>
+        <br><br>
       </div>
 
       <div>
@@ -27,11 +31,13 @@
         <select name="state" id="state" disabled>
             <option value="none" selected>{{default.state}}</option>
         </select>
+        <br><br>
       </div>
  
       <div>
         <label for = "city">City:</label>    
         <input type="text" name="city" id="city" placeholder="City" value="{{default.city}}" disabled>   
+        <br><br>
       </div>
 
         {{#if isUser}}
@@ -40,11 +46,13 @@
         <select name="gender" id="gender" disabled>
             <option value="none" selected>{{default.gender}}</option>
         </select>
+        <br><br>
       </div>
 
       <div class="userFields">
         <label for = "age" >Age:</label>
         <input type="number" name = "age" min ="13" max = "99" class="input" placeholder="Age" id = "age" value="{{default.age}}" disabled>
+        <br><br>
       </div>
 
       <div class="userFields">
@@ -62,6 +70,7 @@
           <option value="Food">Food</option>
           <option value="Sports">Sports</option>
         </select>
+        <br><br>
       </div>
       {{/if}}
 
@@ -81,6 +90,7 @@
           <option value="Food">Food</option>
           <option value="Sports">Sports</option>
         </select>
+        <br><br>
       </div>
       {{/if}}
 

@@ -1,18 +1,8 @@
-h1 {
+.search{
     text-align: center;
     color: #AC3B61;
-    font-size:50px;
     font-weight: 100; 
-    letter-spacing: 5px;
-}
-
-.centeredTypeSelection {
     margin-top:50px;
-    text-align: center;
-}
-
-.title{
-    margin-top:-15px;
 }
 
 label {
@@ -25,6 +15,19 @@ input, select, button {
     background-color:#bc919f;
 }
 
-form {
+.searchTypeOption {
+    margin-bottom:20px;
+}
+
+ul {
     text-align: center;
+    list-style: none;
+}
+
+#resultList a,a:visited{
+    text-decoration: none;
+}
+
+#resultList a:hover {
+    color: #123D6A;
 }
