@@ -1,15 +1,27 @@
+<<<<<<< HEAD
 (function ($) {
 
     const error = $('#errorClient');
+=======
+// there will be a dropdown on sign-up page that changes between user/business sign-up forms
+// upon dropdown change, the page will render different questions needed to sign-up for different accounts
+
+(function ($) {
+>>>>>>> a5d6b2ddc14cf352ab4cb79159b2e143913d5acc
     const dropdown =  document.getElementById('userType');
     const form = document.getElementById('signupForm');
     const heading = document.getElementById('formHeading');
     const userFields = document.getElementsByClassName('userFields');
     const businessFields = document.getElementsByClassName('businessFields');
+<<<<<<< HEAD
 
     dropdown.addEventListener('change', function() {
         error.hide();
         $('#error').hide();
+=======
+    
+    dropdown.addEventListener('change', function() {
+>>>>>>> a5d6b2ddc14cf352ab4cb79159b2e143913d5acc
         if (this.value === "User") {
             form.hidden = false;
             form.setAttribute("action", "/signup/user");
@@ -39,8 +51,11 @@
         }
     })
     $(document).ready(function() {
+<<<<<<< HEAD
         
         error.hide();
+=======
+>>>>>>> a5d6b2ddc14cf352ab4cb79159b2e143913d5acc
         // On refresh check if there are values selected
         if (localStorage.userType) {
                 // Select the value stored
@@ -92,17 +107,24 @@
     
     // On change store the value
     $('#userType').on('change', function(){
+<<<<<<< HEAD
         //error.hide();
+=======
+>>>>>>> a5d6b2ddc14cf352ab4cb79159b2e143913d5acc
         var currentVal = $(this).val();
         localStorage.setItem('userType', currentVal );
     });
 
     $('#gender').on('change', function(){
+<<<<<<< HEAD
         //error.hide();
+=======
+>>>>>>> a5d6b2ddc14cf352ab4cb79159b2e143913d5acc
         var currentVal = $(this).val();
         localStorage.setItem('gender', currentVal );
     });
     $('#state').on('change', function(){
+<<<<<<< HEAD
         //error.hide();
         var currentVal = $(this).val();
         localStorage.setItem('state', currentVal );
@@ -154,5 +176,11 @@
             
         }  
     });
+=======
+        var currentVal = $(this).val();
+        localStorage.setItem('state', currentVal );
+    });
+>>>>>>> a5d6b2ddc14cf352ab4cb79159b2e143913d5acc
     
 })(window.jQuery);
+  

@@ -83,8 +83,8 @@ $('#categoryName').on('change', function(){
 
     $('#resultList').empty();
     $('#resultList').hide();
-    $('#errorClient').hide();
-    $('#errorClient').empty();
+    $('#error').hide();
+    $('#error').empty();
 
     let category = $('#categoryName').val();
 
@@ -106,7 +106,7 @@ $('#categoryName').on('change', function(){
 
     $.ajax(requestConfig).then(function(responseMessage){
         if (!Array.isArray(responseMessage)){
-            $('#errorClient').append(responseMessage);
+            $('#error').append(responseMessage);
         }
         else{
             for (let eachName of responseMessage){
@@ -116,7 +116,7 @@ $('#categoryName').on('change', function(){
             }
         }
     })
-    $('#errorClient').show();
+    $('#error').show();
     $('#resultList').show();
 })
 

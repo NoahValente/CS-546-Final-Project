@@ -5,7 +5,6 @@ const userData = data.users;
 const businessData = data.business;
 const validation = data.validation;
 
-//TODO: ADD FAVOURITE ROUTE
 router.get('/', async (req, res) => {
     if (req.session.user) {
       res.redirect('/explore');
@@ -16,7 +15,7 @@ router.get('/', async (req, res) => {
   
   router.get('/signup', async (req, res) => {
     if (!req.session.account_type) {
-        res.render('main/signup', {title: "Sign Up", hasError: false, hasMessage:false});
+      res.render('main/signup', {title: "Sign Up", hasError: false, hasMessage:false});
     } else {
       res.redirect('/explore');
     }
@@ -123,7 +122,7 @@ router.get('/', async (req, res) => {
 
   router.get('/login', async (req, res) => {
     if (!req.session.account_type) {
-        res.render('main/login', {title: "Log In", hasError: false, hasMessage:false});
+      res.render('main/login', {title: "Log In", hasError: false, hasMessage:false});
     } else {
       res.redirect('/explore');
     }
@@ -149,6 +148,7 @@ router.get('/', async (req, res) => {
             if (check.authenticated === true) {
                 req.session.user = username;
                 req.session.account_type = 'Business';
+                req.session.businessid = check.id;
               } 
               res.redirect('/explore');
         }
@@ -174,19 +174,30 @@ router.get('/', async (req, res) => {
   });
   
   router.get('/logout', async (req, res) => {
-    res.render('main/logout', {title: "Logged Out", name: req.session.user, hasError: false, hasMessage:false});
-    req.session.destroy();
+    if (!req.session.account_type) {
+      res.redirect('/login');
+    } else {
+      res.render('main/logout', {title: "Logged Out", name: req.session.user, isUser:false, isBusiness:false, hasError: false, hasMessage:false});
+      req.session.destroy();
+    }
   });
 
   router.get('/favorites', async (req, res) => {
     if (!req.session.account_type){
       res.redirect('/login');
-    }
-    if (req.session.account_type == 'Business'){
+    } else if (req.session.account_type == 'Business'){
       res.redirect('/explore');
+    } else {
+      try {
+        let business = await userData.getFavorites(req.session.user); 
+        res.render('main/favorites', {title: "Favorites", business: business, username: req.session.user, hasError: false, hasMessage:false});
+      } catch(e) {
+        res.render('explore/explore', {title: 'Explore', hasError: true, hasMessage: false, error: e});
+        res.status(400);
+        return;
+      }
     }
-    let business = await userData.getFavorites(req.session.user); 
-    res.render('main/favorites', {title: "Favorites", business: business, username: req.session.user, hasError: false, hasMessage:false});
+    
   });
   
   module.exports = router;

@@ -1,20 +1,30 @@
 <!DOCTYPE html>    
     <head>    
         <title>{{title}}</title>    
-        <link rel="stylesheet" type="text/css" href="/public/css/main.css">
+        <link rel="stylesheet" type="text/css" href="public/css/main.css">
     </head>  
     <body>
         <header> 
             <nav>
+                {{#unless isUser}}
+                    {{#unless isBusiness}}
+                    <a class="home" href="/">Home</a>
+                    <a class="small-link" href="/login">Login</a>
+                    <a class="big-link" href="/signup">Sign Up</a>
+                    <a class="explore" href="/explore">Explore</a>
+                    {{/unless}}
+                {{/unless}}
                 {{#if isUser}}  
                 <a class="favorites" href="/favorites">View your favorite businesses</a>  
                 <a class="explore" href="/explore">Explore businesses</a>  
-                <a class="explore" href="/settings">Account settings</a>  
+                <a class="settings" href="/settings">Account settings</a>  
+                <a class="logout" href="/logout">Logout</a>
                 {{/if}}
                 {{#if isBusiness}}  
                 <a class="business" href="/business/{{businessId}}">View your business</a>
                 <a class="explore" href="/explore">Explore businesses</a>  
-                <a class="explore" href="/settings">Account settings</a>    
+                <a class="settings" href="/settings">Account settings</a>  
+                <a class="logout" href="/logout">Logout</a>
                 {{/if}}
             </nav>
          </header>
