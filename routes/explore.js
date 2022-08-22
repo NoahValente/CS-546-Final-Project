@@ -4,10 +4,7 @@ const data = require('../data');
 const businessData = data.business;
 
 router.get('/', async (req, res) =>{
-    if(!req.session.user){
-        res.redirect('/login');
-    }
-    res.render('explore/explore', {title: 'Explore', businessPresent:false, hasError: false});
+    res.render('explore/explore', {title: 'Explore', hasError: false, hasMessage:false});
 }); 
 
 router.post('/browse',  async (req, res) =>{

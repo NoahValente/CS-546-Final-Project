@@ -4,12 +4,12 @@
     <form id="review" method="post" action="/business/{{business._id}}/review">
         <div class="slidecontainer">
             <label for="ratingRange">Please rate {{business.username}}</label>
-            <input type="range" min="1" max="10" value="{{ratingRange}}" id="ratingRange" name="ratingRange">
+            <input type="range" min="1" max="10" value="5" id="ratingRange" name="ratingRange">
             <p>Value: <span id="ratingValue"></span></p>
         </div>
-        <label for = "reviewText" value="{{reviewText}}">Please write your review</label>
+        <label for = "reviewText">Please write your review</label>
         
-        <input type="text" id="reviewText" maxlength="500" placeholder="Review Text" name="reviewText" class="bigText">
+        <input type="text" id="reviewText" maxlength="500" placeholder="Review Text" name="reviewText" class="bigText"  value="{{reviewText}}">
         <button type="submit" id="submit">Submit</button>
     </form>
     <script src="/public/js/validation.js"></script>

@@ -1,11 +1,12 @@
 <!DOCTYPE html>    
+<html lang="en">
     <head>    
         <title>{{title}}</title>    
         <link rel="stylesheet" type="text/css" href="public/css/main.css">
     </head>  
     <body>
-        <header> 
-            <nav>
+        <header class = "header"> 
+            <nav class = "navigation">
                 {{#unless isUser}}
                     {{#unless isBusiness}}
                     <a class="home" href="/">Home</a>
@@ -48,4 +49,4 @@
             {{/if}} 
         </footer>
     </body>
-<html>    
+</html>   
