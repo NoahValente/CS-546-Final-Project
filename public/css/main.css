@@ -1,16 +1,6 @@
 body {
-    background-image: url('smallBiz_background.jpeg');
+    background-image: url('smallBizBackground.jpeg');
     background-size: cover;
-}
-
-body::before {
-    content: "";
-    position: absolute;
-    top: 0px;
-    right: 0px;
-    bottom: 0px;
-    left: 0px;
-    background-color: rgba(0,0,0,0.75);
 }
 
 .homeTitle {
@@ -23,9 +13,10 @@ body::before {
     top: 50%;
     width: 100%;
     color: #AC3B61;
-    font-family:fantasy;
+    font-family:"Playfair Display";
     font-size:100px;
-    
+    font-weight: 100; 
+    letter-spacing: 10px;
 }
 
 .header{
@@ -36,7 +27,7 @@ body::before {
 }
 
 .navigation a,a:visited{
-    font-family:fantasy;
+    font-family:"Playfair Display";
     color: rgb(172, 59, 97);
     padding-inline:7%;
     text-decoration: none;
