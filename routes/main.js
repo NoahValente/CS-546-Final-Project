@@ -149,6 +149,7 @@ router.get('/', async (req, res) => {
             if (check.authenticated === true) {
                 req.session.user = username;
                 req.session.account_type = 'Business';
+                req.session.businessid = check.id;
               } 
               res.redirect('/explore');
         }
@@ -177,7 +178,7 @@ router.get('/', async (req, res) => {
     if (!req.session.account_type) {
       res.redirect('/login');
     } else {
-      res.render('main/logout', {title: "Logged Out", name: req.session.user, hasError: false, hasMessage:false});
+      res.render('main/logout', {title: "Logged Out", name: req.session.user, isUser:false, isBusiness:false, hasError: false, hasMessage:false});
       req.session.destroy();
     }
   });
