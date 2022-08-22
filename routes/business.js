@@ -87,7 +87,7 @@ router.post('/:businessid/review',  async (req, res) =>{
         try {
             businessid = validation.checkId(businessid);
             let business = await businessData.getBusinessById(businessid); 
-            res.render('business/review', {title: 'Write a Review', business: business, ratingRange: ratingRange, reviewText: reviewText, hasError: true, error: e, hasMessage:false});
+            res.render('business/review', {title: 'Write a Review', business: business, reviewText: reviewText, hasError: true, error: e, hasMessage:false});
         } catch(e){
             res.render('explore/explore', {title: 'Explore', hasError: true, hasMessage: false, error: e});
         }
