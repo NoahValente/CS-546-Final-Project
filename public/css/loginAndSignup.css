@@ -22,6 +22,9 @@ label {
     padding-right: 10px;
 }
 
+input, select, button {
+    background-color:#bc919f;
+}
 form {
     text-align: center;
 }
