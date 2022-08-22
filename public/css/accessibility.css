@@ -1,5 +1,20 @@
 option:disabled, option:checked:disabled {
     color: #666666;
-    background: #ffffff;
 }
 
+a, a:visited, h1, label {
+    color: #D0677E;
+}
+
+footer a:hover, .header a:hover, #resultList a:hover {
+    color: #edc7b7;
+}
+
+input, select, button {
+    background-color: #eee2dc;
+    color: #123D6A;
+}
+
+#error, #errorClient {
+    color: #F94E4E;
+}
