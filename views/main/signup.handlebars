@@ -1,4 +1,5 @@
   <!-- THIS IS THE SELECTION OF TYPE-->
+  <p id="errorClient" hidden></p>
   <label for="userType">I am a: </label>
   <select name="userType" id="userType">
       <option value="none" disabled selected >Select an option</option>
@@ -13,24 +14,24 @@
       <h1 class="title" id="formHeading">User Sign Up</h1>
 
         <label for = "username">Username:</label>    
-            <input type="text" name="username" id="username" placeholder="Username" value={{username}}>    
+            <input type="text" name="username" id="username" maxlength="20" placeholder="Username" value={{username}}>    
         <br><br>    
         <label for = "password">Password:</label>    
-            <input type="password" name="password" id="password" placeholder="Password" value={{password}}>    
+            <input type="password" name="password" id="password" maxlength="20" placeholder="Password" value={{password}}>    
         <br><br>
       <div>
         <label class="label" for="firstName">First Name:</label>
-        <input name="firstName" id = "firstName" type="text" class="input" placeholder="First name" value={{firstName}}>
+        <input name="firstName" id = "firstName" type="text" class="input" maxlength="20" placeholder="First name" value={{firstName}}>
       </div>
  
       <div>
         <label class="label" for="lastName">Last Name:</label>
-        <input name="lastName" id = "lastName" type="text" class="input" placeholder="Last name" value="{{lastName}}">
+        <input name="lastName" id = "lastName" type="text" class="input" maxlength="20" placeholder="Last name" value="{{lastName}}" >
       </div>
  
       <div>
         <label class="label" for="email">Email:</label>
-        <input name= "email" id = "email" type="email" class="input" placeholder="Email" value={{email}}>
+        <input name= "email" id = "email" type="email" class="input" maxlength="20" placeholder="Email" value={{email}} >
       </div>
  
       <div class="userFields" hidden disabled>
@@ -105,7 +106,7 @@
  
       <div>
         <label for = "city">City:</label>    
-        <input type="text" name="city" id="city" placeholder="City" value={{city}}>   
+        <input type="text" name="city" id="city" maxlength="20" placeholder="City" value={{city}}>   
       </div>
 
       <div class="userFields" hidden disabled>
@@ -116,7 +117,7 @@
       <div class="userFields" hidden disabled>
         <label name="preferences" for="preferences">Preferences</label>
         <select name="preferences[]" id="preferences" multiple size = "5" >
-          <option value="" disabled selected >Select your preferences</option>
+          <option value="none" disabled selected >Select your preferences</option>
           <option value="Entertainment & Media">Entertainment & Media</option>
           <option value="Convenience">Convenience</option>
           <option value="Freelancing">Freelancing</option>
@@ -133,7 +134,7 @@
       <div class="businessFields" hidden disabled>
         <label name="businessType" for="businessType">Business Type</label>
         <select name="businessType[]" id="businessType" multiple size = "5">
-          <option value="" disabled selected >Select your business type</option>
+          <option value="none" disabled selected >Select your business type</option>
           <option value="Entertainment & Media">Entertainment & Media</option>
           <option value="Convenience">Convenience</option>
           <option value="Freelancing">Freelancing</option>
@@ -152,4 +153,7 @@
     </form>
   </div>
    
+<a class="small-link" href="/login">If you already have an account, log in here</a>
+<script src="/public/js/validation.js"></script>
 <script src="/public/js/signup.js"></script>
+

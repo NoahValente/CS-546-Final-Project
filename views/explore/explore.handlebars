@@ -1,4 +1,5 @@
 <div>
+    
     <div class="search">
         <div class="searchTypeOption" id="searchTypeOption">
             <label name="searchTypeOption" class="label" for="searchType">Please select how you want to search</label>
@@ -8,13 +9,15 @@
                 <option value="businessType">Search by business type</option>
             </select>
         </div>
-            <form id="searchByName" action="/explore/search" method="POST"  hidden>
+
+            <form id="searchByName" method = "POST" action= "/explore/search" hidden>
                 <label for="typedName">Business Name</label>
-                <input type="text" placeholder="The business name" id="typedName"/>
+                <input type="text" maxlength="20" placeholder="The business name" id="businessName" name="businessName"/>
                 <button type="submit" id="submit">Submit</button>
             </form>
+
             <div id="searchByCategory" hidden>
-                <label for="categoryName">Business Category</label>
+                <lable for="categoryName">Business Category</lable>
                 <select name="category" id="categoryName">
                     <option value="none" disabled selected >Select your business type</option>
                     <option value="Entertainment & Media">Entertainment & Media</option>
@@ -30,7 +33,12 @@
                 </select>
             </div>
     </div>
-        <p id="error" hidden></p>
-        <ul id="resultList" hidden> </ul>
+    <p id="errorClient" hidden></p>
+    <ul id="resultList" hidden>
+        {{#each business}}
+            <li class="favoriteBiz"><a href = "/{{this._id}}"> {{this.username}} </a></li>
+        {{/each}}
+    </ul>
+    <script src="/public/js/validation.js"></script>
     <script src="/public/js/explore.js"></script>
 </div>

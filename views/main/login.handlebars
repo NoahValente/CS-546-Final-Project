@@ -1,5 +1,6 @@
 <!-- Authors @ Cavin & Noah -->
-    <h1>User Login</h1><br>    
+<p id="errorClient" hidden></p>
+<h1>User Login</h1><br>    
 <div class="login">    
     <form id="loginForm" method="Post" action="/login">    
         <label for="userType">I am a: </label>
@@ -10,12 +11,14 @@
         </select>
         <br><br>
         <label for="username"> Username </label>    
-            <input type="text" name="username" id="username" placeholder="Username" value={{username}}>    
+            <input type="text" name="username" id="username" maxlength="20" placeholder="Username" value={{username}}>    
         <br><br>    
         <label for="password"> Password </label>    
-            <input type="password" name="password" id="password" placeholder="Password" value={{password}}>    
+            <input type="password" name="password" id="password" maxlength="20" placeholder="Password" value={{password}}>    
         <br><br>
         <button name="login" id="loginButton" value="Log In">Submit</button>       
     </form>
+    <a class="big-link" href="/signup">Sign up here if you don't have an account</a>
+    <script src="/public/js/validation.js"></script>
     <script src="/public/js/login.js"></script>
 </div>

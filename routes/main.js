@@ -24,7 +24,6 @@ router.get('/', async (req, res) => {
   router.post('/signup/user', async (req, res) => {
     const {firstName, lastName, email, username, gender, city, state, age, password, preferences} = req.body;
     try {
-
       validation.validateUserAndBusinessInput(firstName, lastName, email, username, city, state, password);
       if (!gender) throw "Please select a dropdown from gender";
       if (!age) throw "Please select your age";
