@@ -38,7 +38,7 @@ body {
 }
 
 #errorClient {
-    margin-top: -10px;
+    position:relative;
     text-align: center;
     font-style: italic;
     color:red;
@@ -49,4 +49,20 @@ body {
     text-align: center;
     font-style: italic;
     color:red;
+}
+
+footer a,a:visited{
+    color: rgb(172, 59, 97);
+    font-size:20px;
+    position:absolute;
+    text-decoration: none;
+    top:0%;
+    width:100%;
+    padding-top: 10px;
+    padding-bottom:10px;
+    font-size:15px;
+}
+
+footer a:hover {
+    color: #123D6A;
 }
