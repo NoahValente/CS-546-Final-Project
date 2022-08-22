@@ -3,6 +3,7 @@ body {
     background-color: #261A1A;
     background-image: url('smallBizBackground.jpeg');
     background-size: cover;
+    color:#D0677E;
 }
 
 .homeTitle {
@@ -14,7 +15,6 @@ body {
     text-align: center;
     top: 50%;
     width: 100%;
-    color: #AC3B61;
     font-size:100px;
     font-weight: 100; 
     letter-spacing: 10px;
@@ -61,9 +61,14 @@ footer a,a:visited{
     width:100%;
     padding-top: 10px;
     padding-bottom:10px;
+    padding-left: 10px;
     font-size:15px;
 }
 
 footer a:hover {
     color: #123D6A;
+}
+.message {
+    text-align: center;
+    color:green;
 }

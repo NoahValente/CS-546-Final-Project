@@ -25,6 +25,7 @@ ul {
 }
 
 #resultList a,a:visited{
+    text-align: center;
     text-decoration: none;
 }
 

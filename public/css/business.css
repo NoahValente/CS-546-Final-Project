@@ -1,0 +1,72 @@
+.rating h2{
+    font-weight: 100; 
+    letter-spacing: 3px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.show-post h3 {
+    font-size: 30px;
+    margin-top:10%;
+}
+
+
+.show-post h3,li {
+    font-weight: 100; 
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+    text-align: left;
+    margin-left: 15%;
+    margin-right: 50%;
+}
+
+.show-post a,a:visited{
+    text-decoration: none;
+}
+
+.show-post a,a:hover{
+    text-decoration: none;
+}
+
+.show-reviews h3 {
+    font-size: 30px;
+    margin-top:-10%;
+    font-weight: 100; 
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+    margin-left: 60%;
+    text-align: left;
+}
+.show-reviews li{
+    font-weight: 100; 
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+    margin-left: 60%;
+    margin-right: 5%;
+    text-align: left;
+
+}
+
+.post {
+    text-align: center;
+}
+
+.actions {
+    text-align: center;
+}
+
+.actions a,a:visited{
+    text-decoration: none;
+}
+
+.actions button {
+    font-family:"Playfair Display";
+    color:#D0677E;
+    padding-top: 10px;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    border: none;
+    cursor: pointer;
+    overflow: hidden;
+    outline: none;
+}
