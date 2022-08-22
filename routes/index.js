@@ -11,7 +11,8 @@ const constructorMethod = (app) => {
   app.use('/business', businessRoutes);
 
   app.use('*', (req, res) => {
-    res.sendStatus(404);
+    res.render('explore/explore', {title: 'Explore', hasError: true, hasMessage: false, error: 'Page not found.'});
+    res.status(404);
   });
 };
 

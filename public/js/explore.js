@@ -1,75 +1,83 @@
 (function ($) {
     var searchType = $('#searchType'),
     searchByName = $('#searchByName'), 
-    searchByCategory = $('#searchByCategory')
+    searchByCategory = $('#searchByCategory'),
+    error = $('#errorClient')
 
     $(document).ready(function loadPage(){ 
-        $('#error').hide();
-        $('#error').empty();
-        $('#resultList').hide();
-        $('#searchByName').hide();
-        $('#searchByCategory').hide();
+
+        $('#errorClient').empty();
+        $('#errorClient').hide();
+        $('#error').show();
     })
 
-$('#searchType').on('change', function(){
-   
-    $('#resultList').empty();
-    $('#resultList').hide();
-    $('#error').hide();
-    $('#error').empty();
-    if ((searchType).val() === "name"){
-        $('#searchByCategory').hide();
-        $('#searchByName').show();
-    }
-    else{
-        searchByName.hide();
-        searchByCategory.show();
-    }
-});
+    $('#searchType').on('change', function(){
+
+        error.hide();
+        $('#error').hide();
+
+        $('#resultList').empty();
+        $('#resultList').hide();
+        $('#errorClient').hide();
+        $('#errorClient').empty();
+
+
+        if ((searchType).val() === "name"){
+            
+            $('#searchByCategory').hide();
+            $('#searchByName').show();
+        }
+        else{
+            searchByName.hide();
+            searchByCategory.show();
+        }
+    });
 
 $('#submit').on('click', function(event){
 
     event.preventDefault();
     $('#resultList').empty();
     $('#resultList').hide();
-    $('#error').hide();
-    $('#error').empty();
-    let name = $('#typedName').val();
+    $('#errorClient').hide();
+    $('#errorClient').empty();
+    let businessName = $('#businessName').val();
 
-    if (!name){
-        $('#error').append("Please enter a business name!");
-    }
-    else if (name.trim().length === 0){
-        $('#error').append("Please enter a business name, not just spaces!");
-    }
-    else{
+    try{
+        validateString(businessName, 'business name');
         var requestConfig = {
             method: 'POST',
             url: 'http://localhost:3000/explore/search',
             contentType: 'application/json',
             data: JSON.stringify({
-                name: name
+                businessName: businessName
             })
         };
-    
+
         $.ajax(requestConfig).then(function(responseMessage){
 
             if (!Array.isArray(responseMessage)){
-                $('#error').append(responseMessage);
+                $('#errorClient').append(responseMessage);
+                $('#errorClient').show();
             }
             else{
                 for (let eachName of responseMessage){
                     let link =  $(`<li></li>`).append($(`<a href= http://localhost:3000/business/${eachName._id}></a>`).text(`${eachName.username}`));
                     $('#resultList').append(link); 
                 }
-            }  
+            } 
+            $('#resultList').show(); 
+            $('businessName').val('');
+
         })
+        
     }
-    
-    $('#error').show();
-    $('#resultList').show();
-    $('#typedName').val('');
+    catch(e){
+        $('#errorClient').append(e);
+        $('#errorClient').show();
+    }
 })
+
+
 
 $('#categoryName').on('change', function(){
 
@@ -78,7 +86,14 @@ $('#categoryName').on('change', function(){
     $('#error').hide();
     $('#error').empty();
 
-    let category = $('#categoryName').val()
+    let category = $('#categoryName').val();
+
+    try{
+        checkExploreCategory(category);
+    }
+    catch(e){
+        $('#errorClient').append(e);
+    }
 
     var requestConfig = {
         method: 'POST',

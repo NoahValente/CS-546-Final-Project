@@ -2,48 +2,37 @@ const express = require('express');
 const router = express.Router();
 const data = require('../data');
 const businessData = data.business;
+const userData = data.users;
 const postData = data.posts;
 const reviewData = data.reviews;
 const validation = data.validation;
+//const FileType = require('file-type');
 
 // routes: /business...
 
-//TODO: make sure function names and handlebar parameters are consistent with db and html
 router.get('/:businessid', async (req, res) =>{
     try {
-        let isBusiness = false;
-        let isUser = false;
-        if (req.session.account_type && req.session.account_type === 'Business'){
-            isBusiness = true;
-        }
-        if (req.session.account_type && req.session.account_type === 'User'){
-            isUser = true;
-        }
         let businessid = req.params.businessid; 
         businessid = validation.checkId(businessid);
         let business = await businessData.getBusinessById(businessid); 
         let postList = await postData.getAllPostByBusiness(business.username);
         let reviews = await reviewData.getReviewsByBusinessName(business.username);
         let rating = await reviewData.getAverageRating(reviews); // use reviews to compute average rating. is 0 for no reviews.
-        res.render('business/index', {title: 'Business Details', business: business, rating: rating, reviews: reviews, posts: postList, hasError: false, isBusiness: isBusiness, isUser:isUser, hasMessage:false});
+        res.render('business/index', {title: 'Business Details', business: business, rating: rating, reviews: reviews, posts: postList, hasError: false, hasMessage:false});
     } catch (e) {
-        res.render('business/index', {title: 'Business Details', hasError: true, error: e, hasMessage:false});
+        res.render('explore/explore', {title: 'Explore', hasError: true, hasMessage: false, error: e});
         res.status(400);
     }
 }); 
 
 router.get('/post/:postid',  async (req, res) =>{
     let postid = req.params.postid; 
-    let isBusiness = false;
-    if (req.session.account_type && req.session.account_type === 'Business'){
-        isBusiness = true;
-    }
     try {
         postid = validation.checkId(postid);
         let post = await postData.getPostById(postid); 
-        res.render('business/post', {title: 'Post Details', post: post, postid:postid, hasError: false, isBusiness: isBusiness, hasMessage:false});
+        res.render('business/post', {title: 'Post Details', post: post, postid:postid, hasError: false, hasMessage:false});
     } catch (e) {
-        res.render('business/post', {title: 'Post Details', hasError: true, error: e, hasMessage:false});
+        res.render('explore/explore', {title: 'Explore', hasError: true, hasMessage: false, error: e});
         res.status(400);
     }
 });
@@ -51,6 +40,7 @@ router.get('/post/:postid',  async (req, res) =>{
 // User-only page for creating a review
 // TODO: if edit/delete review is implemented, need to adjust /../review
 router.get('/:businessid/review',  async (req, res) =>{
+    console.log("here")
     let businessid = req.params.businessid; 
     try {
         if (!req.session.account_type){
@@ -69,6 +59,7 @@ router.get('/:businessid/review',  async (req, res) =>{
 }); 
 
 router.post('/:businessid/review',  async (req, res) =>{
+    console.log("here1")
     let businessid = req.params.businessid; 
     const {ratingRange, reviewText} = req.body;
     try {
@@ -89,7 +80,7 @@ router.post('/:businessid/review',  async (req, res) =>{
             let postList = await postData.getAllPostByBusiness(business.username);
             let reviews = await reviewData.getReviewsByBusinessName(business.username);
             let rating = await reviewData.getAverageRating(reviews);
-            res.render('business/index', {title: 'Business Details', business: business, rating: rating, reviews: reviews, posts: postList, hasError: false, isBusiness: false, isUser:true, hasMessage:true, message: "Successfully created new review!"});
+            res.render('business/index', {title: 'Business Details', business: business, rating: rating, reviews: reviews, posts: postList, hasError: false, hasMessage:true, message: "Successfully created new review!"});
         }
     } catch (e) {
         // if there's an error, attempt to show it on review page
@@ -127,6 +118,56 @@ router.get('/:businessid/new',  async (req, res) =>{
 
 router.post('/:businessid/new',  async (req, res) =>{
     let businessid = req.params.businessid; 
+    const {postTitle, postText} = req.body;
+    const {name, data} = req.files.postImage;
+
+    try {
+        businessid = validation.checkId(businessid);
+        if (!req.session.account_type){
+            res.redirect('/login');
+        } else if (req.session.account_type != "Business") {
+            res.redirect(`/business/${businessid}`);
+        }
+        if (!postTitle) throw "Please enter a title for the post!"
+        //if (!postImage) throw "Please enter image URL!"
+        if(!postText) throw "Please enter text for the post!"
+        if (typeof postTitle,postText !== 'string') throw "Post must be a string!";
+
+        if (!name){
+            throw `Please input image`
+        }
+        if (!data){
+            throw `Please input image`
+        }
+        
+        console.log(`Name ${name}`)
+        console.log(`data ${data}`)
+
+        let business = await businessData.getBusinessById(businessid); 
+        await postData.createNewPost(business.username, postTitle, postImage, postText); 
+        // reload business page with updated info
+        let postList = await postData.getAllPostByBusiness(business.username);
+        let reviews = await reviewData.getReviewsByBusinessName(business.username);
+        let rating = await reviewData.getAverageRating(reviews);
+        res.render('business/index', {title: 'Business Details', business: business, rating: rating, reviews: reviews, posts: postList, hasError: false, isBusiness: true, isUser:false, hasMessage:true, message: "Successfully created new post!"});
+    } catch (e) {
+        try {
+            businessid = validation.checkId(businessid);
+            let business = await businessData.getBusinessById(businessid); 
+            res.render('business/new', {title: 'New Post', business: business, postTitle: postTitle, postImage: postImage, postText: postText, hasError: true, error: e, hasMessage:false});
+        } catch(e) {
+            res.render('explore/explore', {title: 'Explore', hasError: true, hasMessage: false, error: e});
+        }
+        res.status(400);
+    }
+});
+
+
+
+
+/*
+router.post('/:businessid/new',  async (req, res) =>{
+    let businessid = req.params.businessid; 
     const {postTitle, postImage, postText} = req.body;
     try {
         businessid = validation.checkId(businessid);
@@ -146,7 +187,7 @@ router.post('/:businessid/new',  async (req, res) =>{
             let postList = await postData.getAllPostByBusiness(business.username);
             let reviews = await reviewData.getReviewsByBusinessName(business.username);
             let rating = await reviewData.getAverageRating(reviews);
-            res.render('business/index', {title: 'Business Details', business: business, rating: rating, reviews: reviews, posts: postList, hasError: false, isBusiness: true, isUser:false, hasMessage:true, message: "Successfully created new post!"});
+            res.render('business/index', {title: 'Business Details', business: business, rating: rating, reviews: reviews, posts: postList, hasError: false, hasMessage:true, message: "Successfully created new post!"});
         }
     } catch (e) {
         try {
@@ -157,6 +198,36 @@ router.post('/:businessid/new',  async (req, res) =>{
             res.render('explore/explore', {title: 'Explore', hasError: true, hasMessage: false, error: e});
         }
         res.status(400);
+    }
+}); */
+
+router.post('/:businessid/favorite',  async (req, res) =>{
+    let businessid = req.params.businessid; 
+    try {
+        businessid = validation.checkId(businessid);
+        if (!req.session.account_type || req.session.account_type === "Business"){
+            res.redirect(`/business/${businessid}`);
+        } else {
+            let business = await businessData.getBusinessById(businessid); 
+            await userData.addToFavorite(req.session.user, business.username); 
+            // reload business page with updated info
+            let postList = await postData.getAllPostByBusiness(business.username);
+            let reviews = await reviewData.getReviewsByBusinessName(business.username);
+            let rating = await reviewData.getAverageRating(reviews);
+            res.render('business/index', {title: 'Business Details', business: business, rating: rating, reviews: reviews, posts: postList, hasError: false, hasMessage:true, message: "Successfully added business to favorites!"});
+        }
+    } catch (e) {
+        try {
+            // show error on business page if possible
+            let business = await businessData.getBusinessById(businessid); 
+            let postList = await postData.getAllPostByBusiness(business.username);
+            let reviews = await reviewData.getReviewsByBusinessName(business.username);
+            let rating = await reviewData.getAverageRating(reviews);
+            res.render('business/index', {title: 'Business Details', business: business, rating: rating, reviews: reviews, posts: postList, hasError: true, hasMessage:false, e: e});
+        } catch(e) {
+            res.render('explore/explore', {title: 'Explore', hasError: true, hasMessage: false, error: e});
+        }
+        res.status(500);
     }
 }); 
 
@@ -195,7 +266,7 @@ router.post('/post/:postid/edit',  async (req, res) =>{
 
             await postData.editPost(postid, postTitle, postImage, postText); 
             let post = await postData.getPostById(postid); 
-            res.render('business/post', {title: 'Post Details', post: post, postid:postid, hasError: false, isBusiness: true, hasMessage:true, message: "Successfully edited post!"});
+            res.render('business/post', {title: 'Post Details', post: post, postid:postid, hasError: false, hasMessage:true, message: "Successfully edited post!"});
         }
     } catch (e) {
         try {

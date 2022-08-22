@@ -34,6 +34,22 @@ app.use(session({
   saveUninitialized: true
 }));
 
+app.use(function (req, res, next) {
+  // Make `isUser` and `isBusiness` available in templates
+  if (!req.session.account_type) {
+    res.locals.isUser = false;
+    res.locals.isBusiness = false;
+  } else if (req.session.account_type === "Business") {
+    res.locals.isUser = false;
+    res.locals.isBusiness = true;
+    res.locals.businessId = req.session.businessid;
+  } else {
+    res.locals.isUser = true;
+    res.locals.isBusiness =false;
+  }
+  next()
+})
+
 // use for testing and keeping track of routing
 const myLogger = function (req, res, next) {
   const date = new Date().toUTCString();
@@ -42,7 +58,7 @@ const myLogger = function (req, res, next) {
   let account_type = "User";
   if (!req.session.account_type) {
     account_type = "Guest";
-  } else if (req.session.usertype === "Business") {
+  } else if (req.session.account_type === "Business") {
     account_type = "Business";
   }
   console.log("[" + date + "]: " + method + " " + route + " " + account_type);
