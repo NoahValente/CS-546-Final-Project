@@ -3,6 +3,7 @@ const users = mongoCollections.users;
 const {ObjectId} = require('mongodb');
 const bcrypt = require('bcryptjs');
 const validation = require('./validation');
+const businessData = require('./business');
 
 // firstName, last Name, email, username, city, state, password
 module.exports = {
@@ -101,8 +102,14 @@ module.exports = {
 
         const user = await userCollection.findOne({username: username}); 
         if (!user) { throw "Failed to find favorites" };
-
-        return user.favorites;
+        let favorites = [];
+        for (let i=0; i<user.favorites.length; i++) {
+            if (user.favorites[i]) {
+                const current = await businessData.findBusinessByName(user.favorites[i]);
+                favorites.push(current[0]);
+            }
+        }
+        return favorites;
     },
 
     async updateUserData(username, preferences) {

@@ -11,7 +11,9 @@ module.exports = {
         if (!title) throw "Please enter a title for the post!"
         if (!image) throw "Please enter image URL!"
         if(!postText) throw "Please enter text for the post!"
-        if (typeof title,postText !== 'string') throw "Post must be a string!";
+        if (typeof title !== 'string') throw "Post must be a string!";
+        if (typeof image !== 'string') throw "Post must be a string!";
+        if (typeof postText !== 'string') throw "Post must be a string!";
 
         let date = new Date();
         let dd = String(date.getDate()).padStart(2, '0');
@@ -26,19 +28,18 @@ module.exports = {
             date: date,
             image: image,
             postText: postText,
-            postId: postId
         }
 
         // add to post database
-        const postCollection = await reviews();
-        const newInsertInformation = await reviewCollection.insertOne(newPost);
+        const postCollection = await posts();
+        const newInsertInformation = await postCollection.insertOne(newPost);
         if (!newInsertInformation.insertedId) throw 'Insert failed!';
 
 
         // add to businesses database
         const businessCollection = await businesses();
         businessName = businessName.toLowerCase();
-        const business = await businessCollection.updateOne({username: businessName}, {$push:{userReviews: newInsertInformation.insertedId.toString()}}); 
+        const business = await businessCollection.updateOne({username: businessName}, {$push:{businessPost: newInsertInformation.insertedId.toString()}}); 
         if (!business) throw "Internal database problem"
         
         return {postInserted: true};
@@ -49,7 +50,7 @@ module.exports = {
         validation.checkUsername(businessName);
         validation.checkId(PostID);
         const postCollection = await posts();
-        const post = await postCollection.remove({_id: ObjectId(reviewID)});
+        const post = await postCollection.remove({_id: ObjectId(PostID)});
         if (!post) { throw "Post does not exist" };
 
         const businessCollection = await businesses();
@@ -57,13 +58,12 @@ module.exports = {
         const businesses = await businessCollection.updateOne({businessName: businessName}, {$pull:{businessPost: PostID}}); 
     },
 
-    async editPost(businessName, postID, title, image, postText){
-        validation.checkUsername(businessName);
-        validation.checkId(PostID);
+    async editPost(postID, title, postText){
+        validation.checkId(postID);
         if (!title) throw "Please enter a title!"
-        if(!image) throw "Please enter image URL!"
         if (!postText) throw "Please write something to post!"
-        if (typeof title, image, postText !== 'string') throw "Post must be a string!";
+        if (typeof title !== 'string') throw "Post must be a string!";
+        if (typeof postText !== 'string') throw "Post must be a string!";
 
         // just update the fields in the post database, id and business name all stay the same.
         const postCollection = await posts();
@@ -85,7 +85,7 @@ module.exports = {
         let businessPost = business.businessPost; // array of post Ids for the business. 
 
         for (let i = 0; i<businessPost.length; i++) {
-            post = await reviewCollection.findOne({_id: ObjectId(userReviews[i])});
+            post = await postCollection.findOne({_id: ObjectId(businessPost[i])});
             if (post == null) continue;
             postList.push(post);
         }

@@ -1,5 +1,6 @@
 body {
     font-family:"Playfair Display";
+    background-color: #261A1A;
     background-image: url('smallBizBackground.jpeg');
     background-size: cover;
 }

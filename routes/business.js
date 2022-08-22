@@ -61,7 +61,7 @@ router.get('/:businessid/review',  async (req, res) =>{
 router.post('/:businessid/review',  async (req, res) =>{
     console.log("here1")
     let businessid = req.params.businessid; 
-    const {ratingRange, reviewText} = req.body;
+    let {ratingRange, reviewText} = req.body;
     try {
         if (!req.session.account_type){
             res.redirect('/login');
@@ -73,7 +73,7 @@ router.post('/:businessid/review',  async (req, res) =>{
             if (!ratingRange) throw "Please enter a rating from 1-10!"
             if (!reviewText) throw "Please write something to review the business on!"
             if (typeof reviewText !== 'string') throw "Review must be a string!";
-
+            ratingRange = parseInt(ratingRange);
             let business = await businessData.getBusinessById(businessid); 
             await reviewData.createReview(req.session.user, business.username, ratingRange, reviewText); 
             // reload business page with updated info
@@ -107,6 +107,7 @@ router.get('/:businessid/new',  async (req, res) =>{
             let business = await businessData.getBusinessById(businessid); 
             if (business.username !== req.session.user){
                 res.redirect(`/business/${businessid}`);
+                return;
             }
             res.render('business/new', {title: 'New Post', business: business, hasError: false, hasMessage:false});
         }
@@ -116,56 +117,6 @@ router.get('/:businessid/new',  async (req, res) =>{
     }
 }); 
 
-router.post('/:businessid/new',  async (req, res) =>{
-    let businessid = req.params.businessid; 
-    const {postTitle, postText} = req.body;
-    const {name, data} = req.files.postImage;
-
-    try {
-        businessid = validation.checkId(businessid);
-        if (!req.session.account_type){
-            res.redirect('/login');
-        } else if (req.session.account_type != "Business") {
-            res.redirect(`/business/${businessid}`);
-        }
-        if (!postTitle) throw "Please enter a title for the post!"
-        //if (!postImage) throw "Please enter image URL!"
-        if(!postText) throw "Please enter text for the post!"
-        if (typeof postTitle,postText !== 'string') throw "Post must be a string!";
-
-        if (!name){
-            throw `Please input image`
-        }
-        if (!data){
-            throw `Please input image`
-        }
-        
-        console.log(`Name ${name}`)
-        console.log(`data ${data}`)
-
-        let business = await businessData.getBusinessById(businessid); 
-        await postData.createNewPost(business.username, postTitle, postImage, postText); 
-        // reload business page with updated info
-        let postList = await postData.getAllPostByBusiness(business.username);
-        let reviews = await reviewData.getReviewsByBusinessName(business.username);
-        let rating = await reviewData.getAverageRating(reviews);
-        res.render('business/index', {title: 'Business Details', business: business, rating: rating, reviews: reviews, posts: postList, hasError: false, isBusiness: true, isUser:false, hasMessage:true, message: "Successfully created new post!"});
-    } catch (e) {
-        try {
-            businessid = validation.checkId(businessid);
-            let business = await businessData.getBusinessById(businessid); 
-            res.render('business/new', {title: 'New Post', business: business, postTitle: postTitle, postImage: postImage, postText: postText, hasError: true, error: e, hasMessage:false});
-        } catch(e) {
-            res.render('explore/explore', {title: 'Explore', hasError: true, hasMessage: false, error: e});
-        }
-        res.status(400);
-    }
-});
-
-
-
-
-/*
 router.post('/:businessid/new',  async (req, res) =>{
     let businessid = req.params.businessid; 
     const {postTitle, postImage, postText} = req.body;
@@ -179,7 +130,9 @@ router.post('/:businessid/new',  async (req, res) =>{
             if (!postTitle) throw "Please enter a title for the post!"
             if (!postImage) throw "Please enter image URL!"
             if(!postText) throw "Please enter text for the post!"
-            if (typeof postTitle,postText !== 'string') throw "Post must be a string!";
+            if (typeof postTitle !== 'string') throw "Post must be a string!";
+            if (typeof postImage !== 'string') throw "Post must be a string!";
+            if (typeof postText !== 'string') throw "Post must be a string!";
             
             let business = await businessData.getBusinessById(businessid); 
             await postData.createNewPost(business.username, postTitle, postImage, postText); 
@@ -199,7 +152,7 @@ router.post('/:businessid/new',  async (req, res) =>{
         }
         res.status(400);
     }
-}); */
+}); 
 
 router.post('/:businessid/favorite',  async (req, res) =>{
     let businessid = req.params.businessid; 
@@ -241,7 +194,7 @@ router.get('/post/:postid/edit',  async (req, res) =>{
             res.redirect(`/post/${postid}`);
         } else {
             let post = await postData.getPostById(postid); 
-            res.render('business/edit', {title: 'Edit Post', post: post, hasError: false, hasMessage:false});
+            res.render('business/editPost', {title: 'Edit Post', post: post, hasError: false, hasMessage:false});
         }
     } catch (e) {
         res.render('explore/explore', {title: 'Explore', hasError: true, hasMessage: false, error: e});
@@ -251,7 +204,7 @@ router.get('/post/:postid/edit',  async (req, res) =>{
 
 router.post('/post/:postid/edit',  async (req, res) =>{
     let postid = req.params.postid;   
-    const {postTitle, postImage, postText} = req.body;
+    const {newTitle, newText} = req.body;
     try {
         postid = validation.checkId(postid);
         if (!req.session.account_type){
@@ -259,12 +212,12 @@ router.post('/post/:postid/edit',  async (req, res) =>{
         } else if (req.session.account_type != "Business") {
             res.redirect(`/post/${postid}`);
         } else {
-            if (!postTitle) throw "Please enter a title for the post!"
-            if (!postImage) throw "Please enter image URL!"
-            if(!postText) throw "Please enter text for the post!"
-            if (typeof postTitle,postText !== 'string') throw "Post must be a string!";
+            if (!newTitle) throw "Please enter a title for the post!"
+            if(!newText) throw "Please enter text for the post!"
+            if (typeof newTitle !== 'string') throw "Post must be a string!";
+            if (typeof newText !== 'string') throw "Post must be a string!";
 
-            await postData.editPost(postid, postTitle, postImage, postText); 
+            await postData.editPost(postid, newTitle, newText); 
             let post = await postData.getPostById(postid); 
             res.render('business/post', {title: 'Post Details', post: post, postid:postid, hasError: false, hasMessage:true, message: "Successfully edited post!"});
         }
@@ -272,7 +225,7 @@ router.post('/post/:postid/edit',  async (req, res) =>{
         try {
             postid = validation.checkId(postid);
             let post = await postData.getPostById(postid); 
-            res.render('business/edit', {title: 'Edit Post', post: post, postTitle:postTitle, postImage:postImage, postText:postText, hasError: true, error: e, hasMessage:false});
+            res.render('business/editPost', {title: 'Edit Post', post: post, newTitle:newTitle, newText:newText, hasError: true, error: e, hasMessage:false});
         } catch(e) {
             res.render('explore/explore', {title: 'Explore', hasError: true, hasMessage: false, error: e});
         }
@@ -293,7 +246,7 @@ router.post('/post/:postid/delete',  async (req, res) =>{
             res.render('explore/explore', {title: 'Explore', hasError: false, hasMessage: true, message: "Successfully deleted post!"});
         }
     } catch (e) {
-        res.render('business/edit', {title: 'Edit Post', hasError: true, error: e, hasMessage:false});
+        res.render('business/editPost', {title: 'Edit Post', hasError: true, error: e, hasMessage:false});
         res.status(400);
     }
 }); 
