@@ -2,7 +2,7 @@ option:disabled, option:checked:disabled {
     color: #666666;
 }
 
-a, a:visited, h1, label {
+a, a:visited, h1, label, .homeTitle {
     color: #D0677E;
 }
 
@@ -17,4 +17,9 @@ input, select, button {
 
 #error, #errorClient {
     color: #F94E4E;
+}
+
+body {
+    background-color: #000000;
+    color: #D0677E;
 }
