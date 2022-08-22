@@ -133,7 +133,7 @@ router.get('/', async (req, res) => {
             //username can either be email or the username - handled in the data folder
             const check = await userData.checkUser(username, password);
             if (check.authenticated === true) {
-                req.session.user = username;
+                req.session.user = username.toLowerCase();
                 req.session.account_type = 'User';
               } 
               res.redirect('/explore');
@@ -142,7 +142,7 @@ router.get('/', async (req, res) => {
             req.session.account_type = 'Business';
             const check = await businessData.checkBusiness(username, password); 
             if (check.authenticated === true) {
-                req.session.user = username;
+                req.session.user = username.toLowerCase();
                 req.session.account_type = 'Business';
                 req.session.businessid = check.id;
               } 

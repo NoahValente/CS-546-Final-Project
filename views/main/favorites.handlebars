@@ -3,7 +3,7 @@
    <ul class="favoriteBusiness">
     <!--This assumes that you are passing an array of business names, which you get from the backend -->
        {{#each business}}
-         <li class="favoriteBiz"><a href = "/{{this.businessId}}"> {{this.businessName}} </a></li>
+         <li class="favoriteBiz"><a href = "/business/{{this._id}}"> {{this.username}} </a></li>
        {{/each}}
    </ul>
 </div>
