@@ -30,6 +30,10 @@ const main = async () => {
     review3 = await reviews.createReview("donjoe23", "saulAgencies",2, "Saul took my money and left me. He is a thief. But he is handsome, so he gets a 2.");
     review4 = await reviews.createReview("donjoe23", "Napolis",10, "Ordered the vodka pizza and it was brilliant. Had a great time with friends and service was amazing.");
     
+    /* populate posts */
+    let post1, post2, post3;
+
+
     /* stop connection */
     await connection.closeConnection();
 }

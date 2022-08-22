@@ -1,5 +1,3 @@
-<!DOCTYPE html>    
-<html lang="en">
     <head>    
         <title>{{title}}</title>    
         <link rel="stylesheet" type="text/css" href="public/css/main.css">
@@ -7,21 +5,28 @@
     </head>  
     <body>
       <!--show ratings --> 
-      <div class="ratings">
-        <h1>{{{ratings}}}</h1>
+      <div class="title">
+        <h1>{{business.username}}</h1>
+     </div>
+     <div class = "rating">
+        <h2> {{{rating}}} </h2>
      </div>
       <!--show post & reviews -->
       <div>
       <ul class="show-post">
-           {{#each post}}
-             <li class="show-post"><a href = "/business{{this.post._id/post}}"> {{this.post}} </a></li>
+           {{#each posts}}
+             <li class="show-post"><a href = "/business/post/{{this._id}}"> {{this.postTitle}} </a></li>
            {{/each}}
            
        </ul>
       </div>
       <div>
         <ul class="show-reviews">
-               <li class="show-reviews"><a href = "/business{{this.business._id/review}}"> {{this.review}} </a></li>
+          {{#each reviews}}
+               <li > 
+                <p> {{this.rating}}</p>
+                <p> {{this.reviewText}}</p>
+               </li>
              {{/each}}
              
          </ul>
