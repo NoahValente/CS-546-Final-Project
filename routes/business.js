@@ -5,6 +5,7 @@ const businessData = data.business;
 const postData = data.posts;
 const reviewData = data.reviews;
 const validation = data.validation;
+//const FileType = require('file-type');
 
 // routes: /business...
 
@@ -51,6 +52,7 @@ router.get('/post/:postid',  async (req, res) =>{
 // User-only page for creating a review
 // TODO: if edit/delete review is implemented, need to adjust /../review
 router.get('/:businessid/review',  async (req, res) =>{
+    console.log("here")
     let businessid = req.params.businessid; 
     try {
         if (!req.session.account_type){
@@ -68,6 +70,7 @@ router.get('/:businessid/review',  async (req, res) =>{
 }); 
 
 router.post('/:businessid/review',  async (req, res) =>{
+    console.log("here1")
     let businessid = req.params.businessid; 
     const {ratingRange, reviewText} = req.body;
     try {
@@ -124,6 +127,56 @@ router.get('/:businessid/new',  async (req, res) =>{
 
 router.post('/:businessid/new',  async (req, res) =>{
     let businessid = req.params.businessid; 
+    const {postTitle, postText} = req.body;
+    const {name, data} = req.files.postImage;
+
+    try {
+        businessid = validation.checkId(businessid);
+        if (!req.session.account_type){
+            res.redirect('/login');
+        } else if (req.session.account_type != "Business") {
+            res.redirect(`/business/${businessid}`);
+        }
+        if (!postTitle) throw "Please enter a title for the post!"
+        //if (!postImage) throw "Please enter image URL!"
+        if(!postText) throw "Please enter text for the post!"
+        if (typeof postTitle,postText !== 'string') throw "Post must be a string!";
+
+        if (!name){
+            throw `Please input image`
+        }
+        if (!data){
+            throw `Please input image`
+        }
+        
+        console.log(`Name ${name}`)
+        console.log(`data ${data}`)
+
+        let business = await businessData.getBusinessById(businessid); 
+        await postData.createNewPost(business.username, postTitle, postImage, postText); 
+        // reload business page with updated info
+        let postList = await postData.getAllPostByBusiness(business.username);
+        let reviews = await reviewData.getReviewsByBusinessName(business.username);
+        let rating = await reviewData.getAverageRating(reviews);
+        res.render('business/index', {title: 'Business Details', business: business, rating: rating, reviews: reviews, posts: postList, hasError: false, isBusiness: true, isUser:false, hasMessage:true, message: "Successfully created new post!"});
+    } catch (e) {
+        try {
+            businessid = validation.checkId(businessid);
+            let business = await businessData.getBusinessById(businessid); 
+            res.render('business/new', {title: 'New Post', business: business, postTitle: postTitle, postImage: postImage, postText: postText, hasError: true, error: e, hasMessage:false});
+        } catch(e) {
+            res.render('explore/explore', {title: 'Explore', hasError: true, hasMessage: false, error: e});
+        }
+        res.status(400);
+    }
+});
+
+
+
+
+/*
+router.post('/:businessid/new',  async (req, res) =>{
+    let businessid = req.params.businessid; 
     const {postTitle, postImage, postText} = req.body;
     try {
         businessid = validation.checkId(businessid);
@@ -154,7 +207,7 @@ router.post('/:businessid/new',  async (req, res) =>{
         }
         res.status(400);
     }
-}); 
+}); */
 
 router.get('/post/:postid/edit',  async (req, res) =>{
     let postid = req.params.postid; 
