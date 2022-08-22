@@ -1,4 +1,5 @@
 body {
+    font-family:"Playfair Display";
     background-image: url('smallBizBackground.jpeg');
     background-size: cover;
 }
@@ -13,7 +14,6 @@ body {
     top: 50%;
     width: 100%;
     color: #AC3B61;
-    font-family:"Playfair Display";
     font-size:100px;
     font-weight: 100; 
     letter-spacing: 10px;
@@ -27,13 +27,26 @@ body {
 }
 
 .navigation a,a:visited{
-    font-family:"Playfair Display";
     color: rgb(172, 59, 97);
-    padding-inline:7%;
+    padding-inline:30px;
     text-decoration: none;
     font-size:20px;
 }
 
 .header a:hover{
     color: #123D6A;
+}
+
+#errorClient {
+    margin-top: -10px;
+    text-align: center;
+    font-style: italic;
+    color:red;
+}
+
+#error {
+    margin-top: -100;
+    text-align: center;
+    font-style: italic;
+    color:red;
 }

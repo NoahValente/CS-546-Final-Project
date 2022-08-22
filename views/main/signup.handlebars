@@ -1,4 +1,7 @@
   <!-- THIS IS THE SELECTION OF TYPE-->
+<link rel="stylesheet" type="text/css" href="/public/css/loginAndSignup.css">
+
+<div class = "centeredTypeSelection">
   <p id="errorClient" hidden></p>
   <label for="userType">I am a: </label>
   <select name="userType" id="userType">
@@ -6,7 +9,8 @@
       <option value="User">User</option>
       <option value="Business">Business</option>
   </select>
-  <br><br>
+   <br><br>
+</div>
 
   <!-- THIS IS THE USER SIGN UP FORM. HIDDEN UNTIL TYPE CHOSEN-->
 <div class="signupForm">
@@ -22,16 +26,19 @@
       <div>
         <label class="label" for="firstName">First Name:</label>
         <input name="firstName" id = "firstName" type="text" class="input" maxlength="20" placeholder="First name" value={{firstName}}>
+        <br><br>  
       </div>
  
       <div>
         <label class="label" for="lastName">Last Name:</label>
         <input name="lastName" id = "lastName" type="text" class="input" maxlength="20" placeholder="Last name" value="{{lastName}}" >
+        <br><br>  
       </div>
  
       <div>
         <label class="label" for="email">Email:</label>
         <input name= "email" id = "email" type="email" class="input" maxlength="20" placeholder="Email" value={{email}} >
+        <br><br> 
       </div>
  
       <div class="userFields" hidden disabled>
@@ -43,6 +50,7 @@
             <option value="Non-Binary">Non-Binary</option>
             <option value="Undisclosed">I prefer not to disclose</option>
         </select>
+        <br><br>  
       </div>
 
  
@@ -102,16 +110,19 @@
             <option value="WI">Wisconsin</option>
             <option value="WY">Wyoming</option>
         </select>
+        <br><br>  
       </div>
  
       <div>
         <label for = "city">City:</label>    
-        <input type="text" name="city" id="city" maxlength="20" placeholder="City" value={{city}}>   
+        <input type="text" name="city" id="city" maxlength="20" placeholder="City" value={{city}}>  
+        <br><br>  
       </div>
 
       <div class="userFields" hidden disabled>
         <label for = "age" >Age:</label>
         <input type="number" name = "age" min ="13" max = "99" class="input" placeholder="Age" id = "age" value={{age}}>
+        <br><br>  
       </div>
 
       <div class="userFields" hidden disabled>
@@ -129,6 +140,7 @@
           <option value="Food">Food</option>
           <option value="Sports">Sports</option>
         </select>
+        <br><br>  
       </div>
 
       <div class="businessFields" hidden disabled>
@@ -146,6 +158,7 @@
           <option value="Food">Food</option>
           <option value="Sports">Sports</option>
         </select>
+        <br><br>  
       </div>
 
       <button type="submit" class="submitButon" value="Sign up">Submit</button>

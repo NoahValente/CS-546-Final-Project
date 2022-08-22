@@ -2,7 +2,7 @@
 <html lang="en">
     <head>    
         <title>{{title}}</title>    
-        <link rel="stylesheet" type="text/css" href="public/css/main.css">
+        <link rel="stylesheet" type="text/css" href="/public/css/main.css">
         <link rel="stylesheet" type="text/css" href="public/css/accessibility.css">
     </head>  
     <body>
@@ -18,16 +18,17 @@
                 {{/unless}}
                 {{#if isUser}}  
                 <a class="home" href="/">Home</a>
-                <a class="favorites" href="/favorites">View your favorite businesses</a>  
-                <a class="explore" href="/explore">Explore businesses</a>  
-                <a class="settings" href="/settings">Account settings</a>  
+                <a class="favorites" href="/favorites">Favorites</a>  
+                <a class="explore" href="/explore">Explore</a>  
+                <a class="settings" href="/settings">Account</a>  
                 <a class="logout" href="/logout">Logout</a>
+                
                 {{/if}}
                 {{#if isBusiness}}  
                 <a class="home" href="/">Home</a>
-                <a class="business" href="/business/{{businessId}}">View your business</a>
-                <a class="explore" href="/explore">Explore businesses</a>  
-                <a class="settings" href="/settings">Account settings</a>  
+                <a class="business" href="/business/{{businessId}}">My Business</a>
+                <a class="explore" href="/explore">Explore</a>  
+                <a class="settings" href="/settings">Account</a>  
                 <a class="logout" href="/logout">Logout</a>
                 {{/if}}
             </nav>

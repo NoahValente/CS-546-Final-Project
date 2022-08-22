@@ -1,0 +1,27 @@
+h1 {
+    text-align: center;
+    color: #AC3B61;
+    font-size:50px;
+    font-weight: 100; 
+    letter-spacing: 5px;
+}
+
+.centeredTypeSelection {
+    margin-top:50px;
+    text-align: center;
+}
+
+.title{
+    margin-top:-15px;
+}
+
+label {
+    line-height: 150%;
+    font-size: .85em;
+    color: #AC3B61;
+    padding-right: 10px;
+}
+
+form {
+    text-align: center;
+}
