@@ -6,11 +6,7 @@ const businessData = data.business;
 const validation = data.validation;
 
 router.get('/', async (req, res) => {
-    if (req.session.user) {
-      res.redirect('/explore');
-    } else {
-      res.render('main/index', {title: "Welcome", hasError: false, hasMessage:false});
-    }
+    res.render('main/index', {title: "Welcome", hasError: false, hasMessage:false});
   });
   
   router.get('/signup', async (req, res) => {
