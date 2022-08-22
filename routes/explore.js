@@ -4,7 +4,6 @@ const data = require('../data');
 const businessData = data.business;
 
 router.get('/', async (req, res) =>{
-<<<<<<< HEAD
     if(!req.session.user){
         res.redirect('/login');
     }
@@ -15,12 +14,6 @@ router.post('/browse',  async (req, res) =>{
     if(!req.session.user){
         res.redirect('/login');
     }
-=======
-    res.render('explore/explore', {title: 'Explore', hasError: false, hasMessage:false});
-}); 
-
-router.post('/browse',  async (req, res) =>{
->>>>>>> a5d6b2ddc14cf352ab4cb79159b2e143913d5acc
     try {
         let category = req.body.category;
         if (!category) throw "Please enter a category";
