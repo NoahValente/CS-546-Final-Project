@@ -9,6 +9,7 @@
 
   <!-- THIS IS THE USER SIGN UP FORM. HIDDEN UNTIL TYPE CHOSEN-->
 <div class="signupForm">
+    <p id="errorClient" hidden></p>
     <form name = "signupForm" id = "signupForm" method = "Post" action="/signup/user" class="form" hidden>
       <h1 class="title" id="formHeading">User Sign Up</h1>
 
@@ -147,7 +148,7 @@
         </select>
       </div>
 
-      <button type="submit" class="submitButon" value="Sign up">Submit</button>
+      <button type="submit" class="submitButon" value="Sign up" id="submit">Submit</button>
       
     </form>
   </div>
