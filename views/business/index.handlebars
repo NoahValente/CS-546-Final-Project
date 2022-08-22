@@ -1,0 +1,45 @@
+<!DOCTYPE html>    
+<html lang="en">
+    <head>    
+        <title>{{title}}</title>    
+        <link rel="stylesheet" type="text/css" href="public/css/main.css">
+        <link rel="stylesheet" type="text/css" href="public/css/accessibility.css">
+    </head>  
+    <body>
+      <!--show ratings --> 
+      <div class="ratings">
+        <h1>{{{ratings}}}</h1>
+     </div>
+      <!--show post & reviews -->
+      <div>
+      <ul class="show-post">
+           {{#each post}}
+             <li class="show-post"><a href = "/business{{this.post._id/post}}"> {{this.post}} </a></li>
+           {{/each}}
+           
+       </ul>
+      </div>
+      <div>
+        <ul class="show-reviews">
+               <li class="show-reviews"><a href = "/business{{this.business._id/review}}"> {{this.review}} </a></li>
+             {{/each}}
+             
+         </ul>
+        </div>
+      <header class = "header"> 
+          <nav class = "businessIndex">
+              {{#if isBusiness}}
+              <a href="/business/{{businessId}}/new">Create Post</a>
+              {{/if}}
+
+              {{#if isUser}}
+              <a href="/business/{{business._id/review}}">Leave Review</a>
+              <a href="/business/{{business._id/favorite}}">Add to Favorites</a>
+              <form method="post" action="/business/{{business.id/favorite}}" class="inline">
+                <input type="hidden" name="leave_review_param" value="leave_review_value">
+                <button type="submit" name="submit_param" valie="submit_value" class="link-button">Submit</button> 
+              </form>
+              {{/if}}
+            </body>
+
+      
