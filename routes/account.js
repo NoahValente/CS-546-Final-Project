@@ -19,6 +19,7 @@ router.get('/', async (req, res) =>{
             accountSetting = accountSetting[0];
         } else {
             res.redirect('/explore');
+            return;
         }
         res.render('account/editAccount', {title: "Edit Account", accountType: req.session.account_type, default: accountSetting, hasError: false, hasMessage:false});
     } catch (e) {

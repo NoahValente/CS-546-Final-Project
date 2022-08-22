@@ -19,12 +19,11 @@ router.post('/browse',  async (req, res) =>{
 }); 
 
 router.post('/search',  async (req, res) =>{
-
     try {
-        let name = req.body.name;  
-        if (!name) throw "Please enter a business name";
-        businessList = await businessData.findBusinessByName(name); 
-        res.send(businessList); 
+        const businessName = req.body.businessName;
+        if (!businessName) throw "Please enter a business name";
+        businessList = await businessData.findBusinessByName(businessName); 
+        res.send(businessList);
     } catch (e) {
         res.send(e);
     }
