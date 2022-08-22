@@ -3,11 +3,12 @@
     <h1>{{business.username}}</h1>
   </div>
   <div class = "rating">
-    <h2> {{{rating}}} </h2>
+    <h2> average rating: {{{rating}}} </h2>
   </div>
   <!--show post & reviews -->
   <div>
   <ul class="show-post">
+    <h3>Posts</h3>
         {{#each posts}}
           <li class="show-post"><a href = "/business/post/{{this._id}}"> {{this.title}} </a></li>
         {{/each}}
@@ -16,28 +17,27 @@
   </div>
   <div>
     <ul class="show-reviews">
+      <h3>Reviews</h3>
       {{#each reviews}}
             <li > 
-            <p> {{this.rating}}</p>
-            <p> {{this.reviewText}}</p>
+            <p> rating: {{this.rating}}</p>
+            <p>{{this.reviewText}}</p>
             </li>
           {{/each}}
           
       </ul>
     </div>
-  <header class = "header"> 
-      <nav class = "businessIndex">
+      <nav class = "actions">
           {{#if isBusiness}}
           <a href="/business/{{businessId}}/new">Create Post</a>
           {{/if}}
 
           {{#if isUser}}
-          <a href="/business/{{business._id}}/review">Leave Review</a>
+          <a class = "leaveReview" href="/business/{{business._id}}/review">Leave Review</a>
           <form method="post" action="/business/{{business._id}}/favorite" class="inline">
             <input type="hidden" name="favorites_param" value="favorites_param">
             <button type="submit" name="submit_param" valie="submit_value" class="link-button">Add to Favorites</button> 
           </form>
           {{/if}}
     </nav>
-  </header>
   
