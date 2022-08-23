@@ -65,6 +65,14 @@ module.exports = {
         return businessList;
     },
 
+    async findBusinessByState(state) {
+        if (!state) throw "Please enter a category";
+        const businessCollection = await businesses();
+        const businessList = await businessCollection.find( {state: state}).toArray();
+        if (businessList.length==0) throw "No business found!"
+        return businessList;
+    },
+
     async findBusinessByName(username) {
         if (!username) throw "Please enter a business name";
         const businessCollection = await businesses();
