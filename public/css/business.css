@@ -47,6 +47,16 @@
 
 }
 
+.scrollableReviews {
+    height:50px;
+    width:200px;
+    overflow:scroll;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    color:#D0677E;
+}
+
+
 .post {
     text-align: center;
 }

@@ -1,10 +1,19 @@
 <div>
   <h1>Edit post</h1>
-  <form id="post" method="post">
+  <p id="errorClient" hidden></p>
+  <form id="editPost" method="post">
       <label for = "newTitle">New Post Title:</label>
-      <input placeholder="{{postTitle}}"type="text" id="newTitle" name="newTitle" style="height: 25px">
+      <input placeholder="{{postTitle}}" type="text" id="newTitle" name="newTitle" style="height: 25px">
       <label for = "newText">New Post Description:</label>
-      <input placeholder="{{postText}}"type="text" id="newText" name="newText" class="bigText" style="height: 25px">
+      <input placeholder="{{postText}}" type="text" id="newText" name="newText" class="bigText" style="height: 25px">
       <button type="submit" id="submit">Submit</button>
   </form>
 </div>
+<nav class = "actions">
+    <form method="post" action="/business/post/{{post._id}}/delete" class="inline">
+        <input type="hidden" name="delete_param" value="delete_param">
+        <button type="submit" name="submit_param" value="submit_value" class="link-button">Delete Post</button> 
+    </form>
+</nav>
+<script src="/public/js/validation.js"></script>
+<script src="/public/js/post.js"></script>

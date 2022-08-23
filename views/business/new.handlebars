@@ -1,6 +1,7 @@
 <div>
     <h1>Create a post</h1>
-    <form id="post" method="post">
+    <p id="errorClient" hidden></p>
+    <form id="post" method="post" action = "/business/{{business._id}}/new">
         <label for = "postTitle">Post Title</label>
         <input type="text" id="postTitle" name="postTitle">
         <label for = "postImage">Image URL</label>
@@ -11,3 +12,5 @@
         <a href="/business/{{business._id}}" class="small-link">Cancel</a>
     </form>
 </div>
+<script src="/public/js/validation.js"></script>
+<script src="/public/js/post.js"></script>

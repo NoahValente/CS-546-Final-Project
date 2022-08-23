@@ -1,13 +1,14 @@
 (function ($) {
 
-var ratingRange = document.getElementById("ratingRange");
-var ratingValue = document.getElementById("ratingValue");
+let ratingRange = document.getElementById("ratingRange");
+let ratingValue = document.getElementById("ratingValue");
 const error = $('#errorClient');
 ratingValue.innerHTML = ratingRange.value;
 
 ratingRange.oninput = function() {
-    ratingValue.innerHTML = this.value;
+ratingValue.innerHTML = this.value;
 }
+
 $(document).ready(function() {
     error.hide();
 })
@@ -19,9 +20,8 @@ $('#review').on('submit', function(event){
 
     let reviewText = $('#reviewText').val();
     let ratingRange = $('#ratingRange').val();
-
+    console.log(ratingRange);
     try{
-        console.log(reviewText); 
         checkRatingRange(ratingRange);
         checkReview(reviewText); 
     }

@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const data = require('../data');
+const xss = require('xss');
 const userData = data.users;
 const businessData = data.business;
 const validation = data.validation;
@@ -18,7 +19,24 @@ router.get('/', async (req, res) => {
   });
   
   router.post('/signup/user', async (req, res) => {
-    const {firstName, lastName, email, username, gender, city, state, age, password, preferences} = req.body;
+    const firstName = xss(req.body.firstName);
+    const lastName = xss(req.body.lastName);
+    const email = xss(req.body.email);
+    const username = xss(req.body.username);
+    const gender = xss(req.body.gender);
+    const city = xss(req.body.city);
+    const state = xss(req.body.state);
+    const age = xss(req.body.age);
+    const password = xss(req.body.password);
+    const preferences = [];
+    for (let preference of req.body.preferences){
+      preferences.push(xss(preference));
+    }
+    const error = "";
+    if (req.body.hasError){
+       error = xss(req.body.error);
+    }
+    
     try {
       validation.validateUserAndBusinessInput(firstName, lastName, email, username, city, state, password);
       if (!gender) throw "Please select a dropdown from gender";
@@ -70,7 +88,23 @@ router.get('/', async (req, res) => {
   });
 
   router.post('/signup/business', async (req, res) => {
-    const {firstName, lastName, username, email, city, state, password, businessType} = req.body;
+
+    const firstName = xss(req.body.firstName);
+    const lastName = xss(req.body.lastName);
+    const email = xss(req.body.email);
+    const username = xss(req.body.username);
+    const city = xss(req.body.city);
+    const state = xss(req.body.state);
+    const password = xss(req.body.password);
+    const businessType = [];
+    for (let business of req.body.businessType){
+      businessType.push(xss(business));
+    }
+    const error = "";
+    if (req.body.hasError){
+       error = xss(req.body.error);
+    }
+    
     try {
 
       validation.validateUserAndBusinessInput(firstName, lastName, email, username, city, state, password);
@@ -125,7 +159,9 @@ router.get('/', async (req, res) => {
   });
   
   router.post('/login', async (req, res) => {
-    const {username, password, userType} = req.body;
+    const username = xss(req.body.username);
+    const password = xss(req.body.password);
+    const userType = xss(req.body.userType);
     
     try {
         validation.checkUserAndPassword(username, password);
@@ -173,7 +209,7 @@ router.get('/', async (req, res) => {
     if (!req.session.account_type) {
       res.redirect('/login');
     } else {
-      res.render('main/logout', {title: "Logged Out", name: req.session.user, isUser:false, isBusiness:false, hasError: false, hasMessage:false});
+      res.render('main/logout', {title: "Logged Out", name: xss(req.session.user), isUser:false, isBusiness:false, hasError: false, hasMessage:false});
       req.session.destroy();
     }
   });
@@ -185,8 +221,8 @@ router.get('/', async (req, res) => {
       res.redirect('/explore');
     } else {
       try {
-        let business = await userData.getFavorites(req.session.user); 
-        res.render('main/favorites', {title: "Favorites", business: business, username: req.session.user, hasError: false, hasMessage:false});
+        let business = await userData.getFavorites(xss(req.session.user)); 
+        res.render('main/favorites', {title: "Favorites", business: business, username: xss(req.session.user), hasError: false, hasMessage:false});
       } catch(e) {
         res.render('explore/explore', {title: 'Explore', hasError: true, hasMessage: false, error: e});
         res.status(400);
