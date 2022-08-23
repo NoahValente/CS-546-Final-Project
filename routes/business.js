@@ -176,7 +176,7 @@ router.post('/:businessid/favorite',  async (req, res) =>{
             let postList = await postData.getAllPostByBusiness(business.username);
             let reviews = await reviewData.getReviewsByBusinessName(business.username);
             let rating = await reviewData.getAverageRating(reviews);
-            res.render('business/index', {title: 'Business Details', business: business, rating: rating, reviews: reviews, posts: postList, hasError: true, hasMessage:false, e: e});
+            res.render('business/index', {title: 'Business Details', business: business, rating: rating, reviews: reviews, posts: postList, hasError: true, hasMessage:false, error: e});
         } catch(e) {
             res.render('explore/explore', {title: 'Explore', hasError: true, hasMessage: false, error: e});
         }

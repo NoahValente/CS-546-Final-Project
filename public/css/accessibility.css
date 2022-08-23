@@ -6,8 +6,9 @@ a, a:visited, h1, label, .homeTitle {
     color: #D0677E;
 }
 
-a:hover, .header a:hover, #resultList a:hover {
+a:hover, .header a:hover, #resultList a:hover, .link-button:hover {
     color: #edc7b7;
+    text-decoration: underline;
 }
 
 input, select, button {
@@ -22,4 +23,8 @@ input, select, button {
 body {
     background-color: #000000;
     color: #D0677E;
+}
+
+.message {
+    color: #0FDB00;
 }

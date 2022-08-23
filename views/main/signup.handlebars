@@ -16,14 +16,14 @@
       <h1 class="title" id="formHeading">User Sign Up</h1>
 
         <label for = "username">Username:</label>    
-            <input type="text" name="username" id="username" maxlength="20" placeholder="Username" value={{username}}>    
+            <input type="text" name="username" id="username" maxlength="20" placeholder="Username" value="{{username}}">    
         <br><br>    
         <label for = "password">Password:</label>    
-            <input type="password" name="password" id="password" maxlength="20" placeholder="Password" value={{password}}>    
+            <input type="password" name="password" id="password" maxlength="20" placeholder="Password" value="{{password}}">    
         <br><br>
       <div>
         <label class="label" for="firstName">First Name:</label>
-        <input name="firstName" id = "firstName" type="text" class="input" maxlength="20" placeholder="First name" value={{firstName}}>
+        <input name="firstName" id = "firstName" type="text" class="input" maxlength="20" placeholder="First name" value="{{firstName}}">
         <br><br>  
       </div>
  
@@ -35,14 +35,14 @@
  
       <div>
         <label class="label" for="email">Email:</label>
-        <input name= "email" id = "email" type="email" class="input" maxlength="20" placeholder="Email" value={{email}} >
+        <input name= "email" id = "email" type="email" class="input" maxlength="20" placeholder="Email" value="{{email}}" >
         <br><br> 
       </div>
  
-      <div class="userFields" hidden disabled>
+      <div class="userFields" hidden>
         <label class="label" for="gender">Gender:</label>
         <select name="gender" id="gender">
-            <option value="none"disabled selected>Select your gender</option>
+            <option value="none" disabled selected>Select your gender</option>
             <option value="Male">Male</option>
             <option value="Female">Female</option>
             <option value="Non-Binary">Non-Binary</option>
@@ -55,7 +55,7 @@
       <div>
         <label class="label" for="state">State:</label>
         <select name="state" id="state">
-            <option value="none"disabled selected>Select your state</option>
+            <option value="none" disabled selected>Select your state</option>
             <option value="AL">Alabama</option>
             <option value="AK">Alaska</option>
             <option value="AZ">Arizona</option>
@@ -113,18 +113,18 @@
  
       <div>
         <label for = "city">City:</label>    
-        <input type="text" name="city" id="city" maxlength="20" placeholder="City" value={{city}}>  
+        <input type="text" name="city" id="city" maxlength="20" placeholder="City" value="{{city}}">  
         <br><br>  
       </div>
 
-      <div class="userFields" hidden disabled>
+      <div class="userFields" hidden>
         <label for = "age" >Age:</label>
-        <input type="number" name = "age" min ="13" max = "99" class="input" placeholder="Age" id = "age" value={{age}}>
+        <input type="number" name = "age" min ="13" max = "99" class="input" placeholder="Age" id = "age" value="{{age}}">
         <br><br>  
       </div>
 
-      <div class="userFields" hidden disabled>
-        <label name="preferences" for="preferences">Preferences</label>
+      <div class="userFields" hidden>
+        <label for="preferences">Preferences</label>
         <select name="preferences[]" id="preferences" multiple size = "5" >
           <option value="none" disabled selected >Select your preferences</option>
           <option value="Entertainment & Media">Entertainment & Media</option>
@@ -141,8 +141,8 @@
         <br><br>  
       </div>
 
-      <div class="businessFields" hidden disabled>
-        <label name="businessType" for="businessType">Business Type</label>
+      <div class="businessFields" hidden>
+        <label for="businessType">Business Type</label>
         <select name="businessType[]" id="businessType" multiple size = "5">
           <option value="none" disabled selected >Select your business type</option>
           <option value="Entertainment & Media">Entertainment & Media</option>

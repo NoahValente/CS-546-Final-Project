@@ -28,7 +28,6 @@ body {
 }
 
 .navigation a,a:visited{
-    color: rgb(172, 59, 97);
     padding-inline:30px;
     text-decoration: none;
     font-size:20px;
@@ -53,7 +52,6 @@ body {
 }
 
 footer a,a:visited{
-    color: rgb(172, 59, 97);
     font-size:20px;
     position:absolute;
     text-decoration: none;
@@ -65,9 +63,6 @@ footer a,a:visited{
     font-size:15px;
 }
 
-footer a:hover {
-    color: #123D6A;
-}
 .message {
     text-align: center;
     color:green;
