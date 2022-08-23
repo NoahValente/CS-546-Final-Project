@@ -45,17 +45,17 @@ module.exports = {
         return {postInserted: true};
         //return newInsertInformation; // use this return for testing.
     },
-
+    
     async deletePost(businessName, PostID){
         validation.checkUsername(businessName);
         validation.checkId(PostID);
         const postCollection = await posts();
-        const post = await postCollection.remove({_id: ObjectId(PostID)});
+        const post = await postCollection.deleteOne({_id: ObjectId(PostID)});
         if (!post) { throw "Post does not exist" };
 
         const businessCollection = await businesses();
         businessName = businessName.toLowerCase(); 
-        const businesses = await businessCollection.updateOne({businessName: businessName}, {$pull:{businessPost: PostID}}); 
+        await businessCollection.updateOne({businessName: businessName}, {$pull:{businessPost: PostID}}); 
     },
 
     async editPost(postID, title, postText){

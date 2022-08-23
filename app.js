@@ -5,6 +5,7 @@ const configRoutes = require('./routes');
 
 const static = express.static(__dirname + '/public');
 const exphbs = require('express-handlebars');
+const { Cookie } = require('express-session');
 
 const handlebarsInstance = exphbs.create({
   defaultLayout: 'main',
@@ -33,6 +34,7 @@ app.use(session({
   resave: false,
   saveUninitialized: true
 }));
+
 
 app.use(function (req, res, next) {
   // Make `isUser` and `isBusiness` available in templates

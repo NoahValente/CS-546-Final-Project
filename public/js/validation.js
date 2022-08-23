@@ -83,8 +83,16 @@ function checkExploreCategory (category){
 function checkReview (review){
     
     if (!review)  throw `Please provide some review text`
-    if (typeof review !== 'string') throw `Review must be a string with at least one word`
-    if (review.trim().length === 0) throw `Review must be a string with at least one word`
+    if (typeof review !== 'string') throw `Review must not be empty`
+    if (review.trim().length === 0) throw `Review must be not be empty`
+
+}
+
+function checkTextInput (text, textName){
+    
+    if (!text)  throw `Please provide some ${textName} text`
+    if (typeof text !== 'string') throw `${textName} must be not be empty`
+    if (text.trim().length === 0) throw `${textName} must be not be empty`
 
 }
 

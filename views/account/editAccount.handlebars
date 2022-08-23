@@ -1,7 +1,11 @@
 <link rel="stylesheet" type="text/css" href="/public/css/loginAndSignup.css">
 <h1>Edit Account Settings</h1>
+<p id="errorClient" hidden></p>
 <div>
     <form name = "editForm" id = "editForm" method = "Post" action="/settings/{{accountType}}" class="form">
+        <label for = "User Type">userType:</label>    
+            <input type="text" name="usertype" id="usertype" placeholder="User type" value="{{accountType}}" disabled>    
+        <br><br>
         <label for = "username">Username:</label>    
             <input type="text" name="username" id="username" placeholder="Username" value="{{default.username}}" disabled>    
         <br><br>    
@@ -40,7 +44,7 @@
         <br><br>
       </div>
 
-        {{#if isUser}}
+      {{#if isUser}}
       <div class="userFields">
         <label class="label" for="gender">Gender:</label>
         <select name="gender" id="gender" disabled>
@@ -74,7 +78,7 @@
       </div>
       {{/if}}
 
-        {{#if isBusiness}}
+      {{#if isBusiness}}
       <div class="businessFields">
         <label for="businessType">Reselect Business Type</label>
         <select name="businessType[]" id="businessType" multiple size = "5">
@@ -98,3 +102,5 @@
       <a href="/explore" class="small-link">Cancel</a>
     </form>
 </div>
+<script src="/public/js/validation.js"></script>
+<script src="/public/js/account.js"></script>

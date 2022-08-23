@@ -107,7 +107,8 @@ module.exports = {
             }
         }
         if (summedRating == 0) return 0; // no ratings returns a rating of 0. to be handled on front end.
-        return summedRating/numRatings;
+        let total = summedRating/numRatings;
+        return total.toFixed(2); 
     }
 
 }

@@ -81,43 +81,53 @@ $('#submit').on('click', function(event){
 
 $('#categoryName').on('change', function(){
 
-    $('#resultList').empty();
+    /*$('#resultList').empty();
     $('#resultList').hide();
     $('#error').hide();
-    $('#error').empty();
+    $('#error').empty();*/
+
+    $('#resultList').empty();
+    $('#resultList').hide();
+    $('#errorClient').hide();
+    $('#errorClient').empty();
 
     let category = $('#categoryName').val();
 
     try{
         checkExploreCategory(category);
+        var requestConfig = {
+            method: 'POST',
+            url: 'http://localhost:3000/explore/browse',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                category: category
+            })
+        };
+        $.ajax(requestConfig).then(function(responseMessage){
+            if (!Array.isArray(responseMessage)){
+                $('#errorClient').append(responseMessage);
+                $('#errorClient').show();
+            }
+            else{
+                for (let eachName of responseMessage){
+    
+                    let link =  $(`<li></li>`).append($(`<a href= http://localhost:3000/business/${eachName._id}></a>`).text(`${eachName.username}`));
+                    $('#resultList').append(link); 
+                }
+            }
+        })
+        //$('#error').show();
+        $('#resultList').show();
     }
     catch(e){
         $('#errorClient').append(e);
+        $('#errorClient').show();
     }
 
-    var requestConfig = {
-        method: 'POST',
-        url: 'http://localhost:3000/explore/browse',
-        contentType: 'application/json',
-        data: JSON.stringify({
-            category: category
-        })
-    };
+    
 
-    $.ajax(requestConfig).then(function(responseMessage){
-        if (!Array.isArray(responseMessage)){
-            $('#error').append(responseMessage);
-        }
-        else{
-            for (let eachName of responseMessage){
-
-                let link =  $(`<li></li>`).append($(`<a href= http://localhost:3000/business/${eachName._id}></a>`).text(`${eachName.username}`));
-                $('#resultList').append(link); 
-            }
-        }
-    })
-    $('#error').show();
-    $('#resultList').show();
+    
+   
 })
 
 })(window.jQuery);

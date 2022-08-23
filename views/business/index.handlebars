@@ -17,14 +17,16 @@
   </div>
   <div class="show-reviews">
     <h3>Reviews</h3>
-    <ul class="show-reviews">
-      {{#each reviews}}
-        <li> 
-        <p> rating: {{this.rating}}</p>
-        <p>{{this.reviewText}}</p>
-        </li>
-      {{/each}}
-      </ul>
+        <ul class="show-reviews">
+        {{#each reviews}}
+            <li> 
+            <p> rating: {{this.rating}}</p>
+            <p>{{this.reviewText}}</p>
+            </li>
+        {{/each}}
+        </ul>
+
+    
   </div>
     <nav class = "actions">
         {{#if isBusiness}}

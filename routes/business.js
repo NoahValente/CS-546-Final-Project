@@ -6,19 +6,27 @@ const userData = data.users;
 const postData = data.posts;
 const reviewData = data.reviews;
 const validation = data.validation;
+const xss = require('xss');
 //const FileType = require('file-type');
 
 // routes: /business...
 
 router.get('/:businessid', async (req, res) =>{
     try {
-        let businessid = req.params.businessid; 
+        let businessid = xss(req.params.businessid); 
         businessid = validation.checkId(businessid);
         let business = await businessData.getBusinessById(businessid); 
         let postList = await postData.getAllPostByBusiness(business.username);
         let reviews = await reviewData.getReviewsByBusinessName(business.username);
         let rating = await reviewData.getAverageRating(reviews); // use reviews to compute average rating. is 0 for no reviews.
-        res.render('business/index', {title: 'Business Details', business: business, rating: rating, reviews: reviews, posts: postList, hasError: false, hasMessage:false});
+        if (req.session.hasMessage){
+            req.session.hasMessage = false;
+            res.render('business/index', {title: 'Business Details', business: business, rating: rating, reviews: reviews, posts: postList, hasError: false, hasMessage:true, message: xss(req.session.message)});
+        }
+        else{
+            res.render('business/index', {title: 'Business Details', business: business, rating: rating, reviews: reviews, posts: postList, hasError: false, hasMessage:false});
+        }
+        
     } catch (e) {
         res.render('explore/explore', {title: 'Explore', hasError: true, hasMessage: false, error: e});
         res.status(400);
@@ -26,7 +34,7 @@ router.get('/:businessid', async (req, res) =>{
 }); 
 
 router.get('/post/:postid',  async (req, res) =>{
-    let postid = req.params.postid; 
+    let postid = xss(req.params.postid); 
     try {
         postid = validation.checkId(postid);
         let post = await postData.getPostById(postid); 
@@ -40,8 +48,8 @@ router.get('/post/:postid',  async (req, res) =>{
 // User-only page for creating a review
 // TODO: if edit/delete review is implemented, need to adjust /../review
 router.get('/:businessid/review',  async (req, res) =>{
-    console.log("here")
-    let businessid = req.params.businessid; 
+    
+    let businessid = xss(req.params.businessid); 
     try {
         if (!req.session.account_type){
             res.redirect('/login');
@@ -59,9 +67,12 @@ router.get('/:businessid/review',  async (req, res) =>{
 }); 
 
 router.post('/:businessid/review',  async (req, res) =>{
-    console.log("here1")
-    let businessid = req.params.businessid; 
-    let {ratingRange, reviewText} = req.body;
+    
+    let businessid = xss(req.params.businessid); 
+    let ratingRange = xss(req.body.ratingRange);
+    let reviewText = xss(req.body.reviewText); 
+
+    //let {ratingRange, reviewText} = req.body;
     try {
         if (!req.session.account_type){
             res.redirect('/login');
@@ -75,12 +86,10 @@ router.post('/:businessid/review',  async (req, res) =>{
             if (typeof reviewText !== 'string') throw "Review must be a string!";
             ratingRange = parseInt(ratingRange);
             let business = await businessData.getBusinessById(businessid); 
-            await reviewData.createReview(req.session.user, business.username, ratingRange, reviewText); 
-            // reload business page with updated info
-            let postList = await postData.getAllPostByBusiness(business.username);
-            let reviews = await reviewData.getReviewsByBusinessName(business.username);
-            let rating = await reviewData.getAverageRating(reviews);
-            res.render('business/index', {title: 'Business Details', business: business, rating: rating, reviews: reviews, posts: postList, hasError: false, hasMessage:true, message: "Successfully created new review!"});
+            await reviewData.createReview(xss(req.session.user), business.username, ratingRange, reviewText); 
+            req.session.hasMessage = true;
+            req.session.message = "Successfully created new review!";
+            res.redirect(`/business/${businessid}`);
         }
     } catch (e) {
         // if there's an error, attempt to show it on review page
@@ -96,7 +105,7 @@ router.post('/:businessid/review',  async (req, res) =>{
 }); 
 
 router.get('/:businessid/new',  async (req, res) =>{
-    let businessid = req.params.businessid; 
+    let businessid = xss(req.params.businessid); 
     try {
         businessid = validation.checkId(businessid);
         if (!req.session.account_type){
@@ -118,8 +127,11 @@ router.get('/:businessid/new',  async (req, res) =>{
 }); 
 
 router.post('/:businessid/new',  async (req, res) =>{
-    let businessid = req.params.businessid; 
-    const {postTitle, postImage, postText} = req.body;
+    let businessid = xss(req.params.businessid); 
+    const postTitle = xss(req.body.postTitle);
+    const postImage = xss(req.body.postImage);
+    const postText = xss(req.body.postText);
+    
     try {
         businessid = validation.checkId(businessid);
         if (!req.session.account_type){
@@ -140,7 +152,9 @@ router.post('/:businessid/new',  async (req, res) =>{
             let postList = await postData.getAllPostByBusiness(business.username);
             let reviews = await reviewData.getReviewsByBusinessName(business.username);
             let rating = await reviewData.getAverageRating(reviews);
-            res.render('business/index', {title: 'Business Details', business: business, rating: rating, reviews: reviews, posts: postList, hasError: false, hasMessage:true, message: "Successfully created new post!"});
+            req.session.hasMessage = true;
+            req.session.message = "Successfully created new post!";
+            res.redirect(`/business/${businessid}`);
         }
     } catch (e) {
         try {
@@ -155,19 +169,22 @@ router.post('/:businessid/new',  async (req, res) =>{
 }); 
 
 router.post('/:businessid/favorite',  async (req, res) =>{
-    let businessid = req.params.businessid; 
+    let businessid = xss(req.params.businessid); 
     try {
         businessid = validation.checkId(businessid);
         if (!req.session.account_type || req.session.account_type === "Business"){
             res.redirect(`/business/${businessid}`);
         } else {
             let business = await businessData.getBusinessById(businessid); 
-            await userData.addToFavorite(req.session.user, business.username); 
+            await userData.addToFavorite(xss(req.session.user), business.username); 
             // reload business page with updated info
             let postList = await postData.getAllPostByBusiness(business.username);
             let reviews = await reviewData.getReviewsByBusinessName(business.username);
             let rating = await reviewData.getAverageRating(reviews);
-            res.render('business/index', {title: 'Business Details', business: business, rating: rating, reviews: reviews, posts: postList, hasError: false, hasMessage:true, message: "Successfully added business to favorites!"});
+            req.session.hasMessage = true;
+            req.session.message = "Successfully added business to favorites!";
+            res.redirect(`/business/${businessid}`);
+            
         }
     } catch (e) {
         try {
@@ -185,7 +202,7 @@ router.post('/:businessid/favorite',  async (req, res) =>{
 }); 
 
 router.get('/post/:postid/edit',  async (req, res) =>{
-    let postid = req.params.postid; 
+    let postid = xss(req.params.postid); 
     try {
         postid = validation.checkId(postid);
         if (!req.session.account_type){
@@ -203,8 +220,10 @@ router.get('/post/:postid/edit',  async (req, res) =>{
 }); 
 
 router.post('/post/:postid/edit',  async (req, res) =>{
-    let postid = req.params.postid;   
-    const {newTitle, newText} = req.body;
+    let postid = xss(req.params.postid);  
+    const newTitle = xss(req.body.newTitle);
+    const newText = xss(req.body.newText); 
+    
     try {
         postid = validation.checkId(postid);
         if (!req.session.account_type){
@@ -219,6 +238,7 @@ router.post('/post/:postid/edit',  async (req, res) =>{
 
             await postData.editPost(postid, newTitle, newText); 
             let post = await postData.getPostById(postid); 
+
             res.render('business/post', {title: 'Post Details', post: post, postid:postid, hasError: false, hasMessage:true, message: "Successfully edited post!"});
         }
     } catch (e) {
@@ -234,7 +254,7 @@ router.post('/post/:postid/edit',  async (req, res) =>{
 }); 
 
 router.post('/post/:postid/delete',  async (req, res) =>{
-    let postid = req.params.postid;  
+    let postid = xss(req.params.postid);  
     try {
         if (!req.session.account_type){
             res.redirect('/login');
