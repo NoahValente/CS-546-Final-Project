@@ -1,6 +1,5 @@
 h1 {
     text-align: center;
-    color: #AC3B61;
     font-size:50px;
     font-weight: 100; 
     letter-spacing: 5px;
@@ -17,12 +16,7 @@ h1 {
 
 label {
     line-height: 150%;
-    color: #AC3B61;
     padding-right: 10px;
-}
-
-input, select, button {
-    background-color:#bc919f;
 }
 
 form {

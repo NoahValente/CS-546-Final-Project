@@ -82,7 +82,7 @@ module.exports = {
         const user = await userCollection.findOne({username: username}); 
         if (user.favorites.includes(businessName)) throw "Business already added to favorites!";
         const user2 = await userCollection.updateOne({username: username}, {$push:{favorites: businessName}}); 
-        if (!user) { throw "Failed to add to favorites" };
+        if (!user2) { throw "Failed to add to favorites" };
         //const business = await 
     },
 

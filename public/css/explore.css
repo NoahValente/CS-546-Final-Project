@@ -1,18 +1,12 @@
 .search{
     text-align: center;
-    color: #AC3B61;
     font-weight: 100; 
     margin-top:50px;
 }
 
 label {
     line-height: 150%;
-    color: #AC3B61;
     padding-right: 10px;
-}
-
-input, select, button {
-    background-color:#bc919f;
 }
 
 .searchTypeOption {
@@ -27,8 +21,4 @@ ul {
 #resultList a,a:visited{
     text-align: center;
     text-decoration: none;
-}
-
-#resultList a:hover {
-    color: #123D6A;
 }
