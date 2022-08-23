@@ -67,3 +67,8 @@ footer a,a:visited{
     text-align: center;
     color:green;
 }
+
+img {
+    max-width: 50%;
+    max-height: 50%;
+}
