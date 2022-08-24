@@ -5,7 +5,7 @@ Description: The mission of our project is to help small businesses grow. Our pr
 
 ## How to Set Up
 1. Use `npm install` to install all dependencies.
-2. Use `npm run seed` to populate database with sample data. 
+2. Use `npm run seed` to populate database with sample data (this may take a while). 
 3. Use `npm start` to start the server. 
 4. Go to `http://localhost:3000` to view the website.
 
