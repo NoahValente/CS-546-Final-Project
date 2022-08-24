@@ -72,3 +72,13 @@ img {
     max-width: 50%;
     max-height: 50%;
 }
+
+.rightHeader{
+    float: right; 
+    width: 10%;
+}
+
+.leftHeader{
+    float: left;
+    width: 90%;
+}
